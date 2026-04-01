@@ -2358,7 +2358,6 @@ function LoanTable() {
               {th("Product")}
               {th("Stage")}
               {th("Days", { textAlign: "right" })}
-              {th("Lock", { textAlign: "center" })}
               {th("Probability")}
               {th("Amount", { textAlign: "right" })}
               {th("Exp. Value", { textAlign: "right" })}
@@ -2405,9 +2404,6 @@ function LoanTable() {
                   }}
                 >
                   {loan.days_at_stage}d
-                </td>
-                <td style={{ padding: "10px 16px", textAlign: "center", fontSize: 15 }}>
-                  {loan.is_locked ? "\ud83d\udd12" : "\ud83d\udd13"}
                 </td>
                 <td style={{ padding: "10px 16px" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
@@ -2833,7 +2829,6 @@ function AtRiskTable() {
               <th style={{ padding: "11px 16px", fontSize: 10, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em" }}>Product</th>
               <th style={{ padding: "11px 16px", fontSize: 10, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em" }}>Stage</th>
               <th style={{ padding: "11px 16px", fontSize: 10, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "right" }}>Days</th>
-              <th style={{ padding: "11px 16px", fontSize: 10, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "center" }}>Lock</th>
               <th style={{ padding: "11px 16px", fontSize: 10, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em" }}>Prob</th>
               <th style={{ padding: "11px 16px", fontSize: 10, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "right" }}>Amount</th>
               <th style={{ padding: "11px 16px", fontSize: 10, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em" }}>Risk Reasons</th>
@@ -2846,7 +2841,6 @@ function AtRiskTable() {
                 <td style={{ padding: "10px 16px", fontWeight: 600, color: "#1A2332" }}>{loan.product_type || "\u2014"}</td>
                 <td style={{ padding: "10px 16px", color: "#4B5563" }}>{loan.current_stage}</td>
                 <td style={{ padding: "10px 16px", textAlign: "right", fontVariantNumeric: "tabular-nums", color: "#4B5563" }}>{loan.days_at_stage}d</td>
-                <td style={{ padding: "10px 16px", textAlign: "center", fontSize: 15 }}>{loan.is_locked ? "\ud83d\udd12" : "\ud83d\udd13"}</td>
                 <td style={{ padding: "10px 16px" }}><ProbBar value={loan.ml_probability} /></td>
                 <td style={{ padding: "10px 16px", textAlign: "right", fontFamily: "ui-monospace, monospace", fontSize: 12, fontVariantNumeric: "tabular-nums", color: "#4B5563" }}>{fmtK(loan.loan_amount)}</td>
                 <td style={{ padding: "10px 16px" }}>
