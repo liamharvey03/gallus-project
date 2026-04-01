@@ -1,0 +1,41 @@
+feature,importance
+lock_expiry_vs_month_end,0.6843894157159135
+days_at_stage,0.071016746563003
+stage_only_probability,0.057039336936844334
+days_until_lock_expiry,0.03451445416975244
+lock_period,0.03295685683902394
+credit_score,0.022796863825301373
+loan_amount,0.019560906845334965
+note_rate,0.014259430097190008
+cltv,0.013335853585190474
+days_remaining,0.012468684245998937
+days_since_lock,0.010400729081533338
+stage_rank,0.007777881194112188
+ltv,0.006580287592466532
+is_locked,0.0033701845508467177
+loan_purpose_Purchase,0.0018616864732538502
+occupancy_type_Investment,0.00128314975629816
+branch_channel_Wholesale,0.0010705136434654102
+product_type_NONCONFORMING,0.0010214000174790367
+loan_purpose_Refinance,0.0009892317062699654
+product_type_HOMEREADY,0.0006324128215077109
+branch_channel_Retail,0.0006307434036582823
+product_type_FHA,0.0005064381726188206
+loan_purpose_Refinance CashOut,0.0004201820822690907
+product_type_CONFORMING,0.0002757516086837631
+occupancy_type_Primary Residence,0.0002555156997128378
+occupancy_type_Secondary Residence,0.00014004287264127995
+product_type_2ND,0.00012753725633488102
+product_type_FHA BOND,7.897509781804633e-05
+loan_purpose_Other,6.80480068163096e-05
+product_type_ZERO INTEREST PROGRAM,5.438272185109784e-05
+product_type_CONVENTIONAL BOND,4.859261140936522e-05
+product_type_VA,4.48015189253696e-05
+product_type_CONVENTIONAL BOND STD MI,1.4826423890239441e-05
+product_type_MISSING,8.136862584686455e-06
+product_type_RURAL,0.0
+product_type_HOME POSSIBLE,0.0
+product_type_HELOC,0.0
+branch_channel_Blank,0.0
+branch_channel_Broker,0.0
+lock_already_expired,0.0

@@ -1,0 +1,53 @@
+feature,importance
+lock_expiry_vs_month_end,0.6782988306510754
+days_at_stage,0.06323755989827297
+stage_only_probability,0.0499098761763443
+days_until_lock_expiry,0.03379486733900679
+lock_period,0.03374627347715387
+credit_score,0.020454488552135303
+loan_amount,0.01640306941449282
+approved_to_lock_speed,0.014315430143392118
+note_rate,0.01330635842942359
+cltv,0.012342224363318038
+locked_at_early_stage,0.01044034467188072
+days_remaining,0.010210296755360617
+days_since_lock,0.008233371225865899
+stages_per_day,0.007916975187418476
+ltv,0.006948612998101087
+stage_rank,0.005793144716605688
+days_since_open,0.0032534620108645826
+loan_purpose_Purchase,0.001631111018630187
+stale_at_approved,0.0014010804311791088
+occupancy_type_Investment,0.0009805800089092744
+is_locked,0.0009769300050536573
+product_type_NONCONFORMING,0.000875439339475976
+branch_channel_Retail,0.0008449463544908796
+loan_purpose_Refinance,0.0008244476932403901
+branch_channel_Wholesale,0.0007078091288565375
+product_type_HOMEREADY,0.0004890038796289758
+product_type_FHA,0.0004694527374118002
+loan_purpose_Refinance CashOut,0.0004461816414454453
+product_type_CONFORMING,0.00038134546527582617
+fresh_lock_late_stage,0.00032640407756362965
+occupancy_type_Primary Residence,0.0003159332918402482
+product_type_FHA BOND,0.0001721430534683919
+product_type_2ND,0.0001425187986339546
+long_days_expiring_lock,0.00012404534073501958
+product_type_VA,0.00010272031140924185
+loan_purpose_Other,6.154641300807976e-05
+product_type_CONVENTIONAL BOND,5.325292714391219e-05
+occupancy_type_Secondary Residence,5.002367619851382e-05
+product_type_CONVENTIONAL BOND STD MI,1.4854454363024065e-05
+lock_expiring_not_progressed,3.0439413254549673e-06
+branch_channel_Blank,0.0
+branch_channel_Broker,0.0
+unlocked_at_late_stage,0.0
+product_type_ZERO INTEREST PROGRAM,0.0
+product_type_RURAL,0.0
+product_type_MISSING,0.0
+product_type_HELOC,0.0
+lock_already_expired,0.0
+days_past_lock_expiry,0.0
+likely_lock_extended,0.0
+lock_expired_not_progressed,0.0
+product_type_HOME POSSIBLE,0.0
