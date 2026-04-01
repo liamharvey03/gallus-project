@@ -155,7 +155,7 @@ def build_loan_table(df, tables, model, feature_cols, encoders, medians):
             "failure_archetype": _safe(r["failure_archetype"]),
         })
     print(f"  Loan table: {len(live)} live + {len(dead)} dead = {len(rows)}")
-    return rows, active, already_funded, fstats
+    return rows, active, already_funded, fstats, feats
 
 
 def build_pull_through(df):
@@ -232,6 +232,207 @@ def build_cycle_times(df):
     return result
 
 
+def build_backtest_accuracy():
+    """Section 5: model accuracy stats from backtest results."""
+    csv_path = config.OUTPUTS_PATH / "results" / "backtest_results_v3.csv"
+    try:
+        bt = pd.read_csv(csv_path)
+    except FileNotFoundError:
+        print("  WARNING: backtest_results_v3.csv not found, skipping accuracy")
+        return {"mape_day15": 0, "months_within_10pct": 0, "total_months": 0,
+                "recent_months": []}
+
+    # Filter to day-15, ML, rolling
+    ml_rolling = bt[(bt["method"] == "ML") & (bt["training_mode"] == "rolling")
+                     & (bt["snapshot_day"] == 15)].copy()
+    if len(ml_rolling) == 0:
+        # Fall back to fixed if rolling not available
+        ml_rolling = bt[(bt["method"] == "ML") & (bt["snapshot_day"] == 15)].copy()
+
+    if len(ml_rolling) == 0:
+        return {"mape_day15": 0, "months_within_10pct": 0, "total_months": 0,
+                "recent_months": []}
+
+    mape = round(float(ml_rolling["error_pct"].abs().mean()), 1)
+    within_10 = int((ml_rolling["error_pct"].abs() <= 10).sum())
+    total = len(ml_rolling)
+
+    # Last 8 months for sparkline
+    recent = ml_rolling.sort_values(["year", "month"]).tail(8)
+    recent_list = []
+    for _, r in recent.iterrows():
+        recent_list.append({
+            "month": f"{int(r['year'])}-{int(r['month']):02d}",
+            "projected": round(float(r["projected"]), 0),
+            "actual": round(float(r["actual"]), 0),
+            "error_pct": round(float(r["error_pct"]), 1),
+        })
+
+    print(f"  Backtest accuracy: {mape}% MAPE, {within_10}/{total} within 10%")
+    return {
+        "mape_day15": mape,
+        "months_within_10pct": within_10,
+        "total_months": total,
+        "recent_months": recent_list,
+    }
+
+
+def build_stage_funnel(active):
+    """Section 6: pipeline stage distribution for funnel chart."""
+    STAGE_ORDER = {label: rank for _, label, rank in config.STAGE_MAP}
+    rows = []
+    for stage, grp in active.groupby("current_stage"):
+        live_grp = grp[grp["status"] == "live"]
+        rows.append({
+            "stage": _safe(stage),
+            "rank": STAGE_ORDER.get(stage, -1),
+            "total_loans": int(len(grp)),
+            "total_value": round(float(grp["LoanAmount"].sum()), 0),
+            "live_loans": int(len(live_grp)),
+            "live_value": round(float(live_grp["LoanAmount"].sum()), 0),
+            "avg_probability": round(float(live_grp["ml_probability"].mean()), 4)
+            if len(live_grp) > 0 else 0,
+        })
+    rows.sort(key=lambda x: x["rank"])
+    print(f"  Stage funnel: {len(rows)} stages")
+    return rows
+
+
+def build_channel_split(active):
+    """Section 7: Wholesale vs Retail breakdown."""
+    results = []
+    channel_col = "Branch Channel"
+    if channel_col not in active.columns:
+        print("  WARNING: Branch Channel not in data")
+        return results
+
+    active_clean = active.copy()
+    active_clean[channel_col] = (
+        active_clean[channel_col]
+        .replace(["Blank", ""], pd.NA)
+        .fillna("Unknown")
+    )
+
+    for channel, grp in active_clean.groupby(channel_col):
+        live = grp[grp["status"] == "live"]
+        if len(live) == 0:
+            continue  # skip channels with no live loans
+        results.append({
+            "channel": _safe(channel),
+            "total_loans": int(len(grp)),
+            "total_value": round(float(grp["LoanAmount"].sum()), 0),
+            "live_loans": int(len(live)),
+            "live_value": round(float(live["LoanAmount"].sum()), 0),
+            "projected_value": round(float(live["expected_value"].sum()), 0),
+            "avg_probability": round(float(live["ml_probability"].mean()), 4)
+            if len(live) > 0 else 0,
+        })
+    results.sort(key=lambda x: x["projected_value"], reverse=True)
+    print(f"  Channel split: {len(results)} channels")
+    return results
+
+
+def build_product_breakdown(active):
+    """Section 8: Product Type breakdown."""
+    results = []
+    prod_col = "Product Type"
+    if prod_col not in active.columns:
+        print("  WARNING: Product Type not in data")
+        return results
+
+    active_clean = active.copy()
+    active_clean[prod_col] = active_clean[prod_col].fillna("Unknown")
+
+    for product, grp in active_clean.groupby(prod_col):
+        live = grp[grp["status"] == "live"]
+        if len(live) == 0:
+            continue
+        results.append({
+            "product": _safe(product),
+            "total_loans": int(len(grp)),
+            "total_value": round(float(grp["LoanAmount"].sum()), 0),
+            "live_loans": int(len(live)),
+            "live_value": round(float(live["LoanAmount"].sum()), 0),
+            "projected_value": round(float(live["expected_value"].sum()), 0),
+            "avg_probability": round(float(live["ml_probability"].mean()), 4),
+        })
+    results.sort(key=lambda x: x["projected_value"], reverse=True)
+    print(f"  Product breakdown: {len(results)} products")
+    return results
+
+
+def build_at_risk_loans(active, feats):
+    """Section 9: live loans with warning signs needing ops attention."""
+    live_mask = (active["status"] == "live") & active["LoanAmount"].notna()
+    live = active[live_mask].copy()
+    feats_live = feats.loc[live.index]
+
+    # Risk criteria — kept selective so the list is actionable (not 100+ loans)
+    # 1. Lock about to expire and loan hasn't reached CTC
+    mask_lock_expiring = (feats_live["lock_expiring_not_progressed"] == 1)
+    # 2. High dollar value but low model probability
+    p75 = live["LoanAmount"].quantile(0.75)
+    mask_high_val_low_prob = (live["ml_probability"] < 0.25) & (live["LoanAmount"] > p75)
+    # 3. Unlocked at late stage (past Approved)
+    mask_unlocked_late = (feats_live["unlocked_at_late_stage"] == 1)
+    # 4. Lock already expired and stuck pre-CTC
+    mask_expired_stuck = (
+        (feats_live["lock_already_expired"] == 1)
+        & (feats_live["stage_rank"] <= 6)
+        & (live["ml_probability"] > 0.05)
+    )
+    # 5. Sitting at same stage 60+ days with a lock — progressing but very slow
+    mask_stale_locked = (
+        (live["days_at_stage"] >= 60)
+        & (feats_live["is_locked"] == 1)
+        & (feats_live["stage_rank"].between(3, 6))
+    )
+
+    combined = (mask_lock_expiring | mask_high_val_low_prob | mask_unlocked_late
+                | mask_expired_stuck | mask_stale_locked)
+    at_risk = live[combined].copy()
+
+    rows = []
+    for idx in at_risk.index:
+        reasons = []
+        r = at_risk.loc[idx]
+        stage = r["current_stage"]
+        days = int(r["days_at_stage"]) if pd.notna(r["days_at_stage"]) else 0
+        prob_pct = int(round(r["ml_probability"] * 100))
+
+        if mask_lock_expiring.get(idx, False):
+            reasons.append(f"Rate lock expires within 7 days \u2014 still at {stage}")
+        if mask_expired_stuck.get(idx, False):
+            reasons.append(f"Rate lock already expired \u2014 stuck at {stage}")
+        if mask_unlocked_late.get(idx, False):
+            reasons.append(f"No rate lock despite reaching {stage}")
+        if mask_stale_locked.get(idx, False):
+            reasons.append(f"Sitting at {stage} for {days} days")
+        if mask_high_val_low_prob.get(idx, False):
+            if feats_live["is_locked"].get(idx, 0) == 0:
+                reasons.append(f"No rate lock \u2014 {prob_pct}% funding probability")
+            else:
+                reasons.append(f"Only {prob_pct}% funding probability")
+
+        r = at_risk.loc[idx]
+        amt = r["LoanAmount"]
+        ev = r["expected_value"]
+        rows.append({
+            "loan_guid": _safe(r["LoanGuid"]),
+            "loan_amount": round(float(amt), 0) if pd.notna(amt) else 0,
+            "product_type": _safe(r.get("Product Type")),
+            "current_stage": _safe(r["current_stage"]),
+            "days_at_stage": _safe(r["days_at_stage"]),
+            "is_locked": bool(r["is_locked_flag"]),
+            "ml_probability": round(float(r["ml_probability"]), 4),
+            "expected_value": round(float(ev), 0) if pd.notna(ev) else 0,
+            "risk_reasons": reasons,
+        })
+    rows.sort(key=lambda x: x["expected_value"], reverse=True)
+    print(f"  At-risk loans: {len(rows)}")
+    return rows
+
+
 def build_summary(active, already_funded, fstats, df, cycle_median, model_name):
     """Section 4: top-level summary stats."""
     live = active[active["status"] == "live"]
@@ -294,7 +495,7 @@ def main():
 
     # ── Build sections ───────────────────────────────────────────────────
     print(f"\n--- Section 1: Loan priority table (snapshot {SNAPSHOT_DATE}) ---")
-    loan_table, active, already_funded, fstats = build_loan_table(
+    loan_table, active, already_funded, fstats, feats = build_loan_table(
         df, tables, model, feature_cols, encoders, medians,
     )
 
@@ -311,13 +512,33 @@ def main():
         model_name=model_name,
     )
 
+    print("\n--- Section 5: Backtest accuracy ---")
+    backtest_accuracy = build_backtest_accuracy()
+
+    print("\n--- Section 6: Stage funnel ---")
+    stage_funnel = build_stage_funnel(active)
+
+    print("\n--- Section 7: Channel split ---")
+    channel_split = build_channel_split(active)
+
+    print("\n--- Section 8: Product breakdown ---")
+    product_breakdown = build_product_breakdown(active)
+
+    print("\n--- Section 9: At-risk loans ---")
+    at_risk_loans = build_at_risk_loans(active, feats)
+
     # ── Assemble & write ─────────────────────────────────────────────────
     output = {
-        "generated_at":  datetime.now().isoformat(),
-        "loan_table":    loan_table,
-        "pull_through":  pull_through,
-        "cycle_times":   cycle_times,
-        "summary":       summary,
+        "generated_at":       datetime.now().isoformat(),
+        "loan_table":         loan_table,
+        "pull_through":       pull_through,
+        "cycle_times":        cycle_times,
+        "summary":            summary,
+        "backtest_accuracy":  backtest_accuracy,
+        "stage_funnel":       stage_funnel,
+        "channel_split":      channel_split,
+        "product_breakdown":  product_breakdown,
+        "at_risk_loans":      at_risk_loans,
     }
 
     out_path = config.OUTPUTS_PATH / "dashboard_demo_data.json"

@@ -1,16 +1,70 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>FlexPoint Pipeline Intelligence</title>
-<style>*,*::before,*::after{box-sizing:border-box}body{margin:0;padding:0;-webkit-font-smoothing:antialiased}html{overflow-y:scroll;background:#F5F6F8}</style>
-<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.8.1/prop-types.min.js"></script>
-<script crossorigin src="https://unpkg.com/recharts@2.12.7/umd/Recharts.js"></script>
-<script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
-</head><body><div id="root"></div><script type="text/babel">
-const{useState}=React;
-const{LineChart,BarChart,AreaChart,Line,Bar,Area,XAxis,YAxis,Tooltip,ResponsiveContainer,ReferenceLine,CartesianGrid,Cell}=Recharts;
-// Embedded data — generated from outputs/dashboard_demo_data.json
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlexPoint Pipeline Intelligence — Gallus Insights</title>
+
+  <!-- Fonts: DM Sans + DM Mono for editorial/financial feel -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0C0F14; color: #E8E6E1; -webkit-font-smoothing: antialiased; }
+    html { overflow-y: scroll; }
+
+    :root {
+      --bg-primary: #0C0F14;
+      --bg-card: #151920;
+      --bg-card-hover: #1A1F28;
+      --bg-surface: #1E232D;
+      --border: #2A3040;
+      --border-subtle: #1E232D;
+      --text-primary: #E8E6E1;
+      --text-secondary: #8A8F9A;
+      --text-muted: #5A5F6A;
+      --copper: #D4956A;
+      --copper-dim: #B07A52;
+      --copper-glow: rgba(212,149,106,0.12);
+      --green: #6BBF8A;
+      --green-dim: rgba(107,191,138,0.15);
+      --red: #E8716A;
+      --red-dim: rgba(232,113,106,0.12);
+      --blue: #6AA3D4;
+      --blue-dim: rgba(106,163,212,0.12);
+      --font-sans: 'DM Sans', -apple-system, sans-serif;
+      --font-mono: 'DM Mono', 'SF Mono', monospace;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-8px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .fade-up { animation: fadeUp 0.5s ease both; }
+    .fade-in { animation: fadeIn 0.4s ease both; }
+  </style>
+
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.8.1/prop-types.min.js"></script>
+  <script crossorigin src="https://unpkg.com/recharts@2.12.7/umd/Recharts.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState } = React;
+    const { LineChart, BarChart, AreaChart, Line, Bar, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine, CartesianGrid, Cell } = Recharts;
+
 const DATA = {
   "summary": {
     "snapshot_date": "2025-12-15",
@@ -2145,7 +2199,9 @@ const DATA = {
   ]
 };
 
-// ─── Formatting helpers ─────────────────────────────────────────────────────
+
+
+// ─── Helpers ───────────────────────────────────────────────────────────────
 
 const fmtM = (v) => {
   if (!v && v !== 0) return "$0";
@@ -2162,120 +2218,58 @@ const fmtK = (v) => {
   return "$" + Math.round(v).toLocaleString();
 };
 
-const probColor = (v) =>
-  v > 0.7 ? "#3DAA7F" : v > 0.4 ? "#E8913A" : "#E85A5A";
+const probColor = (v) => v > 0.7 ? "var(--green)" : v > 0.4 ? "var(--copper)" : "var(--red)";
 
-const RULE_LABELS = {
-  opened_stale: "Stale at Open (30+ days)",
-  application_stale: "Stale at App (30+ days)",
-  submitted_unlocked_stale: "Submitted, No Lock (22+ days)",
-  underwriting_unlocked_stale: "UW, No Lock (22+ days)",
-  approved_expired_lock: "Lock Expired at Approved",
-};
+// ─── Shared Components ─────────────────────────────────────────────────────
 
-// ─── StatCard ───────────────────────────────────────────────────────────────
-
-function StatCard({ title, value, subtitle, color }) {
+function Metric({ label, value, sub, accent, delay }) {
   return (
-    <div
-      className="bg-white rounded-lg shadow-sm"
-      style={{ padding: 24, border: "1px solid #E5E7EB" }}
-    >
-      <p
-        style={{
-          fontSize: 11,
-          fontWeight: 700,
-          color: "#9CA3AF",
-          textTransform: "uppercase",
-          letterSpacing: "0.06em",
-          margin: 0,
-        }}
-      >
-        {title}
-      </p>
-      <p
-        style={{
-          fontSize: 28,
-          fontWeight: 700,
-          color: color || "#1A2332",
-          margin: "8px 0 0",
-          letterSpacing: "-0.02em",
-        }}
-      >
-        {value}
-      </p>
-      <p style={{ fontSize: 13, color: "#9CA3AF", margin: "4px 0 0" }}>
-        {subtitle}
-      </p>
+    <div className="fade-up" style={{
+      animationDelay: (delay || 0) + "ms",
+      padding: "20px 24px",
+      background: "var(--bg-card)",
+      border: "1px solid var(--border-subtle)",
+      borderRadius: 10,
+      position: "relative",
+      overflow: "hidden",
+    }}>
+      {accent && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: accent }} />}
+      <p style={{ fontFamily: "var(--font-sans)", fontSize: 11, fontWeight: 500, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em" }}>{label}</p>
+      <p style={{ fontFamily: "var(--font-mono)", fontSize: 26, fontWeight: 500, color: accent || "var(--text-primary)", marginTop: 6, letterSpacing: "-0.02em" }}>{value}</p>
+      {sub && <p style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--text-secondary)", marginTop: 4 }}>{sub}</p>}
     </div>
   );
 }
-
-// ─── Probability bar ────────────────────────────────────────────────────────
 
 function ProbBar({ value }) {
   const pct = Math.round(value * 100);
   const color = probColor(value);
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 100 }}>
-      <div
-        style={{
-          width: 52,
-          height: 6,
-          borderRadius: 3,
-          background: "#E5E7EB",
-          overflow: "hidden",
-          flexShrink: 0,
-        }}
-      >
-        <div
-          style={{
-            width: pct + "%",
-            height: "100%",
-            borderRadius: 3,
-            background: color,
-          }}
-        />
+    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+      <div style={{ width: 48, height: 4, borderRadius: 2, background: "var(--bg-surface)", overflow: "hidden" }}>
+        <div style={{ width: pct + "%", height: "100%", borderRadius: 2, background: color }} />
       </div>
-      <span
-        style={{
-          fontSize: 12,
-          fontWeight: 600,
-          color,
-          fontVariantNumeric: "tabular-nums",
-          minWidth: 32,
-        }}
-      >
-        {pct}%
-      </span>
+      <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 500, color, minWidth: 28 }}>{pct}%</span>
     </div>
   );
 }
 
-// ─── Tooltip ────────────────────────────────────────────────────────────────
-
 function ChartTooltip({ active, payload, label, suffix, formatter }) {
   if (!active || !payload || !payload.length) return null;
   return (
-    <div
-      style={{
-        background: "white",
-        padding: "8px 14px",
-        borderRadius: 8,
-        boxShadow: "0 4px 12px rgba(0,0,0,0.10)",
-        border: "1px solid #E5E7EB",
-        fontSize: 13,
-      }}
-    >
-      <div style={{ fontWeight: 600, color: "#374151" }}>{label}</div>
+    <div style={{
+      background: "var(--bg-card)", padding: "10px 14px", borderRadius: 8,
+      border: "1px solid var(--border)", boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
+      fontFamily: "var(--font-sans)", fontSize: 12,
+    }}>
+      <div style={{ fontWeight: 600, color: "var(--text-primary)", marginBottom: 4 }}>{label}</div>
       {payload.map((entry, i) => {
         const v = entry.value;
         const display = formatter ? formatter(v) : (typeof v === "number" ? v.toLocaleString() : v);
         return (
-          <div key={i} style={{ color: entry.stroke || entry.fill || "#4A90D9", marginTop: 2 }}>
-            {payload.length > 1 && <span style={{ fontWeight: 600 }}>{entry.name}: </span>}
-            {display}
-            {suffix || ""}
+          <div key={i} style={{ color: entry.stroke || entry.fill || "var(--copper)", marginTop: 2 }}>
+            {payload.length > 1 && <span style={{ color: "var(--text-secondary)" }}>{entry.name}: </span>}
+            {display}{suffix || ""}
           </div>
         );
       })}
@@ -2283,612 +2277,327 @@ function ChartTooltip({ active, payload, label, suffix, formatter }) {
   );
 }
 
-// ─── Loan Priority Table ────────────────────────────────────────────────────
-
-function LoanTable() {
-  const [tab, setTab] = useState("live");
-  const [expanded, setExpanded] = useState(false);
-  const VISIBLE_ROWS = 15;
-  const allLoans = tab === "live" ? DATA.liveLoans : DATA.deadLoans;
-  const loans = expanded ? allLoans : allLoans.slice(0, VISIBLE_ROWS);
-  const hasMore = allLoans.length > VISIBLE_ROWS;
-  const isDead = tab === "dead";
-
-  const tabStyle = (key, activeColor) => ({
-    padding: "14px 24px",
-    fontSize: 13,
-    fontWeight: 600,
-    cursor: "pointer",
-    background: "transparent",
-    border: "none",
-    borderBottom: tab === key ? "2.5px solid " + activeColor : "2.5px solid transparent",
-    color: tab === key ? activeColor : "#9CA3AF",
-    transition: "all 0.15s ease",
-  });
-
-  const th = (label, extra) => (
-    <th
-      style={{
-        padding: "11px 16px",
-        fontSize: 10,
-        fontWeight: 700,
-        color: "#9CA3AF",
-        textTransform: "uppercase",
-        letterSpacing: "0.06em",
-        whiteSpace: "nowrap",
-        ...extra,
-      }}
-    >
-      {label}
-    </th>
-  );
-
+function SectionTitle({ title, sub }) {
   return (
-    <div
-      className="bg-white rounded-lg shadow-sm"
-      style={{ border: "1px solid #E5E7EB", overflow: "hidden" }}
-    >
-      {/* Tabs */}
-      <div style={{ display: "flex", borderBottom: "1px solid #E5E7EB" }}>
-        <button style={tabStyle("live", "#E8913A")} onClick={() => { setTab("live"); setExpanded(false); }}>
-          Live Pipeline ({DATA.liveLoans.length})
-        </button>
-        <button style={tabStyle("dead", "#E85A5A")} onClick={() => { setTab("dead"); setExpanded(false); }}>
-          Eliminated ({DATA.deadLoans.length})
-        </button>
-      </div>
-
-      {/* Callout */}
-      <div
-        style={{
-          padding: "10px 24px",
-          fontSize: 13,
-          lineHeight: 1.5,
-          background: isDead ? "#FEF2F2" : "#EFF6FF",
-          color: isDead ? "#991B1B" : "#1E40AF",
-          borderBottom: "1px solid " + (isDead ? "#FECACA" : "#DBEAFE"),
-        }}
-      >
-        {isDead
-          ? "These loans match historical dead-loan patterns (<2% funding rate). Removing them sharpens projections."
-          : "Ranked by expected value \u2014 probability \u00d7 loan amount. Focus your team\u2019s effort top-down."}
-      </div>
-
-      {/* Table */}
-      <div style={{ overflowX: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead>
-            <tr style={{ background: "#F9FAFB", textAlign: "left" }}>
-              {th("#", { width: 48 })}
-              {th("Product")}
-              {th("Stage")}
-              {th("Days", { textAlign: "right" })}
-              {th("Lock", { textAlign: "center" })}
-              {th("Probability")}
-              {th("Amount", { textAlign: "right" })}
-              {th("Exp. Value", { textAlign: "right" })}
-              {isDead && th("Elimination Rule")}
-              {isDead && th("Archetype")}
-            </tr>
-          </thead>
-          <tbody>
-            {loans.map((loan, i) => (
-              <tr
-                key={loan.loan_guid}
-                style={{
-                  borderTop: "1px solid #F3F4F6",
-                  background: isDead
-                    ? "rgba(254,242,242,0.25)"
-                    : i % 2 === 1
-                    ? "#FAFBFC"
-                    : "white",
-                  opacity: isDead ? 0.72 : 1,
-                  fontSize: 13,
-                }}
-              >
-                <td style={{ padding: "10px 16px", color: "#D1D5DB", fontWeight: 600 }}>
-                  {i + 1}
-                </td>
-                <td
-                  style={{
-                    padding: "10px 16px",
-                    fontWeight: 600,
-                    color: isDead ? "#9CA3AF" : "#1A2332",
-                  }}
-                >
-                  {loan.product_type || "\u2014"}
-                </td>
-                <td style={{ padding: "10px 16px", color: "#4B5563" }}>
-                  {loan.current_stage}
-                </td>
-                <td
-                  style={{
-                    padding: "10px 16px",
-                    textAlign: "right",
-                    fontVariantNumeric: "tabular-nums",
-                    color: "#4B5563",
-                  }}
-                >
-                  {loan.days_at_stage}d
-                </td>
-                <td style={{ padding: "10px 16px", textAlign: "center", fontSize: 15 }}>
-                  {loan.is_locked ? "\ud83d\udd12" : "\ud83d\udd13"}
-                </td>
-                <td style={{ padding: "10px 16px" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                    <ProbBar value={loan.ml_probability} />
-                    {!isDead && loan.ml_probability < 0.25 && (
-                      <span title="Low probability, high expected value" style={{ color: "#E8913A", fontSize: 14, lineHeight: 1, cursor: "help" }}>{"\u26a0"}</span>
-                    )}
-                  </div>
-                </td>
-                <td
-                  style={{
-                    padding: "10px 16px",
-                    textAlign: "right",
-                    fontFamily: "ui-monospace, monospace",
-                    fontSize: 12,
-                    fontVariantNumeric: "tabular-nums",
-                    color: "#4B5563",
-                  }}
-                >
-                  {fmtK(loan.loan_amount)}
-                </td>
-                <td
-                  style={{
-                    padding: "10px 16px",
-                    textAlign: "right",
-                    fontFamily: "ui-monospace, monospace",
-                    fontSize: 12,
-                    fontWeight: 700,
-                    fontVariantNumeric: "tabular-nums",
-                    color: isDead ? "#9CA3AF" : "#1A2332",
-                  }}
-                >
-                  {fmtK(loan.expected_value)}
-                </td>
-                {isDead && (
-                  <td style={{ padding: "10px 16px", fontSize: 11, color: "#6B7280" }}>
-                    {RULE_LABELS[loan.elimination_rule] || loan.elimination_rule || "\u2014"}
-                  </td>
-                )}
-                {isDead && (
-                  <td style={{ padding: "10px 16px", fontSize: 11, color: "#6B7280" }}>
-                    {loan.failure_archetype || "\u2014"}
-                  </td>
-                )}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Show all / collapse toggle */}
-      {hasMore && (
-        <div style={{ textAlign: "center", padding: "12px 0", borderTop: "1px solid #F3F4F6" }}>
-          <button
-            onClick={() => setExpanded(!expanded)}
-            style={{
-              background: "none",
-              border: "1px solid #D1D5DB",
-              borderRadius: 6,
-              padding: "6px 20px",
-              fontSize: 12,
-              fontWeight: 600,
-              color: "#6B7280",
-              cursor: "pointer",
-            }}
-          >
-            {expanded ? "Collapse" : "Show all " + allLoans.length + " loans"}
-          </button>
-        </div>
-      )}
-
-      {/* Low-probability footnote (live tab only) */}
-      {!isDead && allLoans.some((l) => l.ml_probability < 0.25) && (
-        <div style={{ padding: "8px 24px 12px", fontSize: 11, color: "#9CA3AF" }}>
-          {"\u26a0"} Low-probability, high-value loans &mdash; consider whether ops effort is justified despite large expected value.
-        </div>
-      )}
+    <div style={{ marginBottom: 16 }}>
+      <h3 style={{ fontFamily: "var(--font-sans)", fontSize: 15, fontWeight: 600, color: "var(--text-primary)", letterSpacing: "-0.01em" }}>{title}</h3>
+      {sub && <p style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--text-muted)", marginTop: 3 }}>{sub}</p>}
     </div>
   );
 }
 
-// ─── Pull-Through Chart ─────────────────────────────────────────────────────
+// ─── Tab: Overview ─────────────────────────────────────────────────────────
+
+function OverviewTab() {
+  const s = DATA.summary;
+  const b = DATA.backtest;
+  const funnel = DATA.stageFunnel || [];
+  const channels = DATA.channelSplit || [];
+  const products = (DATA.productBreakdown || []).filter(p => p.projected_value > 0);
+
+  return (
+    <div>
+      {/* KPI Row */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
+        <Metric label="Total Pipeline" value={fmtM(s.total_pipeline_value)} sub={s.total_pipeline_loans.toLocaleString() + " loans"} delay={0} />
+        <Metric label="Live Pipeline" value={fmtM(s.live_pipeline_value)} sub={s.live_pipeline_loans + " passing filter"} accent="var(--green)" delay={60} />
+        <Metric label="Eliminated" value={fmtM(s.dead_pipeline_value)} sub={s.elimination_stats.pct_eliminated + "% flagged"} accent="var(--red)" delay={120} />
+        <Metric label="Projected Funding" value={fmtM(s.projected_total)} sub={fmtM(s.already_funded_value) + " already funded"} accent="var(--copper)" delay={180} />
+        <Metric label="Model Accuracy" value={b.mape_day15 + "% MAPE"} sub={b.months_within_10pct + "/" + b.total_months + " months within 10%"} accent="var(--green)" delay={240} />
+      </div>
+
+      {/* Stage Funnel */}
+      <div className="fade-up" style={{ animationDelay: "300ms", marginTop: 24, padding: 24, background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: 10 }}>
+        <SectionTitle title="Pipeline Stage Distribution" sub="Loan volume by stage — gray is total pipeline, blue is live" />
+        <div style={{ height: Math.max(300, funnel.length * 30) }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={funnel} layout="vertical" margin={{ top: 0, right: 24, bottom: 0, left: 90 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--border-subtle)" horizontal={false} />
+              <XAxis type="number" tick={{ fontFamily: "var(--font-mono)", fontSize: 10, fill: "var(--text-muted)" }} tickLine={false} axisLine={false} />
+              <YAxis type="category" dataKey="stage" tick={{ fontFamily: "var(--font-sans)", fontSize: 11, fill: "var(--text-secondary)" }} tickLine={false} axisLine={false} width={90} />
+              <Tooltip content={<ChartTooltip suffix=" loans" />} />
+              <Bar dataKey="total_loans" fill="#3A4050" radius={[0, 3, 3, 0]} barSize={14} name="Total" />
+              <Bar dataKey="live_loans" fill="var(--blue)" radius={[0, 3, 3, 0]} barSize={14} name="Live" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      {/* Channel + Product */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 16 }}>
+        {/* Channel */}
+        <div className="fade-up" style={{ animationDelay: "360ms", padding: 24, background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: 10 }}>
+          <SectionTitle title="Channel Breakdown" sub="Wholesale vs Retail" />
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            {channels.map((ch) => (
+              <div key={ch.channel} style={{ padding: "16px 18px", borderRadius: 8, background: "var(--bg-surface)", border: "1px solid var(--border-subtle)" }}>
+                <p style={{ fontFamily: "var(--font-sans)", fontSize: 11, fontWeight: 500, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.06em" }}>{ch.channel}</p>
+                <p style={{ fontFamily: "var(--font-mono)", fontSize: 22, fontWeight: 500, color: "var(--copper)", marginTop: 6 }}>{fmtM(ch.projected_value)}</p>
+                <p style={{ fontFamily: "var(--font-sans)", fontSize: 11, color: "var(--text-secondary)", marginTop: 4 }}>
+                  {ch.live_loans} loans &middot; {(ch.avg_probability * 100).toFixed(0)}% avg &middot; {fmtM(ch.live_value)} pipeline
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Product */}
+        <div className="fade-up" style={{ animationDelay: "420ms", padding: 24, background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: 10 }}>
+          <SectionTitle title="Product Breakdown" sub="Projected funding by loan product" />
+          <div style={{ height: Math.max(180, products.length * 32) }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={products} layout="vertical" margin={{ top: 0, right: 24, bottom: 0, left: 100 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border-subtle)" horizontal={false} />
+                <XAxis type="number" tickFormatter={fmtM} tick={{ fontFamily: "var(--font-mono)", fontSize: 10, fill: "var(--text-muted)" }} tickLine={false} axisLine={false} />
+                <YAxis type="category" dataKey="product" tick={{ fontFamily: "var(--font-sans)", fontSize: 11, fill: "var(--text-secondary)" }} tickLine={false} axisLine={false} width={100} />
+                <Tooltip content={<ChartTooltip formatter={fmtM} />} />
+                <Bar dataKey="projected_value" fill="var(--copper)" radius={[0, 4, 4, 0]} barSize={16} name="Projected" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Tab: Watch List ───────────────────────────────────────────────────────
+
+function WatchListTab() {
+  const atRisk = DATA.atRiskLoans || [];
+  const [riskExpanded, setRiskExpanded] = useState(false);
+  const [loanTab, setLoanTab] = useState("live");
+  const [loanExpanded, setLoanExpanded] = useState(false);
+
+  const riskColor = (reason) => {
+    if (reason.includes("expires within")) return "var(--red)";
+    if (reason.includes("already expired")) return "var(--red)";
+    if (reason.includes("No rate lock")) return "var(--copper)";
+    if (reason.includes("Sitting at")) return "var(--copper)";
+    if (reason.includes("probability")) return "var(--text-muted)";
+    return "var(--text-secondary)";
+  };
+
+  const RULE_LABELS = {
+    opened_stale: "Stale at Open (30+ days)",
+    application_stale: "Stale at App (30+ days)",
+    submitted_unlocked_stale: "Submitted, No Lock (22+ days)",
+    underwriting_unlocked_stale: "UW, No Lock (22+ days)",
+    approved_expired_lock: "Lock Expired at Approved",
+  };
+
+  const riskShown = riskExpanded ? atRisk : atRisk.slice(0, 10);
+  const allLoans = loanTab === "live" ? DATA.liveLoans : DATA.deadLoans;
+  const loanShown = loanExpanded ? allLoans : allLoans.slice(0, 15);
+  const isDead = loanTab === "dead";
+
+  const thStyle = { padding: "10px 14px", fontFamily: "var(--font-sans)", fontSize: 10, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.06em", whiteSpace: "nowrap" };
+  const tdStyle = { padding: "10px 14px", fontFamily: "var(--font-sans)", fontSize: 12 };
+
+  return (
+    <div>
+      {/* At-Risk */}
+      {atRisk.length > 0 && (
+        <div className="fade-up" style={{ background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: 10, overflow: "hidden" }}>
+          <div style={{ padding: "18px 24px", borderBottom: "1px solid var(--border-subtle)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div>
+              <h3 style={{ fontFamily: "var(--font-sans)", fontSize: 15, fontWeight: 600, color: "var(--text-primary)" }}>
+                At-Risk Watch List
+              </h3>
+              <p style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>
+                Live loans needing ops intervention
+              </p>
+            </div>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 13, color: "var(--red)" }}>
+              {atRisk.length} flagged &middot; {fmtM(atRisk.reduce((s, l) => s + (l.expected_value || 0), 0))} at stake
+            </div>
+          </div>
+          <div style={{ overflowX: "auto" }}>
+            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+              <thead>
+                <tr style={{ borderBottom: "1px solid var(--border-subtle)" }}>
+                  <th style={{ ...thStyle, width: 36 }}>#</th>
+                  <th style={thStyle}>Product</th>
+                  <th style={thStyle}>Stage</th>
+                  <th style={{ ...thStyle, textAlign: "right" }}>Days</th>
+                  <th style={thStyle}>Prob</th>
+                  <th style={{ ...thStyle, textAlign: "right" }}>Amount</th>
+                  <th style={thStyle}>Risk</th>
+                </tr>
+              </thead>
+              <tbody>
+                {riskShown.map((loan, i) => (
+                  <tr key={loan.loan_guid || i} style={{ borderBottom: "1px solid var(--border-subtle)", background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.01)" }}>
+                    <td style={{ ...tdStyle, color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>{i + 1}</td>
+                    <td style={{ ...tdStyle, fontWeight: 600, color: "var(--text-primary)" }}>{loan.product_type || "\u2014"}</td>
+                    <td style={{ ...tdStyle, color: "var(--text-secondary)" }}>{loan.current_stage}</td>
+                    <td style={{ ...tdStyle, textAlign: "right", fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>{loan.days_at_stage}d</td>
+                    <td style={tdStyle}><ProbBar value={loan.ml_probability} /></td>
+                    <td style={{ ...tdStyle, textAlign: "right", fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>{fmtK(loan.loan_amount)}</td>
+                    <td style={tdStyle}>
+                      <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+                        {loan.risk_reasons.map((reason, j) => {
+                          const rc = riskColor(reason);
+                          return (
+                            <span key={j} style={{
+                              display: "inline-block", padding: "2px 7px", borderRadius: 3,
+                              fontFamily: "var(--font-sans)", fontSize: 9, fontWeight: 600,
+                              color: rc, background: "var(--bg-surface)", border: "1px solid var(--border)",
+                            }}>{reason}</span>
+                          );
+                        })}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {atRisk.length > 10 && (
+            <div style={{ textAlign: "center", padding: "12px 0", borderTop: "1px solid var(--border-subtle)" }}>
+              <button onClick={() => setRiskExpanded(!riskExpanded)} style={{
+                background: "none", border: "1px solid var(--border)", borderRadius: 6,
+                padding: "6px 18px", fontFamily: "var(--font-sans)", fontSize: 11, fontWeight: 600,
+                color: "var(--text-secondary)", cursor: "pointer",
+              }}>{riskExpanded ? "Collapse" : "Show all " + atRisk.length}</button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Loan Table */}
+      <div className="fade-up" style={{ animationDelay: "100ms", marginTop: 20, background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: 10, overflow: "hidden" }}>
+        <div style={{ display: "flex", borderBottom: "1px solid var(--border-subtle)" }}>
+          {["live", "dead"].map((key) => (
+            <button key={key} onClick={() => { setLoanTab(key); setLoanExpanded(false); }} style={{
+              padding: "14px 24px", fontFamily: "var(--font-sans)", fontSize: 12, fontWeight: 600,
+              cursor: "pointer", background: "transparent", border: "none",
+              borderBottom: loanTab === key ? "2px solid " + (key === "live" ? "var(--copper)" : "var(--red)") : "2px solid transparent",
+              color: loanTab === key ? (key === "live" ? "var(--copper)" : "var(--red)") : "var(--text-muted)",
+            }}>
+              {key === "live" ? "Live Pipeline (" + DATA.liveLoans.length + ")" : "Eliminated (" + DATA.deadLoans.length + ")"}
+            </button>
+          ))}
+        </div>
+        <div style={{ padding: "10px 24px", fontSize: 12, fontFamily: "var(--font-sans)", color: "var(--text-muted)", background: isDead ? "var(--red-dim)" : "var(--blue-dim)", borderBottom: "1px solid var(--border-subtle)" }}>
+          {isDead
+            ? "Loans matching historical dead-loan patterns (<2% funding rate)"
+            : "Ranked by expected value \u2014 P(fund) \u00d7 loan amount"}
+        </div>
+        <div style={{ overflowX: "auto" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <thead>
+              <tr style={{ borderBottom: "1px solid var(--border-subtle)" }}>
+                <th style={{ ...thStyle, width: 36 }}>#</th>
+                <th style={thStyle}>Product</th>
+                <th style={thStyle}>Stage</th>
+                <th style={{ ...thStyle, textAlign: "right" }}>Days</th>
+                <th style={{ ...thStyle, textAlign: "center" }}>Lock</th>
+                <th style={thStyle}>Probability</th>
+                <th style={{ ...thStyle, textAlign: "right" }}>Amount</th>
+                <th style={{ ...thStyle, textAlign: "right" }}>Exp. Value</th>
+                {isDead && <th style={thStyle}>Rule</th>}
+                {isDead && <th style={thStyle}>Archetype</th>}
+              </tr>
+            </thead>
+            <tbody>
+              {loanShown.map((loan, i) => (
+                <tr key={loan.loan_guid} style={{ borderBottom: "1px solid var(--border-subtle)", opacity: isDead ? 0.6 : 1, background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.01)" }}>
+                  <td style={{ ...tdStyle, color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>{i + 1}</td>
+                  <td style={{ ...tdStyle, fontWeight: 600, color: isDead ? "var(--text-muted)" : "var(--text-primary)" }}>{loan.product_type || "\u2014"}</td>
+                  <td style={{ ...tdStyle, color: "var(--text-secondary)" }}>{loan.current_stage}</td>
+                  <td style={{ ...tdStyle, textAlign: "right", fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>{loan.days_at_stage}d</td>
+                  <td style={{ ...tdStyle, textAlign: "center", fontSize: 14 }}>{loan.is_locked ? "\ud83d\udd12" : "\ud83d\udd13"}</td>
+                  <td style={tdStyle}><ProbBar value={loan.ml_probability} /></td>
+                  <td style={{ ...tdStyle, textAlign: "right", fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>{fmtK(loan.loan_amount)}</td>
+                  <td style={{ ...tdStyle, textAlign: "right", fontFamily: "var(--font-mono)", fontWeight: 600, color: isDead ? "var(--text-muted)" : "var(--text-primary)" }}>{fmtK(loan.expected_value)}</td>
+                  {isDead && <td style={{ ...tdStyle, fontSize: 10, color: "var(--text-muted)" }}>{RULE_LABELS[loan.elimination_rule] || loan.elimination_rule || "\u2014"}</td>}
+                  {isDead && <td style={{ ...tdStyle, fontSize: 10, color: "var(--text-muted)" }}>{loan.failure_archetype || "\u2014"}</td>}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {allLoans.length > 15 && (
+          <div style={{ textAlign: "center", padding: "12px 0", borderTop: "1px solid var(--border-subtle)" }}>
+            <button onClick={() => setLoanExpanded(!loanExpanded)} style={{
+              background: "none", border: "1px solid var(--border)", borderRadius: 6,
+              padding: "6px 18px", fontFamily: "var(--font-sans)", fontSize: 11, fontWeight: 600,
+              color: "var(--text-secondary)", cursor: "pointer",
+            }}>{loanExpanded ? "Collapse" : "Show all " + allLoans.length}</button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── Tab: Trends ───────────────────────────────────────────────────────────
 
 function PTDot(props) {
-  const { cx, cy, index, payload } = props;
+  const { cx, cy, payload } = props;
   if (!cx || !cy) return null;
   if (payload && payload.partial) {
-    // Hollow dashed circle for partial month
     return (
       <g>
-        <circle cx={cx} cy={cy} r={5} fill="white" stroke="#4A90D9" strokeWidth={2} strokeDasharray="3 2" />
-        <text x={cx + 10} y={cy - 8} fontSize={9} fill="#9CA3AF" fontStyle="italic">Partial month</text>
+        <circle cx={cx} cy={cy} r={4} fill="var(--bg-card)" stroke="var(--copper)" strokeWidth={2} strokeDasharray="3 2" />
+        <text x={cx + 8} y={cy - 6} fontSize={9} fill="var(--text-muted)" fontStyle="italic" fontFamily="var(--font-sans)">Partial</text>
       </g>
     );
   }
-  return <circle cx={cx} cy={cy} r={2.5} fill="#4A90D9" strokeWidth={0} />;
+  return <circle cx={cx} cy={cy} r={2.5} fill="var(--copper)" strokeWidth={0} />;
 }
 
-function PullThroughChart() {
-  return (
-    <div
-      className="bg-white rounded-lg shadow-sm"
-      style={{ padding: 24, border: "1px solid #E5E7EB" }}
-    >
-      <h3 style={{ fontSize: 15, fontWeight: 600, color: "#1A2332", margin: 0 }}>
-        Pull-Through Rate \u2014 Monthly Trend
-      </h3>
-      <p style={{ fontSize: 13, color: "#9CA3AF", margin: "4px 0 0" }}>
-        Funded loans as % of active pipeline at month start
-      </p>
-      <div style={{ height: 280, marginTop: 20 }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={DATA.ptChart} margin={{ top: 8, right: 60, bottom: 30, left: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" />
-            <XAxis
-              dataKey="month"
-              tick={{ fontSize: 10, fill: "#9CA3AF" }}
-              interval={2}
-              angle={-40}
-              textAnchor="end"
-              height={55}
-              axisLine={{ stroke: "#E5E7EB" }}
-              tickLine={false}
-            />
-            <YAxis
-              tickFormatter={(v) => v + "%"}
-              tick={{ fontSize: 11, fill: "#9CA3AF" }}
-              domain={[0, "dataMax + 5"]}
-              width={48}
-              axisLine={false}
-              tickLine={false}
-            />
-            <Tooltip content={<ChartTooltip suffix="%" />} />
-            <ReferenceLine
-              y={DATA.ptAvg}
-              stroke="#D1D5DB"
-              strokeDasharray="6 3"
-              label={{
-                value: "Avg " + DATA.ptAvg + "%",
-                fill: "#9CA3AF",
-                fontSize: 10,
-                position: "insideTopRight",
-              }}
-            />
-            <Line
-              type="monotone"
-              dataKey="rate"
-              stroke="#4A90D9"
-              strokeWidth={2.5}
-              dot={<PTDot />}
-              activeDot={{ r: 5, stroke: "#4A90D9", strokeWidth: 2, fill: "white" }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
-    </div>
-  );
-}
-
-// ─── Cycle Time Chart ───────────────────────────────────────────────────────
-
-function CycleTimeChart() {
+function TrendsTab() {
   const cs = DATA.cycleStats;
   return (
-    <div
-      className="bg-white rounded-lg shadow-sm"
-      style={{ padding: 24, border: "1px solid #E5E7EB" }}
-    >
-      <h3 style={{ fontSize: 15, fontWeight: 600, color: "#1A2332", margin: 0 }}>
-        Application to Funding \u2014 Cycle Times
-      </h3>
-      <p style={{ fontSize: 13, color: "#9CA3AF", margin: "4px 0 0" }}>
-        <span style={{ color: "#E85A5A", fontWeight: 600 }}>{cs.above_sla_pct}%</span> of
-        loans exceed 45-day SLA
-      </p>
-      <div style={{ height: 260, marginTop: 20 }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={DATA.cycleBuckets}
-            margin={{ top: 8, right: 16, bottom: 5, left: 0 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" vertical={false} />
-            <XAxis
-              dataKey="range"
-              tick={{ fontSize: 12, fill: "#6B7280" }}
-              tickLine={false}
-              axisLine={{ stroke: "#E5E7EB" }}
-            />
-            <YAxis
-              tick={{ fontSize: 11, fill: "#9CA3AF" }}
-              width={50}
-              axisLine={false}
-              tickLine={false}
-              tickFormatter={(v) => v.toLocaleString()}
-            />
-            <Tooltip content={<ChartTooltip suffix=" loans" />} />
-            <Bar dataKey="count" radius={[6, 6, 0, 0]} maxBarSize={90}>
-              {DATA.cycleBuckets.map((entry, i) => (
-                <Cell key={i} fill={entry.sla ? "#E85A5A" : "#4A90D9"} />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+      {/* Pull-Through */}
+      <div className="fade-up" style={{ padding: 24, background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: 10 }}>
+        <SectionTitle title="Pull-Through Rate" sub="Funded loans as % of pipeline at month start" />
+        <div style={{ height: 280, marginTop: 12 }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={DATA.ptChart} margin={{ top: 8, right: 50, bottom: 30, left: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--border-subtle)" />
+              <XAxis dataKey="month" tick={{ fontFamily: "var(--font-sans)", fontSize: 9, fill: "var(--text-muted)" }} interval={2} angle={-40} textAnchor="end" height={50} axisLine={false} tickLine={false} />
+              <YAxis tickFormatter={(v) => v + "%"} tick={{ fontFamily: "var(--font-mono)", fontSize: 10, fill: "var(--text-muted)" }} domain={[0, "dataMax + 5"]} width={40} axisLine={false} tickLine={false} />
+              <Tooltip content={<ChartTooltip suffix="%" />} />
+              <ReferenceLine y={DATA.ptAvg} stroke="var(--border)" strokeDasharray="6 3" label={{ value: "Avg " + DATA.ptAvg + "%", fill: "var(--text-muted)", fontSize: 10, position: "insideTopRight" }} />
+              <Line type="monotone" dataKey="rate" stroke="var(--copper)" strokeWidth={2} dot={<PTDot />} activeDot={{ r: 4, stroke: "var(--copper)", strokeWidth: 2, fill: "var(--bg-card)" }} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </div>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          marginTop: 14,
-          fontSize: 11,
-          color: "#9CA3AF",
-        }}
-      >
-        <span
-          style={{
-            display: "inline-block",
-            width: 8,
-            height: 8,
-            borderRadius: 4,
-            background: "#4A90D9",
-            marginRight: 6,
-          }}
-        />
-        Within SLA
-        <span
-          style={{
-            display: "inline-block",
-            width: 8,
-            height: 8,
-            borderRadius: 4,
-            background: "#E85A5A",
-            marginLeft: 20,
-            marginRight: 6,
-          }}
-        />
-        SLA Breach
-        <span
-          style={{
-            marginLeft: "auto",
-            display: "flex",
-            gap: 20,
-            fontWeight: 600,
-            color: "#6B7280",
-          }}
-        >
+
+      {/* Cycle Time */}
+      <div className="fade-up" style={{ animationDelay: "80ms", padding: 24, background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: 10 }}>
+        <SectionTitle title="Cycle Times" sub={cs.above_sla_pct + "% exceed 45-day SLA"} />
+        <div style={{ height: 280, marginTop: 12 }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={DATA.cycleBuckets} margin={{ top: 8, right: 16, bottom: 5, left: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--border-subtle)" vertical={false} />
+              <XAxis dataKey="range" tick={{ fontFamily: "var(--font-sans)", fontSize: 11, fill: "var(--text-secondary)" }} tickLine={false} axisLine={false} />
+              <YAxis tick={{ fontFamily: "var(--font-mono)", fontSize: 10, fill: "var(--text-muted)" }} width={44} axisLine={false} tickLine={false} />
+              <Tooltip content={<ChartTooltip suffix=" loans" />} />
+              <Bar dataKey="count" radius={[4, 4, 0, 0]} maxBarSize={80}>
+                {DATA.cycleBuckets.map((entry, i) => (
+                  <Cell key={i} fill={entry.sla ? "var(--red)" : "var(--blue)"} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+        <div style={{ display: "flex", justifyContent: "center", gap: 24, marginTop: 12, fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-muted)" }}>
           <span>Median: {cs.median}d</span>
           <span>P75: {cs.p75}d</span>
           <span>P90: {cs.p90}d</span>
-        </span>
-      </div>
-    </div>
-  );
-}
-
-// ─── Model Accuracy Card ───────────────────────────────────────────────────
-
-function ModelAccuracyCard() {
-  const b = DATA.backtest;
-  if (!b || !b.mape_day15) return <StatCard title="Model Accuracy" value="N/A" subtitle="No backtest data" />;
-  return (
-    <div className="bg-white rounded-lg shadow-sm" style={{ padding: 24, border: "1px solid #E5E7EB" }}>
-      <p style={{ fontSize: 11, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em", margin: 0 }}>
-        Model Accuracy
-      </p>
-      <p style={{ fontSize: 28, fontWeight: 700, color: "#3DAA7F", margin: "8px 0 0", letterSpacing: "-0.02em" }}>
-        {b.mape_day15}% MAPE
-      </p>
-      <p style={{ fontSize: 13, color: "#9CA3AF", margin: "4px 0 0" }}>
-        {b.months_within_10pct}/{b.total_months} months within 10%
-      </p>
-      {b.recent_months && b.recent_months.length > 0 && (
-        <div style={{ height: 56, marginTop: 10 }}>
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={b.recent_months} margin={{ top: 2, right: 2, bottom: 2, left: 2 }}>
-              <Area type="monotone" dataKey="actual" stroke="#D1D5DB" fill="#F3F4F6" strokeWidth={1.5} dot={false} />
-              <Area type="monotone" dataKey="projected" stroke="#3DAA7F" fill="rgba(61,170,127,0.1)" strokeWidth={1.5} dot={false} />
-            </AreaChart>
-          </ResponsiveContainer>
         </div>
-      )}
-    </div>
-  );
-}
-
-// ─── Pipeline Stage Funnel ─────────────────────────────────────────────────
-
-function StageFunnel() {
-  const data = DATA.stageFunnel || [];
-  if (data.length === 0) return null;
-  return (
-    <div className="bg-white rounded-lg shadow-sm" style={{ padding: 24, border: "1px solid #E5E7EB" }}>
-      <h3 style={{ fontSize: 15, fontWeight: 600, color: "#1A2332", margin: 0 }}>
-        Pipeline Stage Distribution
-      </h3>
-      <p style={{ fontSize: 13, color: "#9CA3AF", margin: "4px 0 16px" }}>
-        Active loans by stage &mdash; identifies bottlenecks
-      </p>
-      <div style={{ height: Math.max(320, data.length * 32) }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data} layout="vertical" margin={{ top: 0, right: 30, bottom: 0, left: 90 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" horizontal={false} />
-            <XAxis type="number" tick={{ fontSize: 11, fill: "#9CA3AF" }} tickLine={false} axisLine={false} />
-            <YAxis type="category" dataKey="stage" tick={{ fontSize: 12, fill: "#4B5563" }} tickLine={false} axisLine={false} width={90} />
-            <Tooltip content={<ChartTooltip suffix=" loans" />} />
-            <Bar dataKey="total_loans" fill="#607D8B" radius={[0, 4, 4, 0]} barSize={16} name="Total" />
-            <Bar dataKey="live_loans" fill="#4A90D9" radius={[0, 4, 4, 0]} barSize={16} name="Live" />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-      <div style={{ display: "flex", alignItems: "center", marginTop: 12, fontSize: 11, color: "#9CA3AF", gap: 16 }}>
-        <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
-          <span style={{ display: "inline-block", width: 8, height: 8, borderRadius: 4, background: "#607D8B" }} />
-          Total (incl. eliminated)
-        </span>
-        <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
-          <span style={{ display: "inline-block", width: 8, height: 8, borderRadius: 4, background: "#4A90D9" }} />
-          Live pipeline
-        </span>
       </div>
     </div>
   );
 }
 
-// ─── Channel Split ─────────────────────────────────────────────────────────
-
-function ChannelSplit() {
-  const channels = DATA.channelSplit || [];
-  if (channels.length === 0) return null;
-  return (
-    <div className="bg-white rounded-lg shadow-sm" style={{ padding: 24, border: "1px solid #E5E7EB" }}>
-      <h3 style={{ fontSize: 15, fontWeight: 600, color: "#1A2332", margin: 0 }}>
-        Channel Breakdown
-      </h3>
-      <p style={{ fontSize: 13, color: "#9CA3AF", margin: "4px 0 16px" }}>
-        Wholesale vs Retail pipeline
-      </p>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(" + channels.length + ", 1fr)", gap: 14 }}>
-        {channels.map((ch) => (
-          <div key={ch.channel} style={{ padding: "18px 20px", borderRadius: 8, background: "#F9FAFB", border: "1px solid #E5E7EB" }}>
-            <p style={{ fontSize: 12, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.04em", margin: 0 }}>{ch.channel || "Unknown"}</p>
-            <p style={{ fontSize: 22, fontWeight: 700, color: "#E8913A", margin: "6px 0 4px" }}>
-              {fmtM(ch.projected_value)}
-            </p>
-            <p style={{ fontSize: 12, color: "#6B7280", margin: 0 }}>
-              from {fmtM(ch.live_value)} live &middot; {ch.live_loans} loans &middot; {(ch.avg_probability * 100).toFixed(0)}% avg
-            </p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// ─── Product Breakdown ─────────────────────────────────────────────────────
-
-function ProductBreakdown() {
-  const raw = DATA.productBreakdown || [];
-  const data = raw.filter(p => p.projected_value > 0);
-  if (data.length === 0) return null;
-  return (
-    <div className="bg-white rounded-lg shadow-sm" style={{ padding: 24, border: "1px solid #E5E7EB" }}>
-      <h3 style={{ fontSize: 15, fontWeight: 600, color: "#1A2332", margin: 0 }}>
-        Product Type Breakdown
-      </h3>
-      <p style={{ fontSize: 13, color: "#9CA3AF", margin: "4px 0 16px" }}>
-        Projected funding by product
-      </p>
-      <div style={{ height: Math.max(200, data.length * 36) }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data} layout="vertical" margin={{ top: 0, right: 30, bottom: 0, left: 110 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" horizontal={false} />
-            <XAxis type="number" tickFormatter={fmtM} tick={{ fontSize: 11, fill: "#9CA3AF" }} tickLine={false} axisLine={false} />
-            <YAxis type="category" dataKey="product" tick={{ fontSize: 12, fill: "#4B5563" }} tickLine={false} axisLine={false} width={110} />
-            <Tooltip content={<ChartTooltip formatter={fmtM} />} />
-            <Bar dataKey="projected_value" fill="#E8913A" radius={[0, 6, 6, 0]} barSize={20} name="Projected" />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-    </div>
-  );
-}
-
-// ─── At-Risk Watch List ────────────────────────────────────────────────────
-
-function AtRiskTable() {
-  const loans = DATA.atRiskLoans || [];
-  if (loans.length === 0) return null;
-  const [expanded, setExpanded] = useState(false);
-  const VISIBLE = 10;
-  const shown = expanded ? loans : loans.slice(0, VISIBLE);
-  const hasMore = loans.length > VISIBLE;
-
-  const riskColor = (reason) => {
-    if (reason.includes("expires within")) return "#E85A5A";
-    if (reason.includes("already expired")) return "#E85A5A";
-    if (reason.includes("No rate lock")) return "#E8913A";
-    if (reason.includes("Sitting at")) return "#E8913A";
-    if (reason.includes("probability")) return "#9CA3AF";
-    return "#6B7280";
-  };
-
-  return (
-    <div className="bg-white rounded-lg shadow-sm" style={{ border: "1px solid #E5E7EB", overflow: "hidden" }}>
-      <div style={{ padding: "16px 24px", borderBottom: "1px solid #E5E7EB" }}>
-        <h3 style={{ fontSize: 15, fontWeight: 600, color: "#1A2332", margin: 0 }}>
-          At-Risk Watch List
-          <span style={{ fontSize: 13, fontWeight: 400, color: "#E85A5A", marginLeft: 8 }}>
-            {loans.length} loans need attention
-          </span>
-        </h3>
-        <p style={{ fontSize: 13, color: "#9CA3AF", margin: "4px 0 0" }}>
-          Live loans with warning signs &mdash; could still fund but need ops intervention
-        </p>
-      </div>
-      <div style={{ padding: "8px 24px", background: "#FEF2F2", fontSize: 12, color: "#991B1B", borderBottom: "1px solid #FECACA" }}>
-        Total at-risk value: {fmtM(loans.reduce((s, l) => s + l.expected_value, 0))} expected &middot; {fmtM(loans.reduce((s, l) => s + l.loan_amount, 0))} pipeline
-      </div>
-      <div style={{ overflowX: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead>
-            <tr style={{ background: "#F9FAFB", textAlign: "left" }}>
-              <th style={{ padding: "11px 16px", fontSize: 10, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em", width: 36 }}>#</th>
-              <th style={{ padding: "11px 16px", fontSize: 10, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em" }}>Product</th>
-              <th style={{ padding: "11px 16px", fontSize: 10, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em" }}>Stage</th>
-              <th style={{ padding: "11px 16px", fontSize: 10, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "right" }}>Days</th>
-              <th style={{ padding: "11px 16px", fontSize: 10, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "center" }}>Lock</th>
-              <th style={{ padding: "11px 16px", fontSize: 10, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em" }}>Prob</th>
-              <th style={{ padding: "11px 16px", fontSize: 10, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "right" }}>Amount</th>
-              <th style={{ padding: "11px 16px", fontSize: 10, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em" }}>Risk Reasons</th>
-            </tr>
-          </thead>
-          <tbody>
-            {shown.map((loan, i) => (
-              <tr key={loan.loan_guid || i} style={{ borderTop: "1px solid #F3F4F6", background: i % 2 === 1 ? "#FFFBF7" : "white", fontSize: 13 }}>
-                <td style={{ padding: "10px 16px", color: "#D1D5DB", fontWeight: 600 }}>{i + 1}</td>
-                <td style={{ padding: "10px 16px", fontWeight: 600, color: "#1A2332" }}>{loan.product_type || "\u2014"}</td>
-                <td style={{ padding: "10px 16px", color: "#4B5563" }}>{loan.current_stage}</td>
-                <td style={{ padding: "10px 16px", textAlign: "right", fontVariantNumeric: "tabular-nums", color: "#4B5563" }}>{loan.days_at_stage}d</td>
-                <td style={{ padding: "10px 16px", textAlign: "center", fontSize: 15 }}>{loan.is_locked ? "\ud83d\udd12" : "\ud83d\udd13"}</td>
-                <td style={{ padding: "10px 16px" }}><ProbBar value={loan.ml_probability} /></td>
-                <td style={{ padding: "10px 16px", textAlign: "right", fontFamily: "ui-monospace, monospace", fontSize: 12, fontVariantNumeric: "tabular-nums", color: "#4B5563" }}>{fmtK(loan.loan_amount)}</td>
-                <td style={{ padding: "10px 16px" }}>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
-                    {loan.risk_reasons.map((reason, j) => {
-                      const rc = riskColor(reason);
-                      return (
-                        <span key={j} style={{
-                          display: "inline-block", padding: "2px 8px", borderRadius: 4, fontSize: 10, fontWeight: 600,
-                          background: rc + "18",
-                          color: rc,
-                          border: "1px solid " + rc + "30",
-                        }}>{reason}</span>
-                      );
-                    })}
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      {hasMore && (
-        <div style={{ textAlign: "center", padding: "12px 0", borderTop: "1px solid #F3F4F6" }}>
-          <button onClick={() => setExpanded(!expanded)} style={{
-            background: "none", border: "1px solid #D1D5DB", borderRadius: 6,
-            padding: "6px 20px", fontSize: 12, fontWeight: 600, color: "#6B7280", cursor: "pointer",
-          }}>
-            {expanded ? "Collapse" : "Show all " + loans.length + " at-risk loans"}
-          </button>
-        </div>
-      )}
-    </div>
-  );
-}
-
-// ─── Main Dashboard ─────────────────────────────────────────────────────────
+// ─── Main Dashboard ────────────────────────────────────────────────────────
 
 const TABS = [
   { key: "overview", label: "Overview" },
@@ -2901,70 +2610,49 @@ function FlexPointDashboard() {
   const [activeTab, setActiveTab] = useState("overview");
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "#F5F6F8",
-        fontFamily:
-          "system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif",
-      }}
-    >
-      {/* ── Header ─────────────────────────────────────────────────────── */}
-      <header
-        style={{
-          background: "#1A2332",
-          padding: "20px 32px 0",
-          boxShadow: "0 2px 12px rgba(0,0,0,0.15)",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: 1400,
-            margin: "0 auto",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <div>
-              <h1
-                style={{
-                  fontSize: 21,
-                  fontWeight: 700,
-                  color: "white",
-                  margin: 0,
-                  letterSpacing: "-0.01em",
-                }}
-              >
-                FlexPoint Funding Forecast
+    <div style={{ minHeight: "100vh", fontFamily: "var(--font-sans)" }}>
+      {/* Header */}
+      <header style={{
+        background: "linear-gradient(180deg, #12151C 0%, #0C0F14 100%)",
+        borderBottom: "1px solid var(--border-subtle)",
+        position: "sticky", top: 0, zIndex: 50,
+      }}>
+        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 32px" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 0 0" }}>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
+              <h1 style={{ fontSize: 18, fontWeight: 700, color: "var(--text-primary)", letterSpacing: "-0.02em" }}>
+                FlexPoint
               </h1>
-              <p style={{ fontSize: 13, color: "#8B95A5", margin: "3px 0 0" }}>
-                Pipeline Intelligence &mdash; Gallus Insights
-              </p>
+              <span style={{ fontSize: 12, fontWeight: 500, color: "var(--text-muted)", letterSpacing: "0.04em" }}>
+                PIPELINE INTELLIGENCE
+              </span>
             </div>
-            <div style={{ textAlign: "right" }}>
-              <p style={{ fontSize: 14, color: "#E5E7EB", fontWeight: 600, margin: 0 }}>
-                December 2025
-              </p>
-              <p style={{ fontSize: 11, color: "#6B7280", margin: "3px 0 0" }}>
-                Snapshot: {s.snapshot_date} &middot; Model: {s.model_used}
-              </p>
+            <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+              <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-muted)" }}>
+                {s.snapshot_date}
+              </span>
+              <span style={{
+                fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 500,
+                color: "var(--green)", background: "var(--green-dim)",
+                padding: "3px 8px", borderRadius: 4,
+              }}>
+                {s.model_used}
+              </span>
             </div>
           </div>
 
-          {/* ── Tab bar ──────────────────────────────────────────────────── */}
-          <div style={{ display: "flex", gap: 0, marginTop: 16 }}>
+          {/* Tab Bar */}
+          <div style={{ display: "flex", gap: 0, marginTop: 14 }}>
             {TABS.map((tab) => (
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
                 style={{
-                  padding: "10px 24px",
-                  fontSize: 13,
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  background: activeTab === tab.key ? "#F5F6F8" : "transparent",
-                  border: "none",
-                  borderRadius: activeTab === tab.key ? "8px 8px 0 0" : "0",
-                  color: activeTab === tab.key ? "#1A2332" : "#8B95A5",
+                  padding: "10px 20px",
+                  fontFamily: "var(--font-sans)", fontSize: 12, fontWeight: 600,
+                  cursor: "pointer", background: "transparent", border: "none",
+                  color: activeTab === tab.key ? "var(--copper)" : "var(--text-muted)",
+                  borderBottom: activeTab === tab.key ? "2px solid var(--copper)" : "2px solid transparent",
                   transition: "all 0.15s ease",
                 }}
               >
@@ -2975,114 +2663,25 @@ function FlexPointDashboard() {
         </div>
       </header>
 
-      {/* ── Body ───────────────────────────────────────────────────────── */}
-      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "28px 32px 16px" }}>
-
-        {/* ── TAB: Overview ─────────────────────────────────────────────── */}
-        {activeTab === "overview" && (
-          <div>
-            {/* Summary cards — 5 columns */}
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(5, 1fr)",
-                gap: 20,
-              }}
-            >
-              <StatCard
-                title="Total Pipeline"
-                value={fmtM(s.total_pipeline_value)}
-                subtitle={s.total_pipeline_loans.toLocaleString() + " active loans"}
-              />
-              <StatCard
-                title="Live Pipeline"
-                value={fmtM(s.live_pipeline_value)}
-                subtitle={s.live_pipeline_loans.toLocaleString() + " loans passing filter"}
-                color="#3DAA7F"
-              />
-              <StatCard
-                title="Eliminated"
-                value={fmtM(s.dead_pipeline_value)}
-                subtitle={s.elimination_stats.pct_eliminated + "% of pipeline"}
-                color="#E85A5A"
-              />
-              <StatCard
-                title="Projected Funding"
-                value={fmtM(s.projected_total)}
-                subtitle={"Dec 2025 \u2014 " + fmtM(s.already_funded_value) + " already funded"}
-                color="#E8913A"
-              />
-              <ModelAccuracyCard />
-            </div>
-
-            {/* Pipeline Stage Funnel */}
-            <div style={{ marginTop: 24 }}>
-              <StageFunnel />
-            </div>
-
-            {/* Channel + Product side by side */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, marginTop: 24 }}>
-              <ChannelSplit />
-              <ProductBreakdown />
-            </div>
-          </div>
-        )}
-
-        {/* ── TAB: Watch List ──────────────────────────────────────────── */}
-        {activeTab === "watchlist" && (
-          <div>
-            {/* At-Risk Watch List */}
-            <AtRiskTable />
-
-            {/* Loan table */}
-            <div style={{ marginTop: 24 }}>
-              <LoanTable />
-            </div>
-          </div>
-        )}
-
-        {/* ── TAB: Trends ──────────────────────────────────────────────── */}
-        {activeTab === "trends" && (
-          <div>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: 24,
-              }}
-            >
-              <PullThroughChart />
-              <CycleTimeChart />
-            </div>
-          </div>
-        )}
+      {/* Body */}
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "24px 32px 16px" }}>
+        {activeTab === "overview" && <OverviewTab />}
+        {activeTab === "watchlist" && <WatchListTab />}
+        {activeTab === "trends" && <TrendsTab />}
 
         {/* Footer */}
-        <div
-          style={{
-            textAlign: "center",
-            fontSize: 11,
-            color: "#9CA3AF",
-            padding: "28px 0 4px",
-          }}
-        >
-          FlexPoint Funding Forecast &middot; Data as of {s.snapshot_date} &middot;{" "}
-          {(s.overall_pull_through * 100).toFixed(1)}% historical pull-through &middot;
-          Median cycle: {s.median_cycle_days} days
+        <div style={{ textAlign: "center", padding: "32px 0 8px", fontFamily: "var(--font-sans)", fontSize: 10, color: "var(--text-muted)", letterSpacing: "0.02em" }}>
+          Gallus Insights &middot; {(s.overall_pull_through * 100).toFixed(1)}% historical pull-through &middot; Median cycle {s.median_cycle_days}d
         </div>
-        <div
-          style={{
-            textAlign: "center",
-            fontSize: 11,
-            color: "#B0BEC5",
-            padding: "0 0 16px",
-          }}
-        >
-          A 1% pull-through improvement &asymp; $400K additional revenue per $1B funded volume
+        <div style={{ textAlign: "center", padding: "0 0 20px", fontFamily: "var(--font-sans)", fontSize: 10, color: "var(--border)" }}>
+          1% pull-through improvement &asymp; $400K additional revenue per $1B funded
         </div>
       </div>
     </div>
   );
 }
-ReactDOM.createRoot(document.getElementById("root")).render(<FlexPointDashboard/>);
-</script></body></html>
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<FlexPointDashboard />);
+  </script>
+</body>
+</html>

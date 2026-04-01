@@ -47,15 +47,26 @@ buckets = [
     {"range": "45+ days",        "count": sum(1 for v in vals if v > 45),              "sla": True},
 ]
 
+# Process backtest accuracy sparkline labels
+backtest = raw.get("backtest_accuracy", {})
+for entry in backtest.get("recent_months", []):
+    yr, mn = entry["month"].split("-")
+    entry["label"] = f"{MONTHS[int(mn)-1]} '{yr[2:]}"
+
 # Compact embedded object (no raw values arrays)
 embedded = {
-    "summary":      raw["summary"],
-    "liveLoans":    [l for l in raw["loan_table"] if l["status"] == "live"],
-    "deadLoans":    [l for l in raw["loan_table"] if l["status"] == "dead"],
-    "ptChart":      pt_data,
-    "ptAvg":        pt_avg,
-    "cycleBuckets": buckets,
-    "cycleStats":   {k: v for k, v in raw["cycle_times"]["overall"].items() if k != "values"},
+    "summary":          raw["summary"],
+    "liveLoans":        [l for l in raw["loan_table"] if l["status"] == "live"],
+    "deadLoans":        [l for l in raw["loan_table"] if l["status"] == "dead"],
+    "ptChart":          pt_data,
+    "ptAvg":            pt_avg,
+    "cycleBuckets":     buckets,
+    "cycleStats":       {k: v for k, v in raw["cycle_times"]["overall"].items() if k != "values"},
+    "backtest":         backtest,
+    "stageFunnel":      raw.get("stage_funnel", []),
+    "channelSplit":     raw.get("channel_split", []),
+    "productBreakdown": raw.get("product_breakdown", []),
+    "atRiskLoans":      raw.get("at_risk_loans", []),
 }
 
 data_js = json.dumps(embedded, indent=2)
@@ -64,7 +75,8 @@ data_js = json.dumps(embedded, indent=2)
 IMPORTS = '''\
 import React, { useState } from "react";
 import {
-  LineChart, BarChart, Line, Bar, XAxis, YAxis, Tooltip,
+  LineChart, BarChart, AreaChart, Line, Bar, Area,
+  XAxis, YAxis, Tooltip,
   ResponsiveContainer, ReferenceLine, CartesianGrid, Cell
 } from "recharts";
 '''
@@ -180,10 +192,8 @@ function ProbBar({ value }) {
 
 // ─── Tooltip ────────────────────────────────────────────────────────────────
 
-function ChartTooltip({ active, payload, label, suffix }) {
+function ChartTooltip({ active, payload, label, suffix, formatter }) {
   if (!active || !payload || !payload.length) return null;
-  const v = payload[0].value;
-  const display = typeof v === "number" ? v.toLocaleString() : v;
   return (
     <div
       style={{
@@ -196,10 +206,17 @@ function ChartTooltip({ active, payload, label, suffix }) {
       }}
     >
       <div style={{ fontWeight: 600, color: "#374151" }}>{label}</div>
-      <div style={{ color: payload[0].stroke || payload[0].fill || "#4A90D9", marginTop: 2 }}>
-        {display}
-        {suffix || ""}
-      </div>
+      {payload.map((entry, i) => {
+        const v = entry.value;
+        const display = formatter ? formatter(v) : (typeof v === "number" ? v.toLocaleString() : v);
+        return (
+          <div key={i} style={{ color: entry.stroke || entry.fill || "#4A90D9", marginTop: 2 }}>
+            {payload.length > 1 && <span style={{ fontWeight: 600 }}>{entry.name}: </span>}
+            {display}
+            {suffix || ""}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -588,10 +605,238 @@ function CycleTimeChart() {
   );
 }
 
+// ─── Model Accuracy Card ───────────────────────────────────────────────────
+
+function ModelAccuracyCard() {
+  const b = DATA.backtest;
+  if (!b || !b.mape_day15) return <StatCard title="Model Accuracy" value="N/A" subtitle="No backtest data" />;
+  return (
+    <div className="bg-white rounded-lg shadow-sm" style={{ padding: 24, border: "1px solid #E5E7EB" }}>
+      <p style={{ fontSize: 11, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em", margin: 0 }}>
+        Model Accuracy
+      </p>
+      <p style={{ fontSize: 28, fontWeight: 700, color: "#3DAA7F", margin: "8px 0 0", letterSpacing: "-0.02em" }}>
+        {b.mape_day15}% MAPE
+      </p>
+      <p style={{ fontSize: 13, color: "#9CA3AF", margin: "4px 0 0" }}>
+        {b.months_within_10pct}/{b.total_months} months within 10%
+      </p>
+      {b.recent_months && b.recent_months.length > 0 && (
+        <div style={{ height: 56, marginTop: 10 }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={b.recent_months} margin={{ top: 2, right: 2, bottom: 2, left: 2 }}>
+              <Area type="monotone" dataKey="actual" stroke="#D1D5DB" fill="#F3F4F6" strokeWidth={1.5} dot={false} />
+              <Area type="monotone" dataKey="projected" stroke="#3DAA7F" fill="rgba(61,170,127,0.1)" strokeWidth={1.5} dot={false} />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Pipeline Stage Funnel ─────────────────────────────────────────────────
+
+function StageFunnel() {
+  const data = DATA.stageFunnel || [];
+  if (data.length === 0) return null;
+  return (
+    <div className="bg-white rounded-lg shadow-sm" style={{ padding: 24, border: "1px solid #E5E7EB" }}>
+      <h3 style={{ fontSize: 15, fontWeight: 600, color: "#1A2332", margin: 0 }}>
+        Pipeline Stage Distribution
+      </h3>
+      <p style={{ fontSize: 13, color: "#9CA3AF", margin: "4px 0 16px" }}>
+        Active loans by stage &mdash; identifies bottlenecks
+      </p>
+      <div style={{ height: Math.max(320, data.length * 32) }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={data} layout="vertical" margin={{ top: 0, right: 30, bottom: 0, left: 90 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" horizontal={false} />
+            <XAxis type="number" tick={{ fontSize: 11, fill: "#9CA3AF" }} tickLine={false} axisLine={false} />
+            <YAxis type="category" dataKey="stage" tick={{ fontSize: 12, fill: "#4B5563" }} tickLine={false} axisLine={false} width={90} />
+            <Tooltip content={<ChartTooltip suffix=" loans" />} />
+            <Bar dataKey="total_loans" fill="#607D8B" radius={[0, 4, 4, 0]} barSize={16} name="Total" />
+            <Bar dataKey="live_loans" fill="#4A90D9" radius={[0, 4, 4, 0]} barSize={16} name="Live" />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+      <div style={{ display: "flex", alignItems: "center", marginTop: 12, fontSize: 11, color: "#9CA3AF", gap: 16 }}>
+        <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
+          <span style={{ display: "inline-block", width: 8, height: 8, borderRadius: 4, background: "#607D8B" }} />
+          Total (incl. eliminated)
+        </span>
+        <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
+          <span style={{ display: "inline-block", width: 8, height: 8, borderRadius: 4, background: "#4A90D9" }} />
+          Live pipeline
+        </span>
+      </div>
+    </div>
+  );
+}
+
+// ─── Channel Split ─────────────────────────────────────────────────────────
+
+function ChannelSplit() {
+  const channels = DATA.channelSplit || [];
+  if (channels.length === 0) return null;
+  return (
+    <div className="bg-white rounded-lg shadow-sm" style={{ padding: 24, border: "1px solid #E5E7EB" }}>
+      <h3 style={{ fontSize: 15, fontWeight: 600, color: "#1A2332", margin: 0 }}>
+        Channel Breakdown
+      </h3>
+      <p style={{ fontSize: 13, color: "#9CA3AF", margin: "4px 0 16px" }}>
+        Wholesale vs Retail pipeline
+      </p>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(" + channels.length + ", 1fr)", gap: 14 }}>
+        {channels.map((ch) => (
+          <div key={ch.channel} style={{ padding: "18px 20px", borderRadius: 8, background: "#F9FAFB", border: "1px solid #E5E7EB" }}>
+            <p style={{ fontSize: 12, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.04em", margin: 0 }}>{ch.channel || "Unknown"}</p>
+            <p style={{ fontSize: 22, fontWeight: 700, color: "#E8913A", margin: "6px 0 4px" }}>
+              {fmtM(ch.projected_value)}
+            </p>
+            <p style={{ fontSize: 12, color: "#6B7280", margin: 0 }}>
+              from {fmtM(ch.live_value)} live &middot; {ch.live_loans} loans &middot; {(ch.avg_probability * 100).toFixed(0)}% avg
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── Product Breakdown ─────────────────────────────────────────────────────
+
+function ProductBreakdown() {
+  const raw = DATA.productBreakdown || [];
+  const data = raw.filter(p => p.projected_value > 0);
+  if (data.length === 0) return null;
+  return (
+    <div className="bg-white rounded-lg shadow-sm" style={{ padding: 24, border: "1px solid #E5E7EB" }}>
+      <h3 style={{ fontSize: 15, fontWeight: 600, color: "#1A2332", margin: 0 }}>
+        Product Type Breakdown
+      </h3>
+      <p style={{ fontSize: 13, color: "#9CA3AF", margin: "4px 0 16px" }}>
+        Projected funding by product
+      </p>
+      <div style={{ height: Math.max(200, data.length * 36) }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={data} layout="vertical" margin={{ top: 0, right: 30, bottom: 0, left: 110 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" horizontal={false} />
+            <XAxis type="number" tickFormatter={fmtM} tick={{ fontSize: 11, fill: "#9CA3AF" }} tickLine={false} axisLine={false} />
+            <YAxis type="category" dataKey="product" tick={{ fontSize: 12, fill: "#4B5563" }} tickLine={false} axisLine={false} width={110} />
+            <Tooltip content={<ChartTooltip formatter={fmtM} />} />
+            <Bar dataKey="projected_value" fill="#E8913A" radius={[0, 6, 6, 0]} barSize={20} name="Projected" />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  );
+}
+
+// ─── At-Risk Watch List ────────────────────────────────────────────────────
+
+function AtRiskTable() {
+  const loans = DATA.atRiskLoans || [];
+  if (loans.length === 0) return null;
+  const [expanded, setExpanded] = useState(false);
+  const VISIBLE = 10;
+  const shown = expanded ? loans : loans.slice(0, VISIBLE);
+  const hasMore = loans.length > VISIBLE;
+
+  const riskColor = (reason) => {
+    if (reason.includes("expires within")) return "#E85A5A";
+    if (reason.includes("already expired")) return "#E85A5A";
+    if (reason.includes("No rate lock")) return "#E8913A";
+    if (reason.includes("Sitting at")) return "#E8913A";
+    if (reason.includes("probability")) return "#9CA3AF";
+    return "#6B7280";
+  };
+
+  return (
+    <div className="bg-white rounded-lg shadow-sm" style={{ border: "1px solid #E5E7EB", overflow: "hidden" }}>
+      <div style={{ padding: "16px 24px", borderBottom: "1px solid #E5E7EB" }}>
+        <h3 style={{ fontSize: 15, fontWeight: 600, color: "#1A2332", margin: 0 }}>
+          At-Risk Watch List
+          <span style={{ fontSize: 13, fontWeight: 400, color: "#E85A5A", marginLeft: 8 }}>
+            {loans.length} loans need attention
+          </span>
+        </h3>
+        <p style={{ fontSize: 13, color: "#9CA3AF", margin: "4px 0 0" }}>
+          Live loans with warning signs &mdash; could still fund but need ops intervention
+        </p>
+      </div>
+      <div style={{ padding: "8px 24px", background: "#FEF2F2", fontSize: 12, color: "#991B1B", borderBottom: "1px solid #FECACA" }}>
+        Total at-risk value: {fmtM(loans.reduce((s, l) => s + l.expected_value, 0))} expected &middot; {fmtM(loans.reduce((s, l) => s + l.loan_amount, 0))} pipeline
+      </div>
+      <div style={{ overflowX: "auto" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <thead>
+            <tr style={{ background: "#F9FAFB", textAlign: "left" }}>
+              <th style={{ padding: "11px 16px", fontSize: 10, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em", width: 36 }}>#</th>
+              <th style={{ padding: "11px 16px", fontSize: 10, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em" }}>Product</th>
+              <th style={{ padding: "11px 16px", fontSize: 10, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em" }}>Stage</th>
+              <th style={{ padding: "11px 16px", fontSize: 10, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "right" }}>Days</th>
+              <th style={{ padding: "11px 16px", fontSize: 10, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "center" }}>Lock</th>
+              <th style={{ padding: "11px 16px", fontSize: 10, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em" }}>Prob</th>
+              <th style={{ padding: "11px 16px", fontSize: 10, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em", textAlign: "right" }}>Amount</th>
+              <th style={{ padding: "11px 16px", fontSize: 10, fontWeight: 700, color: "#9CA3AF", textTransform: "uppercase", letterSpacing: "0.06em" }}>Risk Reasons</th>
+            </tr>
+          </thead>
+          <tbody>
+            {shown.map((loan, i) => (
+              <tr key={loan.loan_guid || i} style={{ borderTop: "1px solid #F3F4F6", background: i % 2 === 1 ? "#FFFBF7" : "white", fontSize: 13 }}>
+                <td style={{ padding: "10px 16px", color: "#D1D5DB", fontWeight: 600 }}>{i + 1}</td>
+                <td style={{ padding: "10px 16px", fontWeight: 600, color: "#1A2332" }}>{loan.product_type || "\u2014"}</td>
+                <td style={{ padding: "10px 16px", color: "#4B5563" }}>{loan.current_stage}</td>
+                <td style={{ padding: "10px 16px", textAlign: "right", fontVariantNumeric: "tabular-nums", color: "#4B5563" }}>{loan.days_at_stage}d</td>
+                <td style={{ padding: "10px 16px", textAlign: "center", fontSize: 15 }}>{loan.is_locked ? "\ud83d\udd12" : "\ud83d\udd13"}</td>
+                <td style={{ padding: "10px 16px" }}><ProbBar value={loan.ml_probability} /></td>
+                <td style={{ padding: "10px 16px", textAlign: "right", fontFamily: "ui-monospace, monospace", fontSize: 12, fontVariantNumeric: "tabular-nums", color: "#4B5563" }}>{fmtK(loan.loan_amount)}</td>
+                <td style={{ padding: "10px 16px" }}>
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+                    {loan.risk_reasons.map((reason, j) => {
+                      const rc = riskColor(reason);
+                      return (
+                        <span key={j} style={{
+                          display: "inline-block", padding: "2px 8px", borderRadius: 4, fontSize: 10, fontWeight: 600,
+                          background: rc + "18",
+                          color: rc,
+                          border: "1px solid " + rc + "30",
+                        }}>{reason}</span>
+                      );
+                    })}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {hasMore && (
+        <div style={{ textAlign: "center", padding: "12px 0", borderTop: "1px solid #F3F4F6" }}>
+          <button onClick={() => setExpanded(!expanded)} style={{
+            background: "none", border: "1px solid #D1D5DB", borderRadius: 6,
+            padding: "6px 20px", fontSize: 12, fontWeight: 600, color: "#6B7280", cursor: "pointer",
+          }}>
+            {expanded ? "Collapse" : "Show all " + loans.length + " at-risk loans"}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── Main Dashboard ─────────────────────────────────────────────────────────
+
+const TABS = [
+  { key: "overview", label: "Overview" },
+  { key: "watchlist", label: "Watch List" },
+  { key: "trends", label: "Trends" },
+];
 
 export default function FlexPointDashboard() {
   const s = DATA.summary;
+  const [activeTab, setActiveTab] = useState("overview");
 
   return (
     <div
@@ -606,7 +851,7 @@ export default function FlexPointDashboard() {
       <header
         style={{
           background: "#1A2332",
-          padding: "20px 32px",
+          padding: "20px 32px 0",
           boxShadow: "0 2px 12px rgba(0,0,0,0.15)",
         }}
       >
@@ -614,109 +859,141 @@ export default function FlexPointDashboard() {
           style={{
             maxWidth: 1400,
             margin: "0 auto",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
           }}
         >
-          <div>
-            <h1
-              style={{
-                fontSize: 21,
-                fontWeight: 700,
-                color: "white",
-                margin: 0,
-                letterSpacing: "-0.01em",
-              }}
-            >
-              FlexPoint Funding Forecast
-            </h1>
-            <p style={{ fontSize: 13, color: "#8B95A5", margin: "3px 0 0" }}>
-              Pipeline Intelligence &mdash; Gallus Insights
-            </p>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div>
+              <h1
+                style={{
+                  fontSize: 21,
+                  fontWeight: 700,
+                  color: "white",
+                  margin: 0,
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                FlexPoint Funding Forecast
+              </h1>
+              <p style={{ fontSize: 13, color: "#8B95A5", margin: "3px 0 0" }}>
+                Pipeline Intelligence &mdash; Gallus Insights
+              </p>
+            </div>
+            <div style={{ textAlign: "right" }}>
+              <p style={{ fontSize: 14, color: "#E5E7EB", fontWeight: 600, margin: 0 }}>
+                December 2025
+              </p>
+              <p style={{ fontSize: 11, color: "#6B7280", margin: "3px 0 0" }}>
+                Snapshot: {s.snapshot_date} &middot; Model: {s.model_used}
+              </p>
+            </div>
           </div>
-          <div style={{ textAlign: "right" }}>
-            <p style={{ fontSize: 14, color: "#E5E7EB", fontWeight: 600, margin: 0 }}>
-              December 2025
-            </p>
-            <p style={{ fontSize: 11, color: "#6B7280", margin: "3px 0 0" }}>
-              Snapshot: {s.snapshot_date} &middot; Model: {s.model_used}
-            </p>
+
+          {/* ── Tab bar ──────────────────────────────────────────────────── */}
+          <div style={{ display: "flex", gap: 0, marginTop: 16 }}>
+            {TABS.map((tab) => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                style={{
+                  padding: "10px 24px",
+                  fontSize: 13,
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  background: activeTab === tab.key ? "#F5F6F8" : "transparent",
+                  border: "none",
+                  borderRadius: activeTab === tab.key ? "8px 8px 0 0" : "0",
+                  color: activeTab === tab.key ? "#1A2332" : "#8B95A5",
+                  transition: "all 0.15s ease",
+                }}
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
         </div>
       </header>
 
       {/* ── Body ───────────────────────────────────────────────────────── */}
       <div style={{ maxWidth: 1400, margin: "0 auto", padding: "28px 32px 16px" }}>
-        {/* Summary cards */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: 24,
-          }}
-        >
-          <StatCard
-            title="Total Pipeline"
-            value={fmtM(s.total_pipeline_value)}
-            subtitle={s.total_pipeline_loans.toLocaleString() + " active loans"}
-          />
-          <StatCard
-            title="Live Pipeline"
-            value={fmtM(s.live_pipeline_value)}
-            subtitle={s.live_pipeline_loans.toLocaleString() + " loans passing filter"}
-            color="#3DAA7F"
-          />
-          <StatCard
-            title="Eliminated"
-            value={fmtM(s.dead_pipeline_value)}
-            subtitle={s.elimination_stats.pct_eliminated + "% of pipeline"}
-            color="#E85A5A"
-          />
-          <StatCard
-            title="Projected Funding"
-            value={fmtM(s.projected_total)}
-            subtitle={"Dec 2025 \u2014 " + fmtM(s.already_funded_value) + " already funded"}
-            color="#E8913A"
-          />
-        </div>
 
-        {/* Unit economics callout */}
-        <div
-          style={{
-            marginTop: 24,
-            background: "#1A2332",
-            borderRadius: 8,
-            padding: "14px 24px",
-            display: "flex",
-            alignItems: "center",
-            gap: 12,
-          }}
-        >
-          <span style={{ fontSize: 18 }}>&#x1F4C8;</span>
-          <p style={{ margin: 0, fontSize: 13, color: "#E5E7EB", lineHeight: 1.5 }}>
-            If prioritization improves pull-through by <span style={{ color: "#E8913A", fontWeight: 700 }}>1%</span>, that&rsquo;s
-            ~<span style={{ color: "#3DAA7F", fontWeight: 700 }}>$400K additional revenue</span> per $1B funded volume.
-          </p>
-        </div>
+        {/* ── TAB: Overview ─────────────────────────────────────────────── */}
+        {activeTab === "overview" && (
+          <div>
+            {/* Summary cards — 5 columns */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(5, 1fr)",
+                gap: 20,
+              }}
+            >
+              <StatCard
+                title="Total Pipeline"
+                value={fmtM(s.total_pipeline_value)}
+                subtitle={s.total_pipeline_loans.toLocaleString() + " active loans"}
+              />
+              <StatCard
+                title="Live Pipeline"
+                value={fmtM(s.live_pipeline_value)}
+                subtitle={s.live_pipeline_loans.toLocaleString() + " loans passing filter"}
+                color="#3DAA7F"
+              />
+              <StatCard
+                title="Eliminated"
+                value={fmtM(s.dead_pipeline_value)}
+                subtitle={s.elimination_stats.pct_eliminated + "% of pipeline"}
+                color="#E85A5A"
+              />
+              <StatCard
+                title="Projected Funding"
+                value={fmtM(s.projected_total)}
+                subtitle={"Dec 2025 \u2014 " + fmtM(s.already_funded_value) + " already funded"}
+                color="#E8913A"
+              />
+              <ModelAccuracyCard />
+            </div>
 
-        {/* Loan table */}
-        <div style={{ marginTop: 24 }}>
-          <LoanTable />
-        </div>
+            {/* Pipeline Stage Funnel */}
+            <div style={{ marginTop: 24 }}>
+              <StageFunnel />
+            </div>
 
-        {/* Charts */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 24,
-            marginTop: 32,
-          }}
-        >
-          <PullThroughChart />
-          <CycleTimeChart />
-        </div>
+            {/* Channel + Product side by side */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, marginTop: 24 }}>
+              <ChannelSplit />
+              <ProductBreakdown />
+            </div>
+          </div>
+        )}
+
+        {/* ── TAB: Watch List ──────────────────────────────────────────── */}
+        {activeTab === "watchlist" && (
+          <div>
+            {/* At-Risk Watch List */}
+            <AtRiskTable />
+
+            {/* Loan table */}
+            <div style={{ marginTop: 24 }}>
+              <LoanTable />
+            </div>
+          </div>
+        )}
+
+        {/* ── TAB: Trends ──────────────────────────────────────────────── */}
+        {activeTab === "trends" && (
+          <div>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: 24,
+              }}
+            >
+              <PullThroughChart />
+              <CycleTimeChart />
+            </div>
+          </div>
+        )}
 
         {/* Footer */}
         <div
@@ -724,12 +1001,22 @@ export default function FlexPointDashboard() {
             textAlign: "center",
             fontSize: 11,
             color: "#9CA3AF",
-            padding: "28px 0 12px",
+            padding: "28px 0 4px",
           }}
         >
           FlexPoint Funding Forecast &middot; Data as of {s.snapshot_date} &middot;{" "}
           {(s.overall_pull_through * 100).toFixed(1)}% historical pull-through &middot;
           Median cycle: {s.median_cycle_days} days
+        </div>
+        <div
+          style={{
+            textAlign: "center",
+            fontSize: 11,
+            color: "#B0BEC5",
+            padding: "0 0 16px",
+          }}
+        >
+          A 1% pull-through improvement &asymp; $400K additional revenue per $1B funded volume
         </div>
       </div>
     </div>
