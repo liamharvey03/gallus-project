@@ -5,40 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FlexPoint Pipeline Intelligence — Gallus Insights</title>
 
-  <!-- Fonts: DM Sans + DM Mono for editorial/financial feel -->
+  <!-- Fonts: Plus Jakarta Sans (sharp, modern) + JetBrains Mono (precise numerals) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #0C0F14; color: #E8E6E1; -webkit-font-smoothing: antialiased; }
-    html { overflow-y: scroll; }
+    body {
+      background: #0B0E13;
+      color: #EAEAEA;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    }
+    html { overflow-y: scroll; scroll-behavior: smooth; }
 
     :root {
-      --bg-primary: #0C0F14;
-      --bg-card: #151920;
-      --bg-card-hover: #1A1F28;
-      --bg-surface: #1E232D;
-      --border: #2A3040;
-      --border-subtle: #1E232D;
-      --text-primary: #E8E6E1;
-      --text-secondary: #8A8F9A;
-      --text-muted: #5A5F6A;
+      --bg-primary: #0B0E13;
+      --bg-card: #13171E;
+      --bg-card-hover: #181D27;
+      --bg-surface: #1C2230;
+      --border: #2C3344;
+      --border-subtle: #1C2230;
+      --text-primary: #EAEAEA;
+      --text-secondary: #9CA3AF;
+      --text-muted: #6B7280;
       --copper: #D4956A;
       --copper-dim: #B07A52;
-      --copper-glow: rgba(212,149,106,0.12);
-      --green: #6BBF8A;
-      --green-dim: rgba(107,191,138,0.15);
-      --red: #E8716A;
-      --red-dim: rgba(232,113,106,0.12);
-      --blue: #6AA3D4;
-      --blue-dim: rgba(106,163,212,0.12);
-      --font-sans: 'DM Sans', -apple-system, sans-serif;
-      --font-mono: 'DM Mono', 'SF Mono', monospace;
+      --copper-glow: rgba(212,149,106,0.10);
+      --green: #5EC892;
+      --green-dim: rgba(94,200,146,0.12);
+      --red: #EF6B6B;
+      --red-dim: rgba(239,107,107,0.10);
+      --blue: #60A5FA;
+      --blue-dim: rgba(96,165,250,0.10);
+      --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+      --card-radius: 12px;
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2);
+      --card-shadow-lg: 0 4px 12px rgba(0,0,0,0.3), 0 12px 40px rgba(0,0,0,0.25);
     }
 
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(12px); }
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
     @keyframes fadeIn {
@@ -49,8 +58,29 @@
       from { opacity: 0; transform: translateX(-8px); }
       to { opacity: 1; transform: translateX(0); }
     }
-    .fade-up { animation: fadeUp 0.5s ease both; }
-    .fade-in { animation: fadeIn 0.4s ease both; }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .fade-up { animation: fadeUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
+    .fade-in { animation: fadeIn 0.35s ease both; }
+
+    /* ── Global table improvements ─────────────────────────────── */
+    table { border-spacing: 0; }
+    thead tr { background: rgba(255,255,255,0.02); }
+    tbody tr { transition: background 0.12s ease; }
+    tbody tr:hover { background: rgba(255,255,255,0.03) !important; }
+    tbody tr:nth-child(even) { background: rgba(255,255,255,0.015); }
+    th { border-bottom: 1px solid var(--border) !important; }
+
+    /* ── Scrollbar ─────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+    /* ── Tab hover state ──────────────────────────────────────── */
+    .tab-btn:hover { color: var(--text-secondary) !important; }
   </style>
 
   <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
@@ -2196,7 +2226,1091 @@ const DATA = {
         "No rate lock \u2014 0% funding probability"
       ]
     }
+  ],
+  "revenueAtRisk": {
+    "total_at_risk": 145297723.0,
+    "total_recovery_potential": 10405393.0,
+    "live_pipeline_value": 146986672.0,
+    "buckets": [
+      {
+        "id": "stalled_high_value",
+        "label": "Stalled High-Value Loans",
+        "description": "Above-median loans sitting at the same stage for 30+ days",
+        "action": "Priority escalation \u2014 clear conditions or re-engage borrower",
+        "loan_count": 97,
+        "total_value": 85612468.0,
+        "expected_value": 6328014.0,
+        "value_at_risk": 79284454.0,
+        "avg_probability": 0.0826
+      },
+      {
+        "id": "low_prob_high_val",
+        "label": "Low Probability, High Value",
+        "description": "Top-quartile loan amounts with <25% funding probability",
+        "action": "Assess viability \u2014 re-engage or reallocate resources",
+        "loan_count": 47,
+        "total_value": 66012600.0,
+        "expected_value": 1903389.0,
+        "value_at_risk": 64109211.0,
+        "avg_probability": 0.0205
+      },
+      {
+        "id": "lock_expiring",
+        "label": "Rate Lock Expiring",
+        "description": "Loans with rate locks expiring within 7 days that haven't reached CTC",
+        "action": "Expedite underwriting or extend lock",
+        "loan_count": 7,
+        "total_value": 3134000.0,
+        "expected_value": 1672626.0,
+        "value_at_risk": 1461374.0,
+        "avg_probability": 0.5931
+      },
+      {
+        "id": "no_lock_late",
+        "label": "No Lock at Late Stage",
+        "description": "Loans past Approved without a rate lock \u2014 high drop-off risk",
+        "action": "Contact borrower to secure rate lock",
+        "loan_count": 3,
+        "total_value": 1153750.0,
+        "expected_value": 711066.0,
+        "value_at_risk": 442684.0,
+        "avg_probability": 0.6369
+      },
+      {
+        "id": "lock_expired",
+        "label": "Lock Expired, Pre-CTC",
+        "description": "Rate lock already expired and loan hasn't reached CTC",
+        "action": "Re-lock or renegotiate \u2014 loan is at high risk of cancellation",
+        "loan_count": 0,
+        "total_value": 0.0,
+        "expected_value": 0.0,
+        "value_at_risk": 0.0,
+        "avg_probability": 0
+      }
+    ],
+    "top_recovery": [
+      {
+        "loan_guid": "82510624",
+        "loan_amount": 4000000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 46,
+        "ml_probability": 0.1645,
+        "expected_value": 657896.0,
+        "recovery_gap": 3342104.0,
+        "risk_factors": [
+          "Stalled at Approved",
+          "Sitting 46d at stage"
+        ]
+      },
+      {
+        "loan_guid": "82509010",
+        "loan_amount": 2240000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 101,
+        "ml_probability": 0.2133,
+        "expected_value": 477759.0,
+        "recovery_gap": 1762241.0,
+        "risk_factors": [
+          "Stalled at Approved",
+          "Sitting 101d at stage"
+        ]
+      },
+      {
+        "loan_guid": "82511316",
+        "loan_amount": 1950000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 29,
+        "ml_probability": 0.2695,
+        "expected_value": 525603.0,
+        "recovery_gap": 1424397.0,
+        "risk_factors": [
+          "Below-average probability"
+        ]
+      },
+      {
+        "loan_guid": "82511212",
+        "loan_amount": 1461225.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 25,
+        "ml_probability": 0.6193,
+        "expected_value": 904872.0,
+        "recovery_gap": 556353.0,
+        "risk_factors": [
+          "Below-average probability"
+        ]
+      },
+      {
+        "loan_guid": "82509257",
+        "loan_amount": 592000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 81,
+        "ml_probability": 0.1011,
+        "expected_value": 59835.0,
+        "recovery_gap": 532165.0,
+        "risk_factors": [
+          "Stalled at Approved",
+          "Sitting 81d at stage"
+        ]
+      },
+      {
+        "loan_guid": "82511078",
+        "loan_amount": 1137750.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 38,
+        "ml_probability": 0.5823,
+        "expected_value": 662514.0,
+        "recovery_gap": 475236.0,
+        "risk_factors": [
+          "Stalled at Approved",
+          "Sitting 38d at stage"
+        ]
+      },
+      {
+        "loan_guid": "82507521",
+        "loan_amount": 500000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 140,
+        "ml_probability": 0.1647,
+        "expected_value": 82354.0,
+        "recovery_gap": 417646.0,
+        "risk_factors": [
+          "Stalled at Approved",
+          "Sitting 140d at stage"
+        ]
+      },
+      {
+        "loan_guid": "82511350",
+        "loan_amount": 477000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 25,
+        "ml_probability": 0.1432,
+        "expected_value": 68328.0,
+        "recovery_gap": 408672.0,
+        "risk_factors": [
+          "Below-average probability"
+        ]
+      },
+      {
+        "loan_guid": "82510740",
+        "loan_amount": 800250.0,
+        "product_type": "CONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 35,
+        "ml_probability": 0.5255,
+        "expected_value": 420554.0,
+        "recovery_gap": 379696.0,
+        "risk_factors": [
+          "Stalled at Approved",
+          "Sitting 35d at stage"
+        ]
+      },
+      {
+        "loan_guid": "82510561",
+        "loan_amount": 500000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 45,
+        "ml_probability": 0.2512,
+        "expected_value": 125607.0,
+        "recovery_gap": 374393.0,
+        "risk_factors": [
+          "Stalled at Approved",
+          "Sitting 45d at stage"
+        ]
+      },
+      {
+        "loan_guid": "82510580",
+        "loan_amount": 505750.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 39,
+        "ml_probability": 0.271,
+        "expected_value": 137058.0,
+        "recovery_gap": 368692.0,
+        "risk_factors": [
+          "Stalled at Approved",
+          "Sitting 39d at stage"
+        ]
+      },
+      {
+        "loan_guid": "82507035",
+        "loan_amount": 515000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 155,
+        "ml_probability": 0.2936,
+        "expected_value": 151202.0,
+        "recovery_gap": 363798.0,
+        "risk_factors": [
+          "Stalled at Approved",
+          "Sitting 155d at stage"
+        ]
+      }
+    ]
+  },
+  "bottleneckDetection": {
+    "heatmap": [
+      {
+        "transition": "Open \u2192 Submitted",
+        "overall_median": 0.0,
+        "overall_p75": 0.0,
+        "NONCONFORMING": 0.0,
+        "CONFORMING": 0.0,
+        "FHA": 0.0,
+        "VA": 0.0,
+        "2ND": 0.0
+      },
+      {
+        "transition": "Submitted \u2192 Approved",
+        "overall_median": 5.0,
+        "overall_p75": 7.0,
+        "NONCONFORMING": 4.0,
+        "CONFORMING": 5.0,
+        "FHA": 5.0,
+        "VA": 5.0,
+        "2ND": 5.0
+      },
+      {
+        "transition": "Approved \u2192 CTC",
+        "overall_median": 18.0,
+        "overall_p75": 26.0,
+        "NONCONFORMING": 18.0,
+        "CONFORMING": 16.0,
+        "FHA": 16.0,
+        "VA": 20.0,
+        "2ND": 21.0
+      },
+      {
+        "transition": "CTC \u2192 Funded",
+        "overall_median": 5.0,
+        "overall_p75": 7.0,
+        "NONCONFORMING": 5.0,
+        "CONFORMING": 5.0,
+        "FHA": 5.0,
+        "VA": 5.0,
+        "2ND": 7.0
+      }
+    ],
+    "products": [
+      "NONCONFORMING",
+      "CONFORMING",
+      "FHA",
+      "VA",
+      "2ND"
+    ],
+    "conversion_rates": [
+      {
+        "stage": "Submitted",
+        "reached_count": 11227,
+        "funded_count": 5660,
+        "conversion_rate": 0.5041
+      },
+      {
+        "stage": "Underwriting",
+        "reached_count": 8964,
+        "funded_count": 5492,
+        "conversion_rate": 0.6127
+      },
+      {
+        "stage": "Approved",
+        "reached_count": 8194,
+        "funded_count": 5654,
+        "conversion_rate": 0.69
+      },
+      {
+        "stage": "Cond Review",
+        "reached_count": 5654,
+        "funded_count": 5228,
+        "conversion_rate": 0.9247
+      },
+      {
+        "stage": "CTC",
+        "reached_count": 5696,
+        "funded_count": 5623,
+        "conversion_rate": 0.9872
+      },
+      {
+        "stage": "Docs",
+        "reached_count": 5650,
+        "funded_count": 5624,
+        "conversion_rate": 0.9954
+      },
+      {
+        "stage": "Funded",
+        "reached_count": 5661,
+        "funded_count": 5661,
+        "conversion_rate": 1.0
+      }
+    ],
+    "current_bottlenecks": [
+      {
+        "stage": "Opened",
+        "rank": 0,
+        "loan_count": 57,
+        "total_value": 0.0,
+        "avg_days_at_stage": 13.4,
+        "median_days_at_stage": 12.0,
+        "avg_probability": 0.0022,
+        "pct_over_30d": 0.0
+      },
+      {
+        "stage": "Application",
+        "rank": 1,
+        "loan_count": 28,
+        "total_value": 0.0,
+        "avg_days_at_stage": 5.7,
+        "median_days_at_stage": 4.0,
+        "avg_probability": 0.0653,
+        "pct_over_30d": 0.0
+      },
+      {
+        "stage": "Submitted",
+        "rank": 2,
+        "loan_count": 79,
+        "total_value": 0.0,
+        "avg_days_at_stage": 3.7,
+        "median_days_at_stage": 3.0,
+        "avg_probability": 0.0819,
+        "pct_over_30d": 0.0
+      },
+      {
+        "stage": "Underwriting",
+        "rank": 3,
+        "loan_count": 28,
+        "total_value": 3070125.0,
+        "avg_days_at_stage": 8.8,
+        "median_days_at_stage": 9.0,
+        "avg_probability": 0.0803,
+        "pct_over_30d": 0.0
+      },
+      {
+        "stage": "Approved",
+        "rank": 4,
+        "loan_count": 425,
+        "total_value": 122337511.0,
+        "avg_days_at_stage": 35.8,
+        "median_days_at_stage": 22.0,
+        "avg_probability": 0.2363,
+        "pct_over_30d": 41.9
+      },
+      {
+        "stage": "Cond Review",
+        "rank": 5,
+        "loan_count": 16,
+        "total_value": 4846303.0,
+        "avg_days_at_stage": 1.5,
+        "median_days_at_stage": 0.0,
+        "avg_probability": 0.8902,
+        "pct_over_30d": 0.0
+      },
+      {
+        "stage": "Final UW",
+        "rank": 6,
+        "loan_count": 15,
+        "total_value": 3102750.0,
+        "avg_days_at_stage": 0.0,
+        "median_days_at_stage": 0.0,
+        "avg_probability": 0.9353,
+        "pct_over_30d": 0.0
+      },
+      {
+        "stage": "CTC",
+        "rank": 7,
+        "loan_count": 21,
+        "total_value": 6502408.0,
+        "avg_days_at_stage": 3.8,
+        "median_days_at_stage": 0.0,
+        "avg_probability": 0.8951,
+        "pct_over_30d": 0.0
+      },
+      {
+        "stage": "Docs",
+        "rank": 8,
+        "loan_count": 26,
+        "total_value": 3835400.0,
+        "avg_days_at_stage": 1.7,
+        "median_days_at_stage": 0.0,
+        "avg_probability": 0.9818,
+        "pct_over_30d": 0.0
+      },
+      {
+        "stage": "Fund Cond",
+        "rank": 10,
+        "loan_count": 11,
+        "total_value": 2987175.0,
+        "avg_days_at_stage": 1.5,
+        "median_days_at_stage": 0.0,
+        "avg_probability": 0.9829,
+        "pct_over_30d": 0.0
+      }
+    ]
+  },
+  "velocityMomentum": {
+    "overall_median_velocity": 0.075,
+    "distribution": [
+      {
+        "band": "Fast Track",
+        "loan_count": 1,
+        "total_value": 381175.0,
+        "expected_value": 375133.0,
+        "avg_probability": 0.9841
+      },
+      {
+        "band": "On Pace",
+        "loan_count": 24,
+        "total_value": 11792275.0,
+        "expected_value": 11069040.0,
+        "avg_probability": 0.9269
+      },
+      {
+        "band": "Slow",
+        "loan_count": 158,
+        "total_value": 92426228.0,
+        "expected_value": 14806709.0,
+        "avg_probability": 0.2021
+      },
+      {
+        "band": "Stalled",
+        "loan_count": 70,
+        "total_value": 42386994.0,
+        "expected_value": 6193457.0,
+        "avg_probability": 0.1267
+      }
+    ],
+    "stage_velocity": [
+      {
+        "stage": "Approved",
+        "loan_count": 206,
+        "avg_velocity": 0.0723,
+        "median_velocity": 0.0678,
+        "avg_days_at_stage": 63.0,
+        "avg_probability": 0.1125,
+        "pct_stalled": 31.1
+      },
+      {
+        "stage": "Cond Review",
+        "loan_count": 9,
+        "avg_velocity": 0.0909,
+        "median_velocity": 0.082,
+        "avg_days_at_stage": 1.9,
+        "avg_probability": 0.8763,
+        "pct_stalled": 33.3
+      },
+      {
+        "stage": "Final UW",
+        "loan_count": 7,
+        "avg_velocity": 0.137,
+        "median_velocity": 0.1579,
+        "avg_days_at_stage": 0.0,
+        "avg_probability": 0.9044,
+        "pct_stalled": 0.0
+      },
+      {
+        "stage": "CTC",
+        "loan_count": 13,
+        "avg_velocity": 0.1419,
+        "median_velocity": 0.1522,
+        "avg_days_at_stage": 5.2,
+        "avg_probability": 0.8701,
+        "pct_stalled": 7.7
+      },
+      {
+        "stage": "Docs",
+        "loan_count": 8,
+        "avg_velocity": 0.17,
+        "median_velocity": 0.1544,
+        "avg_days_at_stage": 1.8,
+        "avg_probability": 0.988,
+        "pct_stalled": 12.5
+      },
+      {
+        "stage": "Fund Cond",
+        "loan_count": 6,
+        "avg_velocity": 0.2438,
+        "median_velocity": 0.2403,
+        "avg_days_at_stage": 0.8,
+        "avg_probability": 0.9833,
+        "pct_stalled": 0.0
+      }
+    ],
+    "momentum_alerts": [
+      {
+        "loan_guid": "82507258",
+        "loan_amount": 974650.0,
+        "product_type": "FHA",
+        "current_stage": "Approved",
+        "days_at_stage": 151,
+        "velocity": 0.0255,
+        "velocity_band": "Stalled",
+        "ml_probability": 0.821,
+        "expected_value": 800140.0
+      },
+      {
+        "loan_guid": "82509010",
+        "loan_amount": 2240000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 101,
+        "velocity": 0.0385,
+        "velocity_band": "Stalled",
+        "ml_probability": 0.2133,
+        "expected_value": 477759.0
+      },
+      {
+        "loan_guid": "82509260",
+        "loan_amount": 500000.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "days_at_stage": 90,
+        "velocity": 0.0421,
+        "velocity_band": "Stalled",
+        "ml_probability": 0.4396,
+        "expected_value": 219823.0
+      },
+      {
+        "loan_guid": "82508255",
+        "loan_amount": 270197.0,
+        "product_type": "FHA BOND",
+        "current_stage": "Approved",
+        "days_at_stage": 118,
+        "velocity": 0.032,
+        "velocity_band": "Stalled",
+        "ml_probability": 0.613,
+        "expected_value": 165638.0
+      },
+      {
+        "loan_guid": "82507035",
+        "loan_amount": 515000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 155,
+        "velocity": 0.024,
+        "velocity_band": "Stalled",
+        "ml_probability": 0.2936,
+        "expected_value": 151202.0
+      },
+      {
+        "loan_guid": "82505502",
+        "loan_amount": 477375.0,
+        "product_type": "CONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 200,
+        "velocity": 0.0188,
+        "velocity_band": "Stalled",
+        "ml_probability": 0.2793,
+        "expected_value": 133331.0
+      },
+      {
+        "loan_guid": "82510416",
+        "loan_amount": 297500.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 53,
+        "velocity": 0.0678,
+        "velocity_band": "Slow",
+        "ml_probability": 0.4238,
+        "expected_value": 126078.0
+      },
+      {
+        "loan_guid": "82509186",
+        "loan_amount": 315000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 94,
+        "velocity": 0.0408,
+        "velocity_band": "Stalled",
+        "ml_probability": 0.369,
+        "expected_value": 116230.0
+      },
+      {
+        "loan_guid": "82507521",
+        "loan_amount": 500000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 140,
+        "velocity": 0.0276,
+        "velocity_band": "Stalled",
+        "ml_probability": 0.1647,
+        "expected_value": 82354.0
+      },
+      {
+        "loan_guid": "82510451",
+        "loan_amount": 265000.0,
+        "product_type": "FHA",
+        "current_stage": "Approved",
+        "days_at_stage": 52,
+        "velocity": 0.0714,
+        "velocity_band": "Slow",
+        "ml_probability": 0.2072,
+        "expected_value": 54907.0
+      },
+      {
+        "loan_guid": "82508259",
+        "loan_amount": 9800.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "days_at_stage": 118,
+        "velocity": 0.032,
+        "velocity_band": "Stalled",
+        "ml_probability": 0.5656,
+        "expected_value": 5543.0
+      }
+    ]
+  },
+  "whatIfScenarios": {
+  "current_projected": 32444340.0,
+  "total_potential_delta": 38884123.0,
+  "total_upside_pct": 119.8,
+  "live_loans_count": 708,
+  "live_pipeline_value": 146986672.0,
+  "scenarios": [
+    {
+      "id": "reduce_appr_ctc",
+      "lever": "Accelerate Approved → CTC",
+      "description": "The Approved→CTC transition is the pipeline's longest and most variable stage (median 18d, P75 30+d). Loans stalled here have materially lower funding rates. Expediting condition clearance, appraisals, and borrower follow-up compresses this stage.",
+      "current_state": "Median 18d Approved→CTC · 259 loans stalled >15d at Approved",
+      "target_state": "Reduce median to 15d via weekly condition review cadence",
+      "current_value": 12708249.0,
+      "improved_value": 22465036.0,
+      "delta": 9756787.0,
+      "pct_improvement": 76.8,
+      "affected_loans": 259,
+      "affected_value": 121959841.0,
+      "methodology": "Historical funding-rate differential between <15d and ≤18d A→CTC cohorts, applied to loans currently >15d stalled at Approved stage"
+    },
+    {
+      "id": "improve_lock_rate",
+      "lever": "Lock Rate on Approved Loans",
+      "description": "Unlocked loans at the Approved stage have significantly lower ML-predicted funding probabilities than locked counterparts at the same stage. Securing rate locks earlier signals borrower commitment and reduces dropout risk.",
+      "current_state": "292 unlocked loans at Approved (avg prob 7%) vs 133 locked (avg prob 61%)",
+      "target_state": "Convert 40% of unlocked Approved loans to locked status",
+      "current_value": 3500763.0,
+      "improved_value": 26122809.0,
+      "delta": 22622046.0,
+      "pct_improvement": 54.5,
+      "affected_loans": 292,
+      "affected_value": 103708999.0,
+      "methodology": "Probability gap between locked and unlocked loans at Approved stage (from ML model), applied conservatively to 40% of currently unlocked Approved loans"
+    },
+    {
+      "id": "reactivate_stale",
+      "lever": "Reactivate Stale Pipeline",
+      "description": "Loans sitting 30+ days at the same mid-pipeline stage (Underwriting through CTC) without progression are at high dropout risk. Targeted outreach — phone calls, condition reminders, processor follow-up — has historically recovered 20–35% of stalled loans.",
+      "current_state": "178 loans stalled 30+ days at stages Underwriting–CTC · avg prob 9%",
+      "target_state": "Re-engage 30% of stalled loans to restore pipeline-average probability",
+      "current_value": 8427060.0,
+      "improved_value": 14224307.0,
+      "delta": 5797247.0,
+      "pct_improvement": 5.5,
+      "affected_loans": 178,
+      "affected_value": 104760171.0,
+      "methodology": "Probability gap between stalled loans and overall pipeline average, applied to 30% of stalled loan value (historical re-engagement success rate)"
+    },
+    {
+      "id": "retail_channel_optimization",
+      "lever": "Retail Channel Optimization",
+      "description": "Retail loans currently fund at a fraction of the rate of Wholesale loans. This gap reflects differences in processor experience, borrower profile, and pipeline management rigor. Closing half the gap through dedicated Retail ops support, tighter SLAs, and earlier lock discipline would materially increase projected fundings.",
+      "current_state": "Retail avg prob 5% vs Wholesale 30% · 59 active Retail loans",
+      "target_state": "Improve Retail probability to 18% (halfway to Wholesale levels)",
+      "current_value": 670551.0,
+      "improved_value": 1378594.0,
+      "delta": 708043.0,
+      "pct_improvement": 228.3,
+      "affected_loans": 59,
+      "affected_value": 5809336.0,
+      "hist_retail_rate": 10.7,
+      "hist_wholesale_rate": 44.6,
+      "methodology": "50% of the current probability gap between Retail and Wholesale channels applied to current Retail live pipeline"
+    }
   ]
+},
+  "performanceScorecards": {
+  "products": [
+    {
+      "pull_through_rate": 0.276,
+      "pt_recent_3m": 0.3388,
+      "pt_prior_3m": 0.2813,
+      "pt_trend_delta": 0.0575,
+      "pt_trend": "up",
+      "median_cycle_days": 34.0,
+      "avg_loan_amount": 185527.0,
+      "funded_volume_6m": 42299807.0,
+      "pipeline_volume_6m": 51038181.0,
+      "revenue_efficiency": 0.8288,
+      "current_active_loans": 82,
+      "current_projected_value": 2507933.0,
+      "avg_pipeline_probability": 0.3179,
+      "efficiency_score": 51213.0,
+      "name": "2ND",
+      "dimension": "product"
+    },
+    {
+      "pull_through_rate": 0.2415,
+      "pt_recent_3m": 0.309,
+      "pt_prior_3m": 0.2145,
+      "pt_trend_delta": 0.0945,
+      "pt_trend": "up",
+      "median_cycle_days": 28.0,
+      "avg_loan_amount": 478809.0,
+      "funded_volume_6m": 77006486.0,
+      "pipeline_volume_6m": 110065726.0,
+      "revenue_efficiency": 0.6996,
+      "current_active_loans": 43,
+      "current_projected_value": 2402878.0,
+      "avg_pipeline_probability": 0.299,
+      "efficiency_score": 115635.0,
+      "name": "CONFORMING",
+      "dimension": "product"
+    },
+    {
+      "pull_through_rate": 0.0299,
+      "pt_recent_3m": 0.0303,
+      "pt_prior_3m": 0.0,
+      "pt_trend_delta": 0.0303,
+      "pt_trend": "up",
+      "median_cycle_days": 30.5,
+      "avg_loan_amount": 306981.0,
+      "funded_volume_6m": 355960.0,
+      "pipeline_volume_6m": 355960.0,
+      "revenue_efficiency": 1.0,
+      "current_active_loans": 1,
+      "current_projected_value": 0.0,
+      "avg_pipeline_probability": 0.0172,
+      "efficiency_score": 9164.0,
+      "name": "CONVENTIONAL BOND",
+      "dimension": "product"
+    },
+    {
+      "pull_through_rate": 0.0747,
+      "pt_recent_3m": 0.1979,
+      "pt_prior_3m": 0.034,
+      "pt_trend_delta": 0.1639,
+      "pt_trend": "up",
+      "median_cycle_days": 29.0,
+      "avg_loan_amount": 497557.0,
+      "funded_volume_6m": 13001147.0,
+      "pipeline_volume_6m": 18172607.0,
+      "revenue_efficiency": 0.7154,
+      "current_active_loans": 5,
+      "current_projected_value": 643846.0,
+      "avg_pipeline_probability": 0.5878,
+      "efficiency_score": 37166.0,
+      "name": "CONVENTIONAL BOND STD MI",
+      "dimension": "product"
+    },
+    {
+      "pull_through_rate": 0.2498,
+      "pt_recent_3m": 0.3035,
+      "pt_prior_3m": 0.2256,
+      "pt_trend_delta": 0.0779,
+      "pt_trend": "up",
+      "median_cycle_days": 27.5,
+      "avg_loan_amount": 459277.0,
+      "funded_volume_6m": 77965527.0,
+      "pipeline_volume_6m": 115200492.0,
+      "revenue_efficiency": 0.6768,
+      "current_active_loans": 59,
+      "current_projected_value": 3004382.0,
+      "avg_pipeline_probability": 0.3165,
+      "efficiency_score": 114718.0,
+      "name": "FHA",
+      "dimension": "product"
+    },
+    {
+      "pull_through_rate": 0.1985,
+      "pt_recent_3m": 0.2959,
+      "pt_prior_3m": 0.1439,
+      "pt_trend_delta": 0.152,
+      "pt_trend": "up",
+      "median_cycle_days": 31.0,
+      "avg_loan_amount": 407640.0,
+      "funded_volume_6m": 23278815.0,
+      "pipeline_volume_6m": 28880557.0,
+      "revenue_efficiency": 0.806,
+      "current_active_loans": 22,
+      "current_projected_value": 170277.0,
+      "avg_pipeline_probability": 0.2909,
+      "efficiency_score": 80910.0,
+      "name": "FHA BOND",
+      "dimension": "product"
+    },
+    {
+      "pull_through_rate": 0.399,
+      "pt_recent_3m": 0.4389,
+      "pt_prior_3m": 0.3773,
+      "pt_trend_delta": 0.0616,
+      "pt_trend": "up",
+      "median_cycle_days": 28.0,
+      "avg_loan_amount": 572790.0,
+      "funded_volume_6m": 559264667.0,
+      "pipeline_volume_6m": 789748423.0,
+      "revenue_efficiency": 0.7082,
+      "current_active_loans": 401,
+      "current_projected_value": 23070178.0,
+      "avg_pipeline_probability": 0.3044,
+      "efficiency_score": 228540.0,
+      "name": "NONCONFORMING",
+      "dimension": "product"
+    },
+    {
+      "pull_through_rate": 0.16,
+      "pt_recent_3m": 0.2045,
+      "pt_prior_3m": 0.0714,
+      "pt_trend_delta": 0.1331,
+      "pt_trend": "up",
+      "median_cycle_days": 29.0,
+      "avg_loan_amount": 511128.0,
+      "funded_volume_6m": 7791740.0,
+      "pipeline_volume_6m": 12989430.0,
+      "revenue_efficiency": 0.5999,
+      "current_active_loans": 9,
+      "current_projected_value": 552297.0,
+      "avg_pipeline_probability": 0.2337,
+      "efficiency_score": 81780.0,
+      "name": "VA",
+      "dimension": "product"
+    },
+    {
+      "pull_through_rate": 0.0925,
+      "pt_recent_3m": 0.2683,
+      "pt_prior_3m": 0.0844,
+      "pt_trend_delta": 0.1838,
+      "pt_trend": "up",
+      "median_cycle_days": 29.0,
+      "avg_loan_amount": 51476.0,
+      "funded_volume_6m": 2472953.0,
+      "pipeline_volume_6m": 3262151.0,
+      "revenue_efficiency": 0.7581,
+      "current_active_loans": 12,
+      "current_projected_value": 92548.0,
+      "avg_pipeline_probability": 0.3912,
+      "efficiency_score": 4759.0,
+      "name": "ZERO INTEREST PROGRAM",
+      "dimension": "product"
+    }
+  ],
+  "channels": [
+    {
+      "pull_through_rate": 0.0614,
+      "pt_recent_3m": 0.052,
+      "pt_prior_3m": 0.0609,
+      "pt_trend_delta": -0.0088,
+      "pt_trend": "flat",
+      "median_cycle_days": 30.0,
+      "avg_loan_amount": 431923.0,
+      "funded_volume_6m": 26966743.0,
+      "pipeline_volume_6m": 153929098.0,
+      "revenue_efficiency": 0.1752,
+      "current_active_loans": 59,
+      "current_projected_value": 670551.0,
+      "avg_pipeline_probability": 0.0534,
+      "efficiency_score": 26515.0,
+      "name": "Retail",
+      "dimension": "channel"
+    },
+    {
+      "pull_through_rate": 0.0,
+      "pt_recent_3m": 0.0,
+      "pt_prior_3m": 0.0,
+      "pt_trend_delta": 0.0,
+      "pt_trend": "flat",
+      "median_cycle_days": null,
+      "avg_loan_amount": 0.0,
+      "funded_volume_6m": 0.0,
+      "pipeline_volume_6m": 0.0,
+      "revenue_efficiency": 0.0,
+      "current_active_loans": 0,
+      "current_projected_value": 0.0,
+      "avg_pipeline_probability": 0.0,
+      "efficiency_score": 0.0,
+      "name": "Unknown",
+      "dimension": "channel"
+    },
+    {
+      "pull_through_rate": 0.2521,
+      "pt_recent_3m": 0.3306,
+      "pt_prior_3m": 0.2354,
+      "pt_trend_delta": 0.0952,
+      "pt_trend": "up",
+      "median_cycle_days": 29.0,
+      "avg_loan_amount": 474758.0,
+      "funded_volume_6m": 777153489.0,
+      "pipeline_volume_6m": 1262037203.0,
+      "revenue_efficiency": 0.6158,
+      "current_active_loans": 649,
+      "current_projected_value": 31773788.0,
+      "avg_pipeline_probability": 0.2971,
+      "efficiency_score": 119703.0,
+      "name": "Wholesale",
+      "dimension": "channel"
+    }
+  ],
+  "rankings": [
+    {
+      "rank": 1,
+      "name": "NONCONFORMING",
+      "efficiency_score": 228540.0,
+      "pull_through_rate": 0.399,
+      "avg_loan_amount": 572790.0,
+      "funded_volume_6m": 559264667.0,
+      "pt_trend": "up",
+      "tier": "top"
+    },
+    {
+      "rank": 2,
+      "name": "CONFORMING",
+      "efficiency_score": 115635.0,
+      "pull_through_rate": 0.2415,
+      "avg_loan_amount": 478809.0,
+      "funded_volume_6m": 77006486.0,
+      "pt_trend": "up",
+      "tier": "top"
+    },
+    {
+      "rank": 3,
+      "name": "FHA",
+      "efficiency_score": 114718.0,
+      "pull_through_rate": 0.2498,
+      "avg_loan_amount": 459277.0,
+      "funded_volume_6m": 77965527.0,
+      "pt_trend": "up",
+      "tier": "mid"
+    },
+    {
+      "rank": 4,
+      "name": "VA",
+      "efficiency_score": 81780.0,
+      "pull_through_rate": 0.16,
+      "avg_loan_amount": 511128.0,
+      "funded_volume_6m": 7791740.0,
+      "pt_trend": "up",
+      "tier": "mid"
+    },
+    {
+      "rank": 5,
+      "name": "FHA BOND",
+      "efficiency_score": 80910.0,
+      "pull_through_rate": 0.1985,
+      "avg_loan_amount": 407640.0,
+      "funded_volume_6m": 23278815.0,
+      "pt_trend": "up",
+      "tier": "mid"
+    },
+    {
+      "rank": 6,
+      "name": "2ND",
+      "efficiency_score": 51213.0,
+      "pull_through_rate": 0.276,
+      "avg_loan_amount": 185527.0,
+      "funded_volume_6m": 42299807.0,
+      "pt_trend": "up",
+      "tier": "mid"
+    },
+    {
+      "rank": 7,
+      "name": "CONVENTIONAL BOND STD MI",
+      "efficiency_score": 37166.0,
+      "pull_through_rate": 0.0747,
+      "avg_loan_amount": 497557.0,
+      "funded_volume_6m": 13001147.0,
+      "pt_trend": "up",
+      "tier": "mid"
+    },
+    {
+      "rank": 8,
+      "name": "CONVENTIONAL BOND",
+      "efficiency_score": 9164.0,
+      "pull_through_rate": 0.0299,
+      "avg_loan_amount": 306981.0,
+      "funded_volume_6m": 355960.0,
+      "pt_trend": "up",
+      "tier": "bottom"
+    },
+    {
+      "rank": 9,
+      "name": "ZERO INTEREST PROGRAM",
+      "efficiency_score": 4759.0,
+      "pull_through_rate": 0.0925,
+      "avg_loan_amount": 51476.0,
+      "funded_volume_6m": 2472953.0,
+      "pt_trend": "up",
+      "tier": "bottom"
+    }
+  ]
+},
+  "optimizationRecommendations": {
+  "total_estimated_impact": 7149296.0,
+  "recommendations": [
+    {
+      "priority": 1,
+      "title": "Secure rate locks on 3 unlocked late-stage loans",
+      "description": "These loans have reached Approved or later without a rate lock. Unlocked late-stage loans fund at ~8% vs ~42% for locked loans \u2014 contact borrowers immediately to secure pricing.",
+      "estimated_impact": 0.0,
+      "effort": "low",
+      "loan_count": 3,
+      "category": "lock_management",
+      "urgency": "immediate"
+    },
+    {
+      "priority": 2,
+      "title": "Rush CTC for 7 loans with locks expiring in 14 days",
+      "description": "Rate locks expire before these loans reach Clear-to-Close. Each day of delay risks lock expiry and borrower fallout. Prioritize condition clearance for this cohort.",
+      "estimated_impact": 1202526.0,
+      "effort": "medium",
+      "loan_count": 7,
+      "category": "pipeline_acceleration",
+      "urgency": "immediate"
+    },
+    {
+      "priority": 3,
+      "title": "Clear final conditions on 26 near-certain CTC+ loans",
+      "description": "These 26 loans are at CTC or beyond with 80%+ ML probability \u2014 they represent $12.8M in near-guaranteed volume. Dedicated ops support ensures they fund this month, not next.",
+      "estimated_impact": 484313.0,
+      "effort": "low",
+      "loan_count": 26,
+      "category": "pipeline_acceleration",
+      "urgency": "this_week"
+    },
+    {
+      "priority": 4,
+      "title": "Re-engage 17 stalled above-median loans",
+      "description": "These above-median loans have been at the same stage for 73+ days on average \u2014 longer than historical norms. Proactive borrower outreach and condition escalation can move them before month-end.",
+      "estimated_impact": 2272552.0,
+      "effort": "medium",
+      "loan_count": 17,
+      "category": "borrower_engagement",
+      "urgency": "this_week"
+    },
+    {
+      "priority": 6,
+      "title": "Archive 401 eliminated loans to free ops capacity",
+      "description": "401 loans ($167.1M face value) have been flagged by the elimination filter as unlikely to fund. Formally closing them stops ops follow-up on dead deals and redirects focus to the live pipeline.",
+      "estimated_impact": 2939733.0,
+      "effort": "low",
+      "loan_count": 401,
+      "category": "resource_reallocation",
+      "urgency": "this_week"
+    },
+    {
+      "priority": 7,
+      "title": "Lift Retail pull-through: coach LOs on 5 at-risk loans",
+      "description": "Retail channel pull-through runs ~10% vs 42% Wholesale. 5 Retail loans have <40% ML probability. Targeted LO coaching and condition tracking can lift conversion on these deals.",
+      "estimated_impact": 250172.0,
+      "effort": "high",
+      "loan_count": 5,
+      "category": "resource_reallocation",
+      "urgency": "this_month"
+    }
+  ]
+}
 };
 
 
@@ -2226,17 +3340,19 @@ function Metric({ label, value, sub, accent, delay }) {
   return (
     <div className="fade-up" style={{
       animationDelay: (delay || 0) + "ms",
-      padding: "20px 24px",
+      padding: "22px 26px",
       background: "var(--bg-card)",
       border: "1px solid var(--border-subtle)",
-      borderRadius: 10,
+      borderRadius: "var(--card-radius)",
+      boxShadow: "var(--card-shadow)",
       position: "relative",
       overflow: "hidden",
+      transition: "box-shadow 0.2s ease, border-color 0.2s ease",
     }}>
       {accent && <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: accent }} />}
-      <p style={{ fontFamily: "var(--font-sans)", fontSize: 11, fontWeight: 500, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em" }}>{label}</p>
-      <p style={{ fontFamily: "var(--font-mono)", fontSize: 26, fontWeight: 500, color: accent || "var(--text-primary)", marginTop: 6, letterSpacing: "-0.02em" }}>{value}</p>
-      {sub && <p style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--text-secondary)", marginTop: 4 }}>{sub}</p>}
+      <p style={{ fontFamily: "var(--font-sans)", fontSize: 11, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em" }}>{label}</p>
+      <p style={{ fontFamily: "var(--font-mono)", fontSize: 28, fontWeight: 600, color: accent || "var(--text-primary)", marginTop: 8, letterSpacing: "-0.03em", lineHeight: 1.1 }}>{value}</p>
+      {sub && <p style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--text-secondary)", marginTop: 6, lineHeight: 1.4 }}>{sub}</p>}
     </div>
   );
 }
@@ -2245,11 +3361,11 @@ function ProbBar({ value }) {
   const pct = Math.round(value * 100);
   const color = probColor(value);
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-      <div style={{ width: 48, height: 4, borderRadius: 2, background: "var(--bg-surface)", overflow: "hidden" }}>
-        <div style={{ width: pct + "%", height: "100%", borderRadius: 2, background: color }} />
+    <div style={{ display: "flex", alignItems: "center", gap: 8, justifyContent: "center" }}>
+      <div style={{ width: 56, height: 6, borderRadius: 3, background: "var(--bg-surface)", overflow: "hidden" }}>
+        <div style={{ width: pct + "%", height: "100%", borderRadius: 3, background: color, transition: "width 0.4s ease" }} />
       </div>
-      <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 500, color, minWidth: 28 }}>{pct}%</span>
+      <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 600, color, minWidth: 32, textAlign: "right" }}>{pct}%</span>
     </div>
   );
 }
@@ -2258,9 +3374,9 @@ function ChartTooltip({ active, payload, label, suffix, formatter }) {
   if (!active || !payload || !payload.length) return null;
   return (
     <div style={{
-      background: "var(--bg-card)", padding: "10px 14px", borderRadius: 8,
-      border: "1px solid var(--border)", boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
-      fontFamily: "var(--font-sans)", fontSize: 12,
+      background: "var(--bg-card)", padding: "12px 16px", borderRadius: 10,
+      border: "1px solid var(--border)", boxShadow: "var(--card-shadow-lg)",
+      fontFamily: "var(--font-sans)", fontSize: 13,
     }}>
       <div style={{ fontWeight: 600, color: "var(--text-primary)", marginBottom: 4 }}>{label}</div>
       {payload.map((entry, i) => {
@@ -2279,9 +3395,142 @@ function ChartTooltip({ active, payload, label, suffix, formatter }) {
 
 function SectionTitle({ title, sub }) {
   return (
-    <div style={{ marginBottom: 16 }}>
-      <h3 style={{ fontFamily: "var(--font-sans)", fontSize: 15, fontWeight: 600, color: "var(--text-primary)", letterSpacing: "-0.01em" }}>{title}</h3>
-      {sub && <p style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--text-muted)", marginTop: 3 }}>{sub}</p>}
+    <div style={{ marginBottom: 18 }}>
+      <h3 style={{ fontFamily: "var(--font-sans)", fontSize: 16, fontWeight: 700, color: "var(--text-primary)", letterSpacing: "-0.02em" }}>{title}</h3>
+      {sub && <p style={{ fontFamily: "var(--font-sans)", fontSize: 12.5, color: "var(--text-muted)", marginTop: 4, lineHeight: 1.5 }}>{sub}</p>}
+    </div>
+  );
+}
+
+
+// ─── Optimization Recommendations Component ────────────────────────────────
+
+function OptimizationRecommendations() {
+  const rec = DATA.optimizationRecommendations || {};
+  const items = rec.recommendations || [];
+  if (items.length === 0) return null;
+
+  const urgencyConfig = {
+    immediate: { label: "IMMEDIATE", color: "var(--red)", bg: "rgba(232,113,106,0.12)" },
+    this_week: { label: "THIS WEEK", color: "var(--copper)", bg: "var(--copper-glow)" },
+    this_month: { label: "THIS MONTH", color: "var(--blue)", bg: "rgba(106,163,212,0.12)" },
+  };
+  const effortConfig = {
+    low:    { label: "LOW EFFORT",    color: "var(--green)" },
+    medium: { label: "MED EFFORT",   color: "var(--copper)" },
+    high:   { label: "HIGH EFFORT",  color: "var(--red)" },
+  };
+  const categoryLabels = {
+    lock_management:      "Lock Mgmt",
+    pipeline_acceleration: "Pipeline",
+    borrower_engagement:  "Borrower",
+    resource_reallocation: "Ops Focus",
+  };
+
+  return (
+    <div className="fade-up" style={{ marginBottom: 24, padding: 24, background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: "var(--card-radius)", boxShadow: "var(--card-shadow)" }}>
+      {/* Header */}
+      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 18 }}>
+        <div>
+          <h3 style={{ fontFamily: "var(--font-sans)", fontSize: 15, fontWeight: 700, color: "var(--text-primary)", letterSpacing: "-0.01em" }}>
+            This Week's Top Actions
+          </h3>
+          <p style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--text-muted)", marginTop: 3 }}>
+            Ranked by estimated dollar impact — {items.length} prioritized actions identified
+          </p>
+        </div>
+        <div style={{ textAlign: "right" }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 22, fontWeight: 600, color: "var(--copper)", letterSpacing: "-0.02em" }}>
+            {fmtM(rec.total_estimated_impact)}
+          </div>
+          <div style={{ fontFamily: "var(--font-sans)", fontSize: 11, color: "var(--text-muted)", marginTop: 2 }}>
+            TOTAL ESTIMATED IMPACT
+          </div>
+        </div>
+      </div>
+
+      {/* Recommendation cards */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        {items.map((item, i) => {
+          const urg = urgencyConfig[item.urgency] || urgencyConfig.this_week;
+          const eff = effortConfig[item.effort] || effortConfig.medium;
+          const isPriority1 = item.priority === 1;
+          const isImmediate = item.urgency === "immediate";
+
+          return (
+            <div key={i} style={{
+              display: "flex", alignItems: "flex-start", gap: 16,
+              padding: "14px 18px",
+              background: isImmediate ? "rgba(232,113,106,0.05)" : "var(--bg-surface)",
+              border: isImmediate ? "1px solid rgba(232,113,106,0.25)" : "1px solid var(--border-subtle)",
+              borderRadius: 8,
+              transition: "background 0.15s",
+            }}>
+              {/* Priority badge */}
+              <div style={{
+                flexShrink: 0,
+                width: 32, height: 32,
+                borderRadius: "50%",
+                background: isPriority1 ? "var(--copper)" : isImmediate ? "rgba(232,113,106,0.2)" : "var(--bg-card)",
+                border: isPriority1 ? "none" : `1px solid ${isImmediate ? "rgba(232,113,106,0.4)" : "var(--border)"}`,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontFamily: "var(--font-mono)", fontSize: 13, fontWeight: 700,
+                color: isPriority1 ? "#0C0F14" : isImmediate ? "var(--red)" : "var(--text-secondary)",
+              }}>
+                {item.priority}
+              </div>
+
+              {/* Content */}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+                  <span style={{ fontFamily: "var(--font-sans)", fontSize: 13, fontWeight: 600, color: "var(--text-primary)" }}>
+                    {item.title}
+                  </span>
+                  <span style={{
+                    fontFamily: "var(--font-mono)", fontSize: 9, fontWeight: 700,
+                    padding: "2px 7px", borderRadius: 4,
+                    color: urg.color, background: urg.bg,
+                    letterSpacing: "0.04em",
+                  }}>
+                    {urg.label}
+                  </span>
+                  <span style={{
+                    fontFamily: "var(--font-mono)", fontSize: 9, fontWeight: 600,
+                    color: "var(--text-muted)", letterSpacing: "0.03em",
+                  }}>
+                    {categoryLabels[item.category] || item.category}
+                  </span>
+                </div>
+                <p style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--text-secondary)", marginTop: 4, lineHeight: 1.5 }}>
+                  {item.description}
+                </p>
+                <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 6 }}>
+                  <span style={{ fontFamily: "var(--font-sans)", fontSize: 11, color: "var(--text-muted)" }}>
+                    {item.loan_count} loan{item.loan_count !== 1 ? "s" : ""} affected
+                  </span>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 600, color: eff.color }}>
+                    {eff.label}
+                  </span>
+                </div>
+              </div>
+
+              {/* Impact */}
+              <div style={{ flexShrink: 0, textAlign: "right" }}>
+                <div style={{
+                  fontFamily: "var(--font-mono)", fontSize: 18, fontWeight: 600,
+                  color: item.estimated_impact > 0 ? "var(--green)" : "var(--text-muted)",
+                  letterSpacing: "-0.01em",
+                }}>
+                  {item.estimated_impact > 0 ? "+" + fmtM(item.estimated_impact) : "Capacity"}
+                </div>
+                <div style={{ fontFamily: "var(--font-sans)", fontSize: 10, color: "var(--text-muted)", marginTop: 2 }}>
+                  est. impact
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -2297,8 +3546,11 @@ function OverviewTab() {
 
   return (
     <div>
+      {/* Executive Briefing — Optimization Recommendations */}
+      <OptimizationRecommendations />
+
       {/* KPI Row */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 18 }}>
         <Metric label="Total Pipeline" value={fmtM(s.total_pipeline_value)} sub={s.total_pipeline_loans.toLocaleString() + " loans"} delay={0} />
         <Metric label="Live Pipeline" value={fmtM(s.live_pipeline_value)} sub={s.live_pipeline_loans + " passing filter"} accent="var(--green)" delay={60} />
         <Metric label="Eliminated" value={fmtM(s.dead_pipeline_value)} sub={s.elimination_stats.pct_eliminated + "% flagged"} accent="var(--red)" delay={120} />
@@ -2307,7 +3559,7 @@ function OverviewTab() {
       </div>
 
       {/* Stage Funnel */}
-      <div className="fade-up" style={{ animationDelay: "300ms", marginTop: 24, padding: 24, background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: 10 }}>
+      <div className="fade-up" style={{ animationDelay: "300ms", marginTop: 28, padding: 24, background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: "var(--card-radius)", boxShadow: "var(--card-shadow)" }}>
         <SectionTitle title="Pipeline Stage Distribution" sub="Loan volume by stage — gray is total pipeline, blue is live" />
         <div style={{ height: Math.max(300, funnel.length * 30) }}>
           <ResponsiveContainer width="100%" height="100%">
@@ -2324,9 +3576,9 @@ function OverviewTab() {
       </div>
 
       {/* Channel + Product */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginTop: 16 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginTop: 20 }}>
         {/* Channel */}
-        <div className="fade-up" style={{ animationDelay: "360ms", padding: 24, background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: 10 }}>
+        <div className="fade-up" style={{ animationDelay: "360ms", padding: 24, background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: "var(--card-radius)", boxShadow: "var(--card-shadow)" }}>
           <SectionTitle title="Channel Breakdown" sub="Wholesale vs Retail" />
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
             {channels.map((ch) => (
@@ -2342,7 +3594,7 @@ function OverviewTab() {
         </div>
 
         {/* Product */}
-        <div className="fade-up" style={{ animationDelay: "420ms", padding: 24, background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: 10 }}>
+        <div className="fade-up" style={{ animationDelay: "420ms", padding: 24, background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: "var(--card-radius)", boxShadow: "var(--card-shadow)" }}>
           <SectionTitle title="Product Breakdown" sub="Projected funding by loan product" />
           <div style={{ height: Math.max(180, products.length * 32) }}>
             <ResponsiveContainer width="100%" height="100%">
@@ -2391,8 +3643,8 @@ function WatchListTab() {
   const loanShown = loanExpanded ? allLoans : allLoans.slice(0, 15);
   const isDead = loanTab === "dead";
 
-  const thStyle = { padding: "10px 14px", fontFamily: "var(--font-sans)", fontSize: 10, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.06em", whiteSpace: "nowrap" };
-  const tdStyle = { padding: "10px 14px", fontFamily: "var(--font-sans)", fontSize: 12 };
+  const thStyle = { padding: "10px 14px", fontFamily: "var(--font-sans)", fontSize: 11, fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.05em", whiteSpace: "nowrap", textAlign: "center" };
+  const tdStyle = { padding: "12px 14px", fontFamily: "var(--font-sans)", fontSize: 13, textAlign: "center" };
 
   return (
     <div>
@@ -2401,14 +3653,14 @@ function WatchListTab() {
         <div className="fade-up" style={{ background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: 10, overflow: "hidden" }}>
           <div style={{ padding: "18px 24px", borderBottom: "1px solid var(--border-subtle)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <div>
-              <h3 style={{ fontFamily: "var(--font-sans)", fontSize: 15, fontWeight: 600, color: "var(--text-primary)" }}>
+              <h3 style={{ fontFamily: "var(--font-sans)", fontSize: 16, fontWeight: 700, color: "var(--text-primary)", letterSpacing: "-0.02em" }}>
                 At-Risk Watch List
               </h3>
               <p style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>
                 Live loans needing ops intervention
               </p>
             </div>
-            <div style={{ fontFamily: "var(--font-mono)", fontSize: 13, color: "var(--red)" }}>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: 14, fontWeight: 500, color: "var(--red)" }}>
               {atRisk.length} flagged &middot; {fmtM(atRisk.reduce((s, l) => s + (l.expected_value || 0), 0))} at stake
             </div>
           </div>
@@ -2419,21 +3671,21 @@ function WatchListTab() {
                   <th style={{ ...thStyle, width: 36 }}>#</th>
                   <th style={thStyle}>Product</th>
                   <th style={thStyle}>Stage</th>
-                  <th style={{ ...thStyle, textAlign: "right" }}>Days</th>
+                  <th style={thStyle}>Days</th>
                   <th style={thStyle}>Prob</th>
-                  <th style={{ ...thStyle, textAlign: "right" }}>Amount</th>
-                  <th style={thStyle}>Risk</th>
+                  <th style={thStyle}>Amount</th>
+                  <th style={{ ...thStyle, textAlign: "left" }}>Risk</th>
                 </tr>
               </thead>
               <tbody>
                 {riskShown.map((loan, i) => (
                   <tr key={loan.loan_guid || i} style={{ borderBottom: "1px solid var(--border-subtle)", background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.01)" }}>
                     <td style={{ ...tdStyle, color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>{i + 1}</td>
-                    <td style={{ ...tdStyle, fontWeight: 600, color: "var(--text-primary)" }}>{loan.product_type || "\u2014"}</td>
+                    <td style={{ ...tdStyle, fontWeight: 600, color: "var(--text-primary)", textAlign: "left" }}>{loan.product_type || "\u2014"}</td>
                     <td style={{ ...tdStyle, color: "var(--text-secondary)" }}>{loan.current_stage}</td>
-                    <td style={{ ...tdStyle, textAlign: "right", fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>{loan.days_at_stage}d</td>
+                    <td style={{ ...tdStyle, fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>{loan.days_at_stage}d</td>
                     <td style={tdStyle}><ProbBar value={loan.ml_probability} /></td>
-                    <td style={{ ...tdStyle, textAlign: "right", fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>{fmtK(loan.loan_amount)}</td>
+                    <td style={{ ...tdStyle, fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>{fmtK(loan.loan_amount)}</td>
                     <td style={tdStyle}>
                       <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
                         {loan.risk_reasons.map((reason, j) => {
@@ -2491,11 +3743,11 @@ function WatchListTab() {
                 <th style={{ ...thStyle, width: 36 }}>#</th>
                 <th style={thStyle}>Product</th>
                 <th style={thStyle}>Stage</th>
-                <th style={{ ...thStyle, textAlign: "right" }}>Days</th>
-                <th style={{ ...thStyle, textAlign: "center" }}>Lock</th>
+                <th style={thStyle}>Days</th>
+                <th style={thStyle}>Lock</th>
                 <th style={thStyle}>Probability</th>
-                <th style={{ ...thStyle, textAlign: "right" }}>Amount</th>
-                <th style={{ ...thStyle, textAlign: "right" }}>Exp. Value</th>
+                <th style={thStyle}>Amount</th>
+                <th style={thStyle}>Exp. Value</th>
                 {isDead && <th style={thStyle}>Rule</th>}
                 {isDead && <th style={thStyle}>Archetype</th>}
               </tr>
@@ -2504,15 +3756,15 @@ function WatchListTab() {
               {loanShown.map((loan, i) => (
                 <tr key={loan.loan_guid} style={{ borderBottom: "1px solid var(--border-subtle)", opacity: isDead ? 0.6 : 1, background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.01)" }}>
                   <td style={{ ...tdStyle, color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>{i + 1}</td>
-                  <td style={{ ...tdStyle, fontWeight: 600, color: isDead ? "var(--text-muted)" : "var(--text-primary)" }}>{loan.product_type || "\u2014"}</td>
+                  <td style={{ ...tdStyle, fontWeight: 600, color: isDead ? "var(--text-muted)" : "var(--text-primary)", textAlign: "left" }}>{loan.product_type || "\u2014"}</td>
                   <td style={{ ...tdStyle, color: "var(--text-secondary)" }}>{loan.current_stage}</td>
-                  <td style={{ ...tdStyle, textAlign: "right", fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>{loan.days_at_stage}d</td>
-                  <td style={{ ...tdStyle, textAlign: "center", fontSize: 14 }}>{loan.is_locked ? "\ud83d\udd12" : "\ud83d\udd13"}</td>
+                  <td style={{ ...tdStyle, fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>{loan.days_at_stage}d</td>
+                  <td style={{ ...tdStyle, fontSize: 14 }}>{loan.is_locked ? "\ud83d\udd12" : "\ud83d\udd13"}</td>
                   <td style={tdStyle}><ProbBar value={loan.ml_probability} /></td>
-                  <td style={{ ...tdStyle, textAlign: "right", fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>{fmtK(loan.loan_amount)}</td>
-                  <td style={{ ...tdStyle, textAlign: "right", fontFamily: "var(--font-mono)", fontWeight: 600, color: isDead ? "var(--text-muted)" : "var(--text-primary)" }}>{fmtK(loan.expected_value)}</td>
-                  {isDead && <td style={{ ...tdStyle, fontSize: 10, color: "var(--text-muted)" }}>{RULE_LABELS[loan.elimination_rule] || loan.elimination_rule || "\u2014"}</td>}
-                  {isDead && <td style={{ ...tdStyle, fontSize: 10, color: "var(--text-muted)" }}>{loan.failure_archetype || "\u2014"}</td>}
+                  <td style={{ ...tdStyle, fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>{fmtK(loan.loan_amount)}</td>
+                  <td style={{ ...tdStyle, fontFamily: "var(--font-mono)", fontWeight: 600, color: isDead ? "var(--text-muted)" : "var(--text-primary)" }}>{fmtK(loan.expected_value)}</td>
+                  {isDead && <td style={{ ...tdStyle, fontSize: 10, color: "var(--text-muted)", textAlign: "left" }}>{RULE_LABELS[loan.elimination_rule] || loan.elimination_rule || "\u2014"}</td>}
+                  {isDead && <td style={{ ...tdStyle, fontSize: 10, color: "var(--text-muted)", textAlign: "left" }}>{loan.failure_archetype || "\u2014"}</td>}
                 </tr>
               ))}
             </tbody>
@@ -2553,7 +3805,7 @@ function TrendsTab() {
   return (
     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
       {/* Pull-Through */}
-      <div className="fade-up" style={{ padding: 24, background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: 10 }}>
+      <div className="fade-up" style={{ padding: 24, background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: "var(--card-radius)", boxShadow: "var(--card-shadow)" }}>
         <SectionTitle title="Pull-Through Rate" sub="Funded loans as % of pipeline at month start" />
         <div style={{ height: 280, marginTop: 12 }}>
           <ResponsiveContainer width="100%" height="100%">
@@ -2570,7 +3822,7 @@ function TrendsTab() {
       </div>
 
       {/* Cycle Time */}
-      <div className="fade-up" style={{ animationDelay: "80ms", padding: 24, background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: 10 }}>
+      <div className="fade-up" style={{ animationDelay: "80ms", padding: 24, background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: "var(--card-radius)", boxShadow: "var(--card-shadow)" }}>
         <SectionTitle title="Cycle Times" sub={cs.above_sla_pct + "% exceed 45-day SLA"} />
         <div style={{ height: 280, marginTop: 12 }}>
           <ResponsiveContainer width="100%" height="100%">
@@ -2597,12 +3849,1009 @@ function TrendsTab() {
   );
 }
 
+
+// ─── Tab: Revenue at Risk ─────────────────────────────────────────────────
+
+function RevenueAtRiskTab() {
+  const rar = DATA.revenueAtRisk;
+  const buckets = (rar.buckets || []).filter(b => b.loan_count > 0);
+  const recovery = rar.top_recovery || [];
+  const thStyle = { padding: "10px 14px", fontFamily: "var(--font-sans)", fontSize: 11, fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.05em", whiteSpace: "nowrap", textAlign: "center" };
+  const tdStyle = { padding: "12px 14px", fontFamily: "var(--font-sans)", fontSize: 13, textAlign: "center" };
+
+  const bucketColors = {
+    stalled_high_value: "var(--copper)",
+    low_prob_high_val: "var(--red)",
+    lock_expiring: "#E8716A",
+    no_lock_late: "#D4956A",
+    lock_expired: "#E85A5A",
+  };
+
+  const pctAtRisk = rar.live_pipeline_value > 0
+    ? Math.round(rar.total_at_risk / rar.live_pipeline_value * 100) : 0;
+
+  return (
+    <div>
+      {/* Hero KPIs */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 18 }}>
+        <Metric label="Total Revenue at Risk" value={fmtM(rar.total_at_risk)} sub={pctAtRisk + "% of live pipeline"} accent="var(--red)" delay={0} />
+        <Metric label="Recovery Potential" value={fmtM(rar.total_recovery_potential)} sub={"Top " + recovery.length + " actionable loans"} accent="var(--copper)" delay={60} />
+        <Metric label="Risk Categories" value={buckets.length} sub={"Across " + buckets.reduce((s, b) => s + b.loan_count, 0) + " affected loans"} delay={120} />
+        <Metric label="Live Pipeline" value={fmtM(rar.live_pipeline_value)} sub="Total value of active loans" accent="var(--green)" delay={180} />
+      </div>
+
+      {/* Risk Buckets */}
+      <div className="fade-up" style={{ animationDelay: "240ms", marginTop: 28, padding: 24, background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: "var(--card-radius)", boxShadow: "var(--card-shadow)" }}>
+        <SectionTitle title="Revenue at Risk by Category" sub="Each category represents a specific risk pattern with a recommended action" />
+
+        <div style={{ display: "grid", gap: 12, marginTop: 8 }}>
+          {buckets.map((b, i) => {
+            const pct = rar.total_at_risk > 0 ? (b.value_at_risk / rar.total_at_risk * 100) : 0;
+            return (
+              <div key={b.id} className="fade-up" style={{
+                animationDelay: (280 + i * 60) + "ms",
+                padding: "18px 22px",
+                background: "var(--bg-surface)",
+                border: "1px solid var(--border-subtle)",
+                borderRadius: 8,
+                borderLeft: "3px solid " + (bucketColors[b.id] || "var(--copper)"),
+              }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
+                      <span style={{ fontFamily: "var(--font-sans)", fontSize: 14, fontWeight: 600, color: "var(--text-primary)" }}>{b.label}</span>
+                      <span style={{
+                        fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 600,
+                        padding: "2px 8px", borderRadius: 4,
+                        background: "var(--red-dim)", color: "var(--red)",
+                      }}>{b.loan_count} loans</span>
+                    </div>
+                    <p style={{ fontFamily: "var(--font-sans)", fontSize: 11, color: "var(--text-muted)", marginBottom: 8 }}>{b.description}</p>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <span style={{ fontFamily: "var(--font-sans)", fontSize: 10, fontWeight: 600, color: "var(--green)", background: "var(--green-dim)", padding: "2px 8px", borderRadius: 3 }}>ACTION</span>
+                      <span style={{ fontFamily: "var(--font-sans)", fontSize: 11, color: "var(--text-secondary)" }}>{b.action}</span>
+                    </div>
+                  </div>
+                  <div style={{ textAlign: "right", minWidth: 140, marginLeft: 20 }}>
+                    <p style={{ fontFamily: "var(--font-mono)", fontSize: 22, fontWeight: 500, color: bucketColors[b.id] || "var(--copper)", letterSpacing: "-0.02em" }}>{fmtM(b.value_at_risk)}</p>
+                    <p style={{ fontFamily: "var(--font-sans)", fontSize: 11, color: "var(--text-muted)", marginTop: 2 }}>at risk &middot; {Math.round(pct)}% of total</p>
+                    <div style={{ marginTop: 6, height: 4, borderRadius: 2, background: "var(--bg-card)", overflow: "hidden" }}>
+                      <div style={{ width: pct + "%", height: "100%", borderRadius: 2, background: bucketColors[b.id] || "var(--copper)" }} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Top Recovery Opportunities */}
+      <div className="fade-up" style={{ animationDelay: "500ms", marginTop: 20, background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: 10, overflow: "hidden" }}>
+        <div style={{ padding: "18px 24px", borderBottom: "1px solid var(--border-subtle)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div>
+            <h3 style={{ fontFamily: "var(--font-sans)", fontSize: 16, fontWeight: 700, color: "var(--text-primary)", letterSpacing: "-0.02em" }}>Top Recovery Opportunities</h3>
+            <p style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>Loans with the largest gap between current expected value and full loan amount — prioritize intervention here</p>
+          </div>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: 14, fontWeight: 500, color: "var(--copper)" }}>
+            {fmtM(rar.total_recovery_potential)} recoverable
+          </div>
+        </div>
+        <div style={{ overflowX: "auto" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <thead>
+              <tr style={{ borderBottom: "1px solid var(--border-subtle)" }}>
+                <th style={{ ...thStyle, width: 36 }}>#</th>
+                <th style={thStyle}>Product</th>
+                <th style={thStyle}>Stage</th>
+                <th style={thStyle}>Days</th>
+                <th style={thStyle}>Prob</th>
+                <th style={thStyle}>Loan Amt</th>
+                <th style={{ ...thStyle, color: "var(--copper)" }}>Recovery Gap</th>
+                <th style={thStyle}>Risk Factors</th>
+              </tr>
+            </thead>
+            <tbody>
+              {recovery.map((loan, i) => (
+                <tr key={loan.loan_guid || i} style={{ borderBottom: "1px solid var(--border-subtle)", background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.01)" }}>
+                  <td style={{ ...tdStyle, color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>{i + 1}</td>
+                  <td style={{ ...tdStyle, fontWeight: 600, color: "var(--text-primary)", textAlign: "left" }}>{loan.product_type || "\u2014"}</td>
+                  <td style={{ ...tdStyle, color: "var(--text-secondary)" }}>{loan.current_stage}</td>
+                  <td style={{ ...tdStyle, fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>{loan.days_at_stage}d</td>
+                  <td style={tdStyle}><ProbBar value={loan.ml_probability} /></td>
+                  <td style={{ ...tdStyle, fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>{fmtK(loan.loan_amount)}</td>
+                  <td style={{ ...tdStyle, fontFamily: "var(--font-mono)", fontWeight: 600, color: "var(--copper)" }}>{fmtK(loan.recovery_gap)}</td>
+                  <td style={tdStyle}>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 4 }}>
+                      {loan.risk_factors.map((rf, j) => (
+                        <span key={j} style={{
+                          display: "inline-block", padding: "2px 7px", borderRadius: 3,
+                          fontFamily: "var(--font-sans)", fontSize: 9, fontWeight: 600,
+                          color: "var(--copper)", background: "var(--bg-surface)", border: "1px solid var(--border)",
+                        }}>{rf}</span>
+                      ))}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Tab: Pipeline Health ─────────────────────────────────────────────────
+
+function PipelineHealthTab() {
+  const bn = DATA.bottleneckDetection;
+  const vm = DATA.velocityMomentum;
+  const heatmap = bn.heatmap || [];
+  const products = bn.products || [];
+  const convRates = bn.conversion_rates || [];
+  const bottlenecks = bn.current_bottlenecks || [];
+  const distribution = vm.distribution || [];
+  const stageVel = vm.stage_velocity || [];
+  const alerts = vm.momentum_alerts || [];
+
+  const thStyle = { padding: "10px 14px", fontFamily: "var(--font-sans)", fontSize: 11, fontWeight: 700, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.05em", whiteSpace: "nowrap", textAlign: "center" };
+  const tdStyle = { padding: "12px 14px", fontFamily: "var(--font-sans)", fontSize: 13, textAlign: "center" };
+
+  // Color scale for heatmap cells (days)
+  const heatColor = (v, transition) => {
+    if (v === null || v === undefined) return { bg: "transparent", text: "var(--text-muted)" };
+    // Approved→CTC is the long one — different scale
+    const isLong = transition.includes("Approved");
+    const thresholds = isLong ? [10, 18, 25, 35] : [2, 5, 8, 12];
+    if (v <= thresholds[0]) return { bg: "rgba(107,191,138,0.2)", text: "var(--green)" };
+    if (v <= thresholds[1]) return { bg: "rgba(107,191,138,0.1)", text: "var(--green)" };
+    if (v <= thresholds[2]) return { bg: "rgba(212,149,106,0.15)", text: "var(--copper)" };
+    if (v <= thresholds[3]) return { bg: "rgba(232,113,106,0.12)", text: "var(--red)" };
+    return { bg: "rgba(232,113,106,0.2)", text: "var(--red)" };
+  };
+
+  const bandColors = {
+    "Fast Track": "var(--green)",
+    "On Pace": "var(--blue)",
+    "Slow": "var(--copper)",
+    "Stalled": "var(--red)",
+  };
+
+  const bandDimColors = {
+    "Fast Track": "var(--green-dim)",
+    "On Pace": "var(--blue-dim)",
+    "Slow": "var(--copper-glow)",
+    "Stalled": "var(--red-dim)",
+  };
+
+  const totalVelLoans = distribution.reduce((s, d) => s + d.loan_count, 0);
+
+  return (
+    <div>
+      {/* Row 1: Bottleneck Heatmap + Conversion Funnel */}
+      <div style={{ display: "grid", gridTemplateColumns: "3fr 2fr", gap: 16 }}>
+
+        {/* Bottleneck Heatmap */}
+        <div className="fade-up" style={{ padding: 24, background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: "var(--card-radius)", boxShadow: "var(--card-shadow)" }}>
+          <SectionTitle title="Stage Transition Times by Product" sub="Median days between pipeline stages — green is fast, red is slow. The Approved-to-CTC transition is where most time is spent." />
+          <div style={{ overflowX: "auto", marginTop: 8 }}>
+            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+              <thead>
+                <tr style={{ borderBottom: "1px solid var(--border-subtle)" }}>
+                  <th style={{ ...thStyle, textAlign: "left" }}>Transition</th>
+                  <th style={{ ...thStyle, textAlign: "center" }}>Overall</th>
+                  {products.map(p => (
+                    <th key={p} style={{ ...thStyle, textAlign: "center" }}>{p}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {heatmap.map((row, i) => (
+                  <tr key={i} style={{ borderBottom: "1px solid var(--border-subtle)" }}>
+                    <td style={{ ...tdStyle, fontWeight: 600, color: "var(--text-primary)", whiteSpace: "nowrap", textAlign: "left" }}>{row.transition}</td>
+                    <td style={{ ...tdStyle, textAlign: "center" }}>
+                      <span style={{
+                        fontFamily: "var(--font-mono)", fontSize: 13, fontWeight: 600,
+                        color: "var(--text-primary)",
+                      }}>{row.overall_median}d</span>
+                    </td>
+                    {products.map(p => {
+                      const v = row[p];
+                      const c = heatColor(v, row.transition);
+                      return (
+                        <td key={p} style={{ ...tdStyle, textAlign: "center" }}>
+                          {v !== null ? (
+                            <span style={{
+                              display: "inline-block", padding: "4px 10px", borderRadius: 4,
+                              fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 600,
+                              color: c.text, background: c.bg,
+                            }}>{v}d</span>
+                          ) : (
+                            <span style={{ color: "var(--text-muted)", fontSize: 10 }}>&mdash;</span>
+                          )}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Conversion Funnel */}
+        <div className="fade-up" style={{ animationDelay: "80ms", padding: 24, background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: "var(--card-radius)", boxShadow: "var(--card-shadow)" }}>
+          <SectionTitle title="Stage Conversion Rates" sub="Of loans that reach each stage, what % ultimately fund? The critical drop-off zone is before Condition Review." />
+          <div style={{ marginTop: 12 }}>
+            {convRates.filter(c => c.stage !== "Funded").map((c, i) => {
+              const pct = Math.round(c.conversion_rate * 100);
+              const barColor = pct >= 95 ? "var(--green)" : pct >= 70 ? "var(--blue)" : pct >= 50 ? "var(--copper)" : "var(--red)";
+              return (
+                <div key={c.stage} className="fade-up" style={{
+                  animationDelay: (120 + i * 40) + "ms",
+                  display: "flex", alignItems: "center", gap: 12, marginBottom: 10,
+                }}>
+                  <span style={{ fontFamily: "var(--font-sans)", fontSize: 11, fontWeight: 500, color: "var(--text-secondary)", width: 90, textAlign: "right", flexShrink: 0 }}>{c.stage}</span>
+                  <div style={{ flex: 1, height: 20, borderRadius: 4, background: "var(--bg-surface)", overflow: "hidden", position: "relative" }}>
+                    <div style={{ width: pct + "%", height: "100%", borderRadius: 4, background: barColor, transition: "width 0.6s ease" }} />
+                    <span style={{
+                      position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)",
+                      fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 600, color: "var(--text-primary)",
+                    }}>{pct}%</span>
+                  </div>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, color: "var(--text-muted)", width: 50, flexShrink: 0 }}>{c.funded_count.toLocaleString()}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Row 2: Velocity Distribution + Current Bottlenecks */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginTop: 20 }}>
+
+        {/* Velocity Distribution */}
+        <div className="fade-up" style={{ animationDelay: "300ms", padding: 24, background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: "var(--card-radius)", boxShadow: "var(--card-shadow)" }}>
+          <SectionTitle title="Loan Velocity Distribution" sub="How fast are loans moving through the pipeline? Velocity = stages progressed per day since open." />
+          <div style={{ marginTop: 12 }}>
+            {distribution.map((d, i) => {
+              const pct = totalVelLoans > 0 ? (d.loan_count / totalVelLoans * 100) : 0;
+              const color = bandColors[d.band] || "var(--text-secondary)";
+              const dimColor = bandDimColors[d.band] || "var(--bg-surface)";
+              return (
+                <div key={d.band} className="fade-up" style={{
+                  animationDelay: (340 + i * 60) + "ms",
+                  padding: "14px 18px", marginBottom: 8, borderRadius: 8,
+                  background: dimColor, border: "1px solid var(--border-subtle)",
+                }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <span style={{
+                        display: "inline-block", width: 8, height: 8, borderRadius: "50%",
+                        background: color,
+                      }} />
+                      <span style={{ fontFamily: "var(--font-sans)", fontSize: 13, fontWeight: 600, color: "var(--text-primary)" }}>{d.band}</span>
+                      <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-muted)" }}>{d.loan_count} loans</span>
+                    </div>
+                    <div style={{ textAlign: "right" }}>
+                      <span style={{ fontFamily: "var(--font-mono)", fontSize: 15, fontWeight: 600, color }}>{fmtM(d.total_value)}</span>
+                    </div>
+                  </div>
+                  <div style={{ height: 6, borderRadius: 3, background: "var(--bg-card)", overflow: "hidden" }}>
+                    <div style={{ width: pct + "%", height: "100%", borderRadius: 3, background: color, transition: "width 0.6s ease" }} />
+                  </div>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginTop: 6 }}>
+                    <span style={{ fontFamily: "var(--font-sans)", fontSize: 10, color: "var(--text-muted)" }}>{Math.round(pct)}% of pipeline</span>
+                    <span style={{ fontFamily: "var(--font-sans)", fontSize: 10, color: "var(--text-muted)" }}>Avg prob: {(d.avg_probability * 100).toFixed(0)}%</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Current Bottlenecks */}
+        <div className="fade-up" style={{ animationDelay: "400ms", padding: 24, background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: "var(--card-radius)", boxShadow: "var(--card-shadow)" }}>
+          <SectionTitle title="Where Loans Are Piling Up" sub="Current pipeline concentration by stage — high average days with many loans indicates a bottleneck" />
+          <div style={{ marginTop: 12 }}>
+            {bottlenecks.filter(b => b.loan_count >= 5).map((b, i) => {
+              const isBottleneck = b.pct_over_30d > 20;
+              return (
+                <div key={b.stage} className="fade-up" style={{
+                  animationDelay: (440 + i * 40) + "ms",
+                  display: "flex", alignItems: "center", gap: 12, marginBottom: 10,
+                  padding: "10px 14px", borderRadius: 6,
+                  background: isBottleneck ? "var(--red-dim)" : "transparent",
+                  border: isBottleneck ? "1px solid rgba(232,113,106,0.2)" : "1px solid transparent",
+                }}>
+                  <span style={{ fontFamily: "var(--font-sans)", fontSize: 11, fontWeight: 600, color: isBottleneck ? "var(--red)" : "var(--text-secondary)", width: 80, flexShrink: 0 }}>{b.stage}</span>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                      <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, fontWeight: 500, color: "var(--text-primary)" }}>{b.loan_count} loans &middot; {fmtM(b.total_value)}</span>
+                      <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: isBottleneck ? "var(--red)" : "var(--text-muted)" }}>
+                        avg {b.avg_days_at_stage}d
+                        {b.pct_over_30d > 0 ? " \u00b7 " + b.pct_over_30d + "% over 30d" : ""}
+                      </span>
+                    </div>
+                    <div style={{ height: 4, borderRadius: 2, background: "var(--bg-surface)", overflow: "hidden" }}>
+                      <div style={{
+                        width: Math.min(100, b.avg_days_at_stage / 60 * 100) + "%",
+                        height: "100%", borderRadius: 2,
+                        background: isBottleneck ? "var(--red)" : "var(--blue)",
+                      }} />
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Row 3: Momentum Alerts */}
+      {alerts.length > 0 && (
+        <div className="fade-up" style={{ animationDelay: "500ms", marginTop: 20, background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: 10, overflow: "hidden" }}>
+          <div style={{ padding: "18px 24px", borderBottom: "1px solid var(--border-subtle)", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div>
+              <h3 style={{ fontFamily: "var(--font-sans)", fontSize: 16, fontWeight: 700, color: "var(--text-primary)", letterSpacing: "-0.02em" }}>Momentum Alerts</h3>
+              <p style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>Loans with below-median velocity that still have a reasonable probability of funding — these are decelerating and need attention</p>
+            </div>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: 12, color: "var(--copper)" }}>
+              {fmtM(alerts.reduce((s, a) => s + (a.expected_value || 0), 0))} expected value
+            </span>
+          </div>
+          <div style={{ overflowX: "auto" }}>
+            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+              <thead>
+                <tr style={{ borderBottom: "1px solid var(--border-subtle)" }}>
+                  <th style={{ ...thStyle, width: 36 }}>#</th>
+                  <th style={thStyle}>Product</th>
+                  <th style={thStyle}>Stage</th>
+                  <th style={thStyle}>Days</th>
+                  <th style={thStyle}>Velocity</th>
+                  <th style={thStyle}>Prob</th>
+                  <th style={thStyle}>Amount</th>
+                  <th style={thStyle}>Exp. Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                {alerts.map((a, i) => {
+                  const vc = bandColors[a.velocity_band] || "var(--text-muted)";
+                  return (
+                    <tr key={a.loan_guid || i} style={{ borderBottom: "1px solid var(--border-subtle)", background: i % 2 === 0 ? "transparent" : "rgba(255,255,255,0.01)" }}>
+                      <td style={{ ...tdStyle, color: "var(--text-muted)", fontFamily: "var(--font-mono)" }}>{i + 1}</td>
+                      <td style={{ ...tdStyle, fontWeight: 600, color: "var(--text-primary)", textAlign: "left" }}>{a.product_type || "\u2014"}</td>
+                      <td style={{ ...tdStyle, color: "var(--text-secondary)" }}>{a.current_stage}</td>
+                      <td style={{ ...tdStyle, fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>{a.days_at_stage}d</td>
+                      <td style={tdStyle}>
+                        <span style={{
+                          display: "inline-block", padding: "2px 8px", borderRadius: 4,
+                          fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 600,
+                          color: vc, background: bandDimColors[a.velocity_band] || "var(--bg-surface)",
+                        }}>{a.velocity.toFixed(3)}</span>
+                      </td>
+                      <td style={tdStyle}><ProbBar value={a.ml_probability} /></td>
+                      <td style={{ ...tdStyle, fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>{fmtK(a.loan_amount)}</td>
+                      <td style={{ ...tdStyle, fontFamily: "var(--font-mono)", fontWeight: 600, color: "var(--text-primary)" }}>{fmtK(a.expected_value)}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
+// ─── Tab: What-If Scenario Engine ─────────────────────────────────────────
+
+function WhatIfTab() {
+  const wi = DATA.whatIfScenarios;
+  const scenarios = (wi && wi.scenarios) ? wi.scenarios : [];
+
+  const scenarioColors = {
+    reduce_appr_ctc:            { accent: "var(--blue)",   dim: "var(--blue-dim)" },
+    improve_lock_rate:          { accent: "var(--copper)", dim: "var(--copper-glow)" },
+    reactivate_stale:           { accent: "var(--red)",    dim: "var(--red-dim)" },
+    retail_channel_optimization:{ accent: "var(--green)",  dim: "var(--green-dim)" },
+  };
+
+  const scenarioIcons = {
+    reduce_appr_ctc:             "⟳",
+    improve_lock_rate:           "◈",
+    reactivate_stale:            "▲",
+    retail_channel_optimization: "◑",
+  };
+
+  const totalDelta      = wi ? wi.total_potential_delta : 0;
+  const currentProj     = wi ? wi.current_projected : 0;
+  const upsidePct       = wi ? wi.total_upside_pct : 0;
+  const livePipeline    = wi ? wi.live_pipeline_value : 0;
+
+  return (
+    <div>
+      {/* Hero Banner */}
+      <div className="fade-up" style={{
+        marginBottom: 20,
+        padding: "28px 32px",
+        background: "linear-gradient(135deg, #151920 0%, #1a1f2e 100%)",
+        border: "1px solid var(--border-subtle)",
+        borderRadius: 12,
+        borderLeft: "3px solid var(--copper)",
+        position: "relative",
+        overflow: "hidden",
+      }}>
+        {/* Background glow */}
+        <div style={{
+          position: "absolute", top: -40, right: -40,
+          width: 200, height: 200, borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(212,149,106,0.06) 0%, transparent 70%)",
+          pointerEvents: "none",
+        }} />
+
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 24 }}>
+          {/* Left: headline */}
+          <div style={{ flex: 1 }}>
+            <p style={{ fontFamily: "var(--font-sans)", fontSize: 10, fontWeight: 600, color: "var(--copper)", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>
+              What-If Scenario Engine
+            </p>
+            <h2 style={{ fontFamily: "var(--font-sans)", fontSize: 22, fontWeight: 700, color: "var(--text-primary)", letterSpacing: "-0.02em", marginBottom: 6 }}>
+              {fmtM(totalDelta)} in recoverable funding volume
+            </h2>
+            <p style={{ fontFamily: "var(--font-sans)", fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.6, maxWidth: 600 }}>
+              Four operational levers — if pulled simultaneously — could add <strong style={{ color: "var(--copper)" }}>{upsidePct}%</strong> to
+              the current projected month-end total. Each scenario is computed from historical pipeline data
+              and the current active pipeline snapshot as of {DATA.summary.snapshot_date}.
+            </p>
+          </div>
+
+          {/* Right: summary metrics */}
+          <div style={{ display: "flex", gap: 12, flexShrink: 0 }}>
+            <div style={{ padding: "16px 20px", background: "var(--bg-surface)", borderRadius: 8, border: "1px solid var(--border-subtle)", textAlign: "center", minWidth: 110 }}>
+              <p style={{ fontFamily: "var(--font-mono)", fontSize: 20, fontWeight: 600, color: "var(--copper)", letterSpacing: "-0.02em" }}>{fmtM(currentProj)}</p>
+              <p style={{ fontFamily: "var(--font-sans)", fontSize: 10, color: "var(--text-muted)", marginTop: 4 }}>Current Projection</p>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", padding: "0 4px" }}>
+              <span style={{ fontFamily: "var(--font-mono)", fontSize: 20, color: "var(--text-muted)" }}>→</span>
+            </div>
+            <div style={{ padding: "16px 20px", background: "rgba(212,149,106,0.08)", borderRadius: 8, border: "1px solid rgba(212,149,106,0.25)", textAlign: "center", minWidth: 110 }}>
+              <p style={{ fontFamily: "var(--font-mono)", fontSize: 20, fontWeight: 600, color: "var(--copper)", letterSpacing: "-0.02em" }}>{fmtM(currentProj + totalDelta)}</p>
+              <p style={{ fontFamily: "var(--font-sans)", fontSize: 10, color: "var(--copper-dim)", marginTop: 4 }}>If All Levers Pulled</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Total potential bar */}
+        <div style={{ marginTop: 20 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
+            <span style={{ fontFamily: "var(--font-sans)", fontSize: 11, color: "var(--text-muted)" }}>
+              Total potential upside across {scenarios.length} levers
+            </span>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--copper)", fontWeight: 600 }}>
+              +{upsidePct}% vs current projection
+            </span>
+          </div>
+          <div style={{ height: 6, borderRadius: 3, background: "var(--bg-surface)", overflow: "hidden" }}>
+            <div style={{
+              height: "100%", borderRadius: 3,
+              width: Math.min(100, upsidePct) + "%",
+              background: "linear-gradient(90deg, var(--copper) 0%, #E8A87A 100%)",
+              transition: "width 0.8s ease",
+            }} />
+          </div>
+        </div>
+      </div>
+
+      {/* Scenario Cards Grid */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 20 }}>
+        {scenarios.map((s, i) => {
+          const colors = scenarioColors[s.id] || { accent: "var(--copper)", dim: "var(--copper-glow)" };
+          const icon = scenarioIcons[s.id] || "◆";
+          const totalImpact = totalDelta > 0 ? (s.delta / totalDelta * 100) : 0;
+          const currentPct = livePipeline > 0 ? (s.current_value / livePipeline * 100) : 0;
+          const improvedPct = livePipeline > 0 ? (s.improved_value / livePipeline * 100) : 0;
+
+          return (
+            <div key={s.id} className="fade-up" style={{
+              animationDelay: (i * 80) + "ms",
+              padding: "22px 24px",
+              background: "var(--bg-card)",
+              border: "1px solid var(--border-subtle)",
+              borderRadius: 10,
+              borderTop: "2px solid " + colors.accent,
+              display: "flex",
+              flexDirection: "column",
+              gap: 16,
+            }}>
+              {/* Header */}
+              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
+                <div style={{ flex: 1 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
+                    <span style={{
+                      fontFamily: "var(--font-mono)", fontSize: 14,
+                      color: colors.accent, width: 22, textAlign: "center",
+                    }}>{icon}</span>
+                    <h3 style={{ fontFamily: "var(--font-sans)", fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>{s.lever}</h3>
+                  </div>
+                  <p style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--text-secondary)", lineHeight: 1.55 }}>{s.description}</p>
+                </div>
+
+                {/* Delta badge */}
+                <div style={{
+                  flexShrink: 0, textAlign: "right",
+                  padding: "10px 14px",
+                  background: colors.dim,
+                  borderRadius: 8,
+                  border: "1px solid var(--border)",
+                  minWidth: 110,
+                }}>
+                  <p style={{ fontFamily: "var(--font-mono)", fontSize: 18, fontWeight: 700, color: colors.accent, letterSpacing: "-0.02em" }}>
+                    +{fmtM(s.delta)}
+                  </p>
+                  <p style={{ fontFamily: "var(--font-sans)", fontSize: 10, color: "var(--text-muted)", marginTop: 3 }}>potential upside</p>
+                </div>
+              </div>
+
+              {/* Before / After */}
+              <div style={{ background: "var(--bg-surface)", borderRadius: 8, padding: "14px 16px" }}>
+                <div style={{ display: "flex", gap: 0, marginBottom: 10 }}>
+                  <div style={{ flex: 1, paddingRight: 12, borderRight: "1px solid var(--border-subtle)" }}>
+                    <p style={{ fontFamily: "var(--font-sans)", fontSize: 9, fontWeight: 600, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 4 }}>Current State</p>
+                    <p style={{ fontFamily: "var(--font-sans)", fontSize: 11, color: "var(--text-secondary)", lineHeight: 1.5 }}>{s.current_state}</p>
+                  </div>
+                  <div style={{ flex: 1, paddingLeft: 12 }}>
+                    <p style={{ fontFamily: "var(--font-sans)", fontSize: 9, fontWeight: 600, color: colors.accent, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 4 }}>Target State</p>
+                    <p style={{ fontFamily: "var(--font-sans)", fontSize: 11, color: "var(--text-primary)", lineHeight: 1.5 }}>{s.target_state}</p>
+                  </div>
+                </div>
+
+                {/* Expected Value bar: before → after */}
+                <div>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                    <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-muted)" }}>
+                      {fmtM(s.current_value)} now
+                    </span>
+                    <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 600, color: colors.accent }}>
+                      {fmtM(s.improved_value)} projected
+                    </span>
+                  </div>
+                  <div style={{ height: 8, borderRadius: 4, background: "var(--bg-card)", overflow: "hidden", position: "relative" }}>
+                    {/* Current bar */}
+                    <div style={{
+                      position: "absolute", top: 0, left: 0,
+                      width: Math.min(100, improvedPct) + "%",
+                      height: "100%", borderRadius: 4,
+                      background: colors.dim,
+                    }} />
+                    {/* Delta portion */}
+                    <div style={{
+                      position: "absolute", top: 0,
+                      left: Math.min(100, currentPct) + "%",
+                      width: Math.min(100 - currentPct, improvedPct - currentPct) + "%",
+                      height: "100%",
+                      background: colors.accent,
+                      transition: "width 0.7s ease",
+                    }} />
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom metadata row */}
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <div style={{ display: "flex", gap: 16 }}>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-muted)" }}>
+                    {s.affected_loans.toLocaleString()} loans affected
+                  </span>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-muted)" }}>
+                    {fmtM(s.affected_value)} in scope
+                  </span>
+                </div>
+                <span style={{
+                  fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 600,
+                  padding: "3px 8px", borderRadius: 4,
+                  background: colors.dim,
+                  color: colors.accent,
+                }}>
+                  {Math.round(totalImpact)}% of total upside
+                </span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Methodology Footer */}
+      <div className="fade-up" style={{
+        animationDelay: "360ms",
+        padding: "18px 24px",
+        background: "var(--bg-card)",
+        border: "1px solid var(--border-subtle)",
+        borderRadius: 10,
+      }}>
+        <SectionTitle title="Methodology Notes" sub="How each scenario's impact estimate is calculated" />
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 4 }}>
+          {scenarios.map((s) => (
+            <div key={s.id + "_meth"} style={{
+              padding: "10px 14px",
+              background: "var(--bg-surface)",
+              borderRadius: 6,
+              borderLeft: "2px solid var(--border)",
+            }}>
+              <p style={{ fontFamily: "var(--font-sans)", fontSize: 11, fontWeight: 600, color: "var(--text-primary)", marginBottom: 4 }}>{s.lever}</p>
+              <p style={{ fontFamily: "var(--font-sans)", fontSize: 11, color: "var(--text-muted)", lineHeight: 1.5 }}>{s.methodology}</p>
+            </div>
+          ))}
+        </div>
+        <p style={{ fontFamily: "var(--font-sans)", fontSize: 11, color: "var(--text-muted)", marginTop: 14, lineHeight: 1.6, fontStyle: "italic" }}>
+          All estimates are conservative and use actual historical loan data (Jan 2023–Dec 2025). Scenarios are additive
+          only if the underlying borrower populations don't fully overlap. Actual recoverable volume may be higher or lower
+          depending on market conditions and operational capacity.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+
+// ─── Tab: Scorecards ─────────────────────────────────────────────────────
+
+function ScorecardsTab() {
+  const sc = DATA.performanceScorecards || { products: [], channels: [], rankings: [] };
+  const products = sc.products || [];
+  const channels = sc.channels || [];
+  const rankings = sc.rankings || [];
+
+  const thStyle = {
+    padding: "10px 14px",
+    fontFamily: "var(--font-sans)", fontSize: 11, fontWeight: 700,
+    color: "var(--text-muted)", textTransform: "uppercase",
+    letterSpacing: "0.05em", whiteSpace: "nowrap", textAlign: "center",
+  };
+  const tdStyle = { padding: "12px 14px", fontFamily: "var(--font-sans)", fontSize: 13, textAlign: "center" };
+  const monoStyle = { fontFamily: "var(--font-mono)" };
+
+  const trendArrow = (t) => {
+    if (t === "up") return { symbol: "\u2191", color: "var(--green)" };
+    if (t === "down") return { symbol: "\u2193", color: "var(--red)" };
+    return { symbol: "\u2192", color: "var(--text-muted)" };
+  };
+
+  // Color thresholds for pull-through rate cell
+  const ptColor = (v) => {
+    if (v >= 0.35) return "var(--green)";
+    if (v >= 0.20) return "var(--copper)";
+    return "var(--red)";
+  };
+
+  // Color for revenue efficiency
+  const effColor = (v) => {
+    if (v >= 0.4) return "var(--green)";
+    if (v >= 0.2) return "var(--copper)";
+    return "var(--red)";
+  };
+
+  // Tier badge colors for rankings
+  const tierColors = {
+    top: { bg: "rgba(61,170,127,0.15)", border: "var(--green)", text: "var(--green)", label: "TOP" },
+    mid: { bg: "rgba(232,145,58,0.10)", border: "var(--border-subtle)", text: "var(--text-muted)", label: "MID" },
+    bottom: { bg: "rgba(232,90,90,0.12)", border: "var(--red)", text: "var(--red)", label: "DRAG" },
+  };
+
+  // Channel color accent
+  const channelColor = (name) => {
+    if (/wholesale/i.test(name)) return "var(--blue)";
+    if (/retail/i.test(name)) return "var(--copper)";
+    return "var(--border)";
+  };
+
+  // Hero KPI cards: top product, bottom product, best channel, overall avg pt
+  const topProduct = rankings[0];
+  const bottomProduct = rankings[rankings.length - 1];
+  const wsCh = channels.find(c => /wholesale/i.test(c.name));
+  const rtCh = channels.find(c => /retail/i.test(c.name));
+  const overallPt = products.length > 0
+    ? products.reduce((s, p) => s + p.pull_through_rate, 0) / products.length
+    : 0;
+
+  return (
+    <div>
+      {/* Hero KPIs */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 18 }}>
+        <Metric
+          label="Top Product"
+          value={topProduct ? topProduct.name : "—"}
+          sub={topProduct ? (topProduct.pull_through_rate * 100).toFixed(1) + "% pull-through" : ""}
+          accent="var(--green)" delay={0}
+        />
+        <Metric
+          label="Lowest Product"
+          value={bottomProduct ? bottomProduct.name : "—"}
+          sub={bottomProduct ? (bottomProduct.pull_through_rate * 100).toFixed(1) + "% pull-through" : ""}
+          accent="var(--red)" delay={60}
+        />
+        <Metric
+          label="Wholesale Avg Prob"
+          value={wsCh ? (wsCh.avg_pipeline_probability * 100).toFixed(1) + "%" : "—"}
+          sub={wsCh ? wsCh.current_active_loans + " active loans" : ""}
+          accent="var(--blue)" delay={120}
+        />
+        <Metric
+          label="Retail Avg Prob"
+          value={rtCh ? (rtCh.avg_pipeline_probability * 100).toFixed(1) + "%" : "—"}
+          sub={rtCh ? rtCh.current_active_loans + " active loans" : ""}
+          accent="var(--copper)" delay={180}
+        />
+      </div>
+
+      {/* Product Scorecard Table */}
+      <div className="fade-up" style={{
+        animationDelay: "220ms", marginTop: 28,
+        background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: 10, overflow: "hidden",
+      }}>
+        <div style={{ padding: "18px 24px", borderBottom: "1px solid var(--border-subtle)" }}>
+          <h3 style={{ fontFamily: "var(--font-sans)", fontSize: 16, fontWeight: 700, color: "var(--text-primary)", letterSpacing: "-0.02em" }}>
+            Product Performance Scorecards
+          </h3>
+          <p style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--text-muted)", marginTop: 3 }}>
+            Pull-through, cycle time, and revenue efficiency by product type — trend arrows compare last 3 months vs prior 3 months
+          </p>
+        </div>
+        <div style={{ overflowX: "auto" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <thead>
+              <tr style={{ borderBottom: "1px solid var(--border-subtle)" }}>
+                <th style={thStyle}>Product</th>
+                <th style={{ ...thStyle, textAlign: "center" }}>Trend</th>
+                <th style={thStyle}>Pull-Through</th>
+                <th style={thStyle}>Recent 3M</th>
+                <th style={thStyle}>Prior 3M</th>
+                <th style={thStyle}>Cycle (med)</th>
+                <th style={thStyle}>Avg Loan</th>
+                <th style={thStyle}>6M Funded Vol</th>
+                <th style={thStyle}>Rev Efficiency</th>
+                <th style={thStyle}>Active Loans</th>
+                <th style={thStyle}>Projected</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.map((p, i) => {
+                const arrow = trendArrow(p.pt_trend);
+                const isEven = i % 2 === 0;
+                return (
+                  <tr key={p.name} style={{
+                    borderBottom: "1px solid var(--border-subtle)",
+                    background: isEven ? "transparent" : "rgba(255,255,255,0.01)",
+                  }}>
+                    <td style={{ ...tdStyle, fontWeight: 600, color: "var(--text-primary)", textAlign: "left" }}>{p.name}</td>
+                    <td style={{ ...tdStyle, textAlign: "center" }}>
+                      <span style={{ ...monoStyle, fontSize: 16, fontWeight: 700, color: arrow.color }}>
+                        {arrow.symbol}
+                      </span>
+                    </td>
+                    <td style={{ ...tdStyle }}>
+                      <span style={{ ...monoStyle, fontWeight: 600, color: ptColor(p.pull_through_rate) }}>
+                        {(p.pull_through_rate * 100).toFixed(1)}%
+                      </span>
+                    </td>
+                    <td style={{ ...tdStyle, ...monoStyle, color: "var(--text-secondary)" }}>
+                      {(p.pt_recent_3m * 100).toFixed(1)}%
+                    </td>
+                    <td style={{ ...tdStyle, ...monoStyle, color: "var(--text-muted)" }}>
+                      {(p.pt_prior_3m * 100).toFixed(1)}%
+                    </td>
+                    <td style={{ ...tdStyle, ...monoStyle, color: "var(--text-secondary)" }}>
+                      {p.median_cycle_days != null ? p.median_cycle_days + "d" : "—"}
+                    </td>
+                    <td style={{ ...tdStyle, ...monoStyle, color: "var(--text-secondary)" }}>
+                      {fmtK(p.avg_loan_amount)}
+                    </td>
+                    <td style={{ ...tdStyle, ...monoStyle, color: "var(--copper)" }}>
+                      {fmtM(p.funded_volume_6m)}
+                    </td>
+                    <td style={{ ...tdStyle }}>
+                      <span style={{
+                        ...monoStyle, fontSize: 11, fontWeight: 600,
+                        color: effColor(p.revenue_efficiency),
+                        background: effColor(p.revenue_efficiency) === "var(--green)"
+                          ? "rgba(61,170,127,0.12)"
+                          : effColor(p.revenue_efficiency) === "var(--copper)"
+                            ? "rgba(232,145,58,0.12)"
+                            : "rgba(232,90,90,0.12)",
+                        padding: "2px 7px", borderRadius: 4,
+                      }}>
+                        {(p.revenue_efficiency * 100).toFixed(1)}%
+                      </span>
+                    </td>
+                    <td style={{ ...tdStyle, ...monoStyle, color: "var(--text-secondary)" }}>
+                      {p.current_active_loans}
+                    </td>
+                    <td style={{ ...tdStyle, ...monoStyle, fontWeight: 600, color: "var(--text-primary)" }}>
+                      {fmtM(p.current_projected_value)}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Channel Comparison */}
+      <div className="fade-up" style={{ animationDelay: "300ms", marginTop: 20 }}>
+        <SectionTitle title="Channel Comparison" sub="Wholesale vs Retail — side-by-side performance metrics" />
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 16 }}>
+          {channels.filter(c => !/unknown/i.test(c.name)).map((ch, i) => {
+            const accent = channelColor(ch.name);
+            const arrow = trendArrow(ch.pt_trend);
+            return (
+              <div key={ch.name} className="fade-up" style={{
+                animationDelay: (340 + i * 80) + "ms",
+                padding: 24,
+                background: "var(--bg-card)",
+                border: "1px solid var(--border-subtle)",
+                borderRadius: 10,
+                borderTop: "3px solid " + accent,
+              }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 }}>
+                  <h4 style={{ fontFamily: "var(--font-sans)", fontSize: 16, fontWeight: 700, color: "var(--text-primary)" }}>
+                    {ch.name}
+                  </h4>
+                  <span style={{ fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 600,
+                    color: accent, background: accent === "var(--blue)" ? "rgba(83,142,210,0.15)" : "rgba(232,145,58,0.15)",
+                    padding: "3px 10px", borderRadius: 4 }}>
+                    {ch.current_active_loans} active
+                  </span>
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+                  {[
+                    { label: "Pull-Through", value: (ch.pull_through_rate * 100).toFixed(1) + "%", color: ptColor(ch.pull_through_rate) },
+                    { label: "Trend", value: arrow.symbol + " " + (ch.pt_trend_delta > 0 ? "+" : "") + (ch.pt_trend_delta * 100).toFixed(1) + "pp", color: arrow.color },
+                    { label: "Median Cycle", value: ch.median_cycle_days != null ? ch.median_cycle_days + "d" : "—", color: "var(--text-primary)" },
+                    { label: "Avg Loan", value: fmtK(ch.avg_loan_amount), color: "var(--text-primary)" },
+                    { label: "6M Funded Vol", value: fmtM(ch.funded_volume_6m), color: "var(--copper)" },
+                    { label: "Rev Efficiency", value: (ch.revenue_efficiency * 100).toFixed(1) + "%", color: effColor(ch.revenue_efficiency) },
+                    { label: "Avg Pipeline Prob", value: (ch.avg_pipeline_probability * 100).toFixed(1) + "%", color: ptColor(ch.avg_pipeline_probability) },
+                    { label: "Projected Value", value: fmtM(ch.current_projected_value), color: accent },
+                  ].map(({ label, value, color }) => (
+                    <div key={label} style={{ padding: "10px 12px", background: "var(--bg-surface)", borderRadius: 6 }}>
+                      <p style={{ fontFamily: "var(--font-sans)", fontSize: 10, fontWeight: 600,
+                        color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>
+                        {label}
+                      </p>
+                      <p style={{ fontFamily: "var(--font-mono)", fontSize: 15, fontWeight: 600, color }}>
+                        {value}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Money Makers vs Drains Ranking */}
+      <div className="fade-up" style={{
+        animationDelay: "480ms", marginTop: 20,
+        background: "var(--bg-card)", border: "1px solid var(--border-subtle)", borderRadius: 10, overflow: "hidden",
+      }}>
+        <div style={{ padding: "18px 24px", borderBottom: "1px solid var(--border-subtle)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div>
+            <h3 style={{ fontFamily: "var(--font-sans)", fontSize: 16, fontWeight: 700, color: "var(--text-primary)", letterSpacing: "-0.02em" }}>
+              Money Makers vs Drains
+            </h3>
+            <p style={{ fontFamily: "var(--font-sans)", fontSize: 12, color: "var(--text-muted)", marginTop: 2 }}>
+              Ranked by efficiency score = pull-through rate × average loan amount. Top products generate the most revenue per pipeline dollar.
+            </p>
+          </div>
+          <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-muted)" }}>
+            Efficiency score = pull-through × avg loan
+          </span>
+        </div>
+        <div style={{ padding: "16px 24px", display: "grid", gap: 10 }}>
+          {rankings.map((r, i) => {
+            const tc = tierColors[r.tier] || tierColors.mid;
+            const maxScore = rankings[0] ? rankings[0].efficiency_score : 1;
+            const barPct = maxScore > 0 ? (r.efficiency_score / maxScore * 100) : 0;
+            const arrow = trendArrow(r.pt_trend);
+            return (
+              <div key={r.name} className="fade-up" style={{
+                animationDelay: (520 + i * 40) + "ms",
+                padding: "14px 18px",
+                background: tc.bg,
+                border: "1px solid " + tc.border,
+                borderRadius: 8,
+                display: "flex", alignItems: "center", gap: 16,
+              }}>
+                {/* Rank badge */}
+                <div style={{
+                  minWidth: 32, height: 32, borderRadius: 6,
+                  background: tc.bg, border: "1px solid " + tc.border,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontFamily: "var(--font-mono)", fontSize: 13, fontWeight: 700, color: tc.text,
+                }}>
+                  {r.rank}
+                </div>
+
+                {/* Name + tier */}
+                <div style={{ minWidth: 180 }}>
+                  <span style={{ fontFamily: "var(--font-sans)", fontSize: 13, fontWeight: 700, color: "var(--text-primary)" }}>
+                    {r.name}
+                  </span>
+                  <span style={{
+                    marginLeft: 8, fontFamily: "var(--font-mono)", fontSize: 9, fontWeight: 700,
+                    color: tc.text, padding: "2px 6px", borderRadius: 3,
+                    background: "rgba(255,255,255,0.06)", border: "1px solid " + tc.border,
+                  }}>
+                    {tc.label}
+                  </span>
+                </div>
+
+                {/* Bar */}
+                <div style={{ flex: 1, height: 6, borderRadius: 3, background: "var(--bg-surface)", overflow: "hidden" }}>
+                  <div style={{
+                    width: barPct + "%", height: "100%", borderRadius: 3,
+                    background: r.tier === "top" ? "var(--green)" : r.tier === "bottom" ? "var(--red)" : "var(--copper)",
+                    transition: "width 0.6s ease",
+                  }} />
+                </div>
+
+                {/* Metrics */}
+                <div style={{ display: "flex", gap: 24, minWidth: 380, justifyContent: "flex-end" }}>
+                  <div style={{ textAlign: "right" }}>
+                    <p style={{ fontFamily: "var(--font-sans)", fontSize: 9, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.06em" }}>Pull-Through</p>
+                    <p style={{ fontFamily: "var(--font-mono)", fontSize: 13, fontWeight: 600, color: ptColor(r.pull_through_rate) }}>
+                      {(r.pull_through_rate * 100).toFixed(1)}%
+                    </p>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <p style={{ fontFamily: "var(--font-sans)", fontSize: 9, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.06em" }}>Avg Loan</p>
+                    <p style={{ fontFamily: "var(--font-mono)", fontSize: 13, fontWeight: 600, color: "var(--text-secondary)" }}>
+                      {fmtK(r.avg_loan_amount)}
+                    </p>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <p style={{ fontFamily: "var(--font-sans)", fontSize: 9, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.06em" }}>6M Volume</p>
+                    <p style={{ fontFamily: "var(--font-mono)", fontSize: 13, fontWeight: 600, color: "var(--copper)" }}>
+                      {fmtM(r.funded_volume_6m)}
+                    </p>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <p style={{ fontFamily: "var(--font-sans)", fontSize: 9, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.06em" }}>Trend</p>
+                    <p style={{ fontFamily: "var(--font-mono)", fontSize: 16, fontWeight: 700, color: arrow.color }}>
+                      {arrow.symbol}
+                    </p>
+                  </div>
+                  <div style={{ textAlign: "right" }}>
+                    <p style={{ fontFamily: "var(--font-sans)", fontSize: 9, color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.06em" }}>Efficiency</p>
+                    <p style={{ fontFamily: "var(--font-mono)", fontSize: 13, fontWeight: 700, color: tc.text }}>
+                      {r.efficiency_score >= 1000 ? (r.efficiency_score / 1000).toFixed(0) + "K" : r.efficiency_score}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── Main Dashboard ────────────────────────────────────────────────────────
 
 const TABS = [
   { key: "overview", label: "Overview" },
   { key: "watchlist", label: "Watch List" },
+  { key: "revenue", label: "Revenue at Risk" },
+  { key: "health", label: "Pipeline Health" },
   { key: "trends", label: "Trends" },
+  { key: "whatif", label: "What-If" },
+  { key: "scorecards", label: "Scorecards" },
 ];
 
 function FlexPointDashboard() {
@@ -2613,28 +4862,30 @@ function FlexPointDashboard() {
     <div style={{ minHeight: "100vh", fontFamily: "var(--font-sans)" }}>
       {/* Header */}
       <header style={{
-        background: "linear-gradient(180deg, #12151C 0%, #0C0F14 100%)",
-        borderBottom: "1px solid var(--border-subtle)",
+        background: "rgba(11,14,19,0.85)",
+        backdropFilter: "blur(16px) saturate(180%)",
+        WebkitBackdropFilter: "blur(16px) saturate(180%)",
+        borderBottom: "1px solid rgba(255,255,255,0.06)",
         position: "sticky", top: 0, zIndex: 50,
       }}>
-        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 32px" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 0 0" }}>
-            <div style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
-              <h1 style={{ fontSize: 18, fontWeight: 700, color: "var(--text-primary)", letterSpacing: "-0.02em" }}>
+        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 36px" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 0 0" }}>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 14 }}>
+              <h1 style={{ fontSize: 20, fontWeight: 800, color: "var(--text-primary)", letterSpacing: "-0.03em" }}>
                 FlexPoint
               </h1>
-              <span style={{ fontSize: 12, fontWeight: 500, color: "var(--text-muted)", letterSpacing: "0.04em" }}>
+              <span style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", letterSpacing: "0.06em" }}>
                 PIPELINE INTELLIGENCE
               </span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-              <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, color: "var(--text-muted)" }}>
+              <span style={{ fontFamily: "var(--font-mono)", fontSize: 11, fontWeight: 500, color: "var(--text-muted)" }}>
                 {s.snapshot_date}
               </span>
               <span style={{
-                fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 500,
+                fontFamily: "var(--font-mono)", fontSize: 10, fontWeight: 600,
                 color: "var(--green)", background: "var(--green-dim)",
-                padding: "3px 8px", borderRadius: 4,
+                padding: "4px 10px", borderRadius: 5, letterSpacing: "0.02em",
               }}>
                 {s.model_used}
               </span>
@@ -2642,18 +4893,20 @@ function FlexPointDashboard() {
           </div>
 
           {/* Tab Bar */}
-          <div style={{ display: "flex", gap: 0, marginTop: 14 }}>
+          <div style={{ display: "flex", gap: 2, marginTop: 16 }}>
             {TABS.map((tab) => (
               <button
                 key={tab.key}
+                className="tab-btn"
                 onClick={() => setActiveTab(tab.key)}
                 style={{
-                  padding: "10px 20px",
-                  fontFamily: "var(--font-sans)", fontSize: 12, fontWeight: 600,
+                  padding: "11px 22px",
+                  fontFamily: "var(--font-sans)", fontSize: 13, fontWeight: 600,
                   cursor: "pointer", background: "transparent", border: "none",
                   color: activeTab === tab.key ? "var(--copper)" : "var(--text-muted)",
                   borderBottom: activeTab === tab.key ? "2px solid var(--copper)" : "2px solid transparent",
                   transition: "all 0.15s ease",
+                  letterSpacing: "-0.01em",
                 }}
               >
                 {tab.label}
@@ -2664,16 +4917,20 @@ function FlexPointDashboard() {
       </header>
 
       {/* Body */}
-      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "24px 32px 16px" }}>
+      <div style={{ maxWidth: 1440, margin: "0 auto", padding: "28px 36px 16px" }}>
         {activeTab === "overview" && <OverviewTab />}
         {activeTab === "watchlist" && <WatchListTab />}
+        {activeTab === "revenue" && <RevenueAtRiskTab />}
+        {activeTab === "health" && <PipelineHealthTab />}
         {activeTab === "trends" && <TrendsTab />}
+        {activeTab === "whatif" && <WhatIfTab />}
+        {activeTab === "scorecards" && <ScorecardsTab />}
 
         {/* Footer */}
-        <div style={{ textAlign: "center", padding: "32px 0 8px", fontFamily: "var(--font-sans)", fontSize: 10, color: "var(--text-muted)", letterSpacing: "0.02em" }}>
+        <div style={{ textAlign: "center", padding: "40px 0 8px", fontFamily: "var(--font-sans)", fontSize: 11, color: "var(--text-muted)", letterSpacing: "0.02em" }}>
           Gallus Insights &middot; {(s.overall_pull_through * 100).toFixed(1)}% historical pull-through &middot; Median cycle {s.median_cycle_days}d
         </div>
-        <div style={{ textAlign: "center", padding: "0 0 20px", fontFamily: "var(--font-sans)", fontSize: 10, color: "var(--border)" }}>
+        <div style={{ textAlign: "center", padding: "4px 0 24px", fontFamily: "var(--font-sans)", fontSize: 11, color: "var(--text-muted)", opacity: 0.5 }}>
           1% pull-through improvement &asymp; $400K additional revenue per $1B funded
         </div>
       </div>

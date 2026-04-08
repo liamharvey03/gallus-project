@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-01T14:53:37.818544",
+  "generated_at": "2026-04-08T15:06:39.252879",
   "loan_table": [
     {
       "loan_guid": "82509113",
@@ -14876,5 +14876,1089 @@
         "No rate lock \u2014 0% funding probability"
       ]
     }
-  ]
+  ],
+  "revenue_at_risk": {
+    "total_at_risk": 145297723.0,
+    "total_recovery_potential": 10405393.0,
+    "live_pipeline_value": 146986672.0,
+    "buckets": [
+      {
+        "id": "stalled_high_value",
+        "label": "Stalled High-Value Loans",
+        "description": "Above-median loans sitting at the same stage for 30+ days",
+        "action": "Priority escalation \u2014 clear conditions or re-engage borrower",
+        "loan_count": 97,
+        "total_value": 85612468.0,
+        "expected_value": 6328014.0,
+        "value_at_risk": 79284454.0,
+        "avg_probability": 0.0826
+      },
+      {
+        "id": "low_prob_high_val",
+        "label": "Low Probability, High Value",
+        "description": "Top-quartile loan amounts with <25% funding probability",
+        "action": "Assess viability \u2014 re-engage or reallocate resources",
+        "loan_count": 47,
+        "total_value": 66012600.0,
+        "expected_value": 1903389.0,
+        "value_at_risk": 64109211.0,
+        "avg_probability": 0.0205
+      },
+      {
+        "id": "lock_expiring",
+        "label": "Rate Lock Expiring",
+        "description": "Loans with rate locks expiring within 7 days that haven't reached CTC",
+        "action": "Expedite underwriting or extend lock",
+        "loan_count": 7,
+        "total_value": 3134000.0,
+        "expected_value": 1672626.0,
+        "value_at_risk": 1461374.0,
+        "avg_probability": 0.5931
+      },
+      {
+        "id": "no_lock_late",
+        "label": "No Lock at Late Stage",
+        "description": "Loans past Approved without a rate lock \u2014 high drop-off risk",
+        "action": "Contact borrower to secure rate lock",
+        "loan_count": 3,
+        "total_value": 1153750.0,
+        "expected_value": 711066.0,
+        "value_at_risk": 442684.0,
+        "avg_probability": 0.6369
+      },
+      {
+        "id": "lock_expired",
+        "label": "Lock Expired, Pre-CTC",
+        "description": "Rate lock already expired and loan hasn't reached CTC",
+        "action": "Re-lock or renegotiate \u2014 loan is at high risk of cancellation",
+        "loan_count": 0,
+        "total_value": 0.0,
+        "expected_value": 0.0,
+        "value_at_risk": 0.0,
+        "avg_probability": 0
+      }
+    ],
+    "top_recovery": [
+      {
+        "loan_guid": "82510624",
+        "loan_amount": 4000000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 46,
+        "ml_probability": 0.1645,
+        "expected_value": 657896.0,
+        "recovery_gap": 3342104.0,
+        "risk_factors": [
+          "Stalled at Approved",
+          "Sitting 46d at stage"
+        ]
+      },
+      {
+        "loan_guid": "82509010",
+        "loan_amount": 2240000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 101,
+        "ml_probability": 0.2133,
+        "expected_value": 477759.0,
+        "recovery_gap": 1762241.0,
+        "risk_factors": [
+          "Stalled at Approved",
+          "Sitting 101d at stage"
+        ]
+      },
+      {
+        "loan_guid": "82511316",
+        "loan_amount": 1950000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 29,
+        "ml_probability": 0.2695,
+        "expected_value": 525603.0,
+        "recovery_gap": 1424397.0,
+        "risk_factors": [
+          "Below-average probability"
+        ]
+      },
+      {
+        "loan_guid": "82511212",
+        "loan_amount": 1461225.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 25,
+        "ml_probability": 0.6193,
+        "expected_value": 904872.0,
+        "recovery_gap": 556353.0,
+        "risk_factors": [
+          "Below-average probability"
+        ]
+      },
+      {
+        "loan_guid": "82509257",
+        "loan_amount": 592000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 81,
+        "ml_probability": 0.1011,
+        "expected_value": 59835.0,
+        "recovery_gap": 532165.0,
+        "risk_factors": [
+          "Stalled at Approved",
+          "Sitting 81d at stage"
+        ]
+      },
+      {
+        "loan_guid": "82511078",
+        "loan_amount": 1137750.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 38,
+        "ml_probability": 0.5823,
+        "expected_value": 662514.0,
+        "recovery_gap": 475236.0,
+        "risk_factors": [
+          "Stalled at Approved",
+          "Sitting 38d at stage"
+        ]
+      },
+      {
+        "loan_guid": "82507521",
+        "loan_amount": 500000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 140,
+        "ml_probability": 0.1647,
+        "expected_value": 82354.0,
+        "recovery_gap": 417646.0,
+        "risk_factors": [
+          "Stalled at Approved",
+          "Sitting 140d at stage"
+        ]
+      },
+      {
+        "loan_guid": "82511350",
+        "loan_amount": 477000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 25,
+        "ml_probability": 0.1432,
+        "expected_value": 68328.0,
+        "recovery_gap": 408672.0,
+        "risk_factors": [
+          "Below-average probability"
+        ]
+      },
+      {
+        "loan_guid": "82510740",
+        "loan_amount": 800250.0,
+        "product_type": "CONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 35,
+        "ml_probability": 0.5255,
+        "expected_value": 420554.0,
+        "recovery_gap": 379696.0,
+        "risk_factors": [
+          "Stalled at Approved",
+          "Sitting 35d at stage"
+        ]
+      },
+      {
+        "loan_guid": "82510561",
+        "loan_amount": 500000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 45,
+        "ml_probability": 0.2512,
+        "expected_value": 125607.0,
+        "recovery_gap": 374393.0,
+        "risk_factors": [
+          "Stalled at Approved",
+          "Sitting 45d at stage"
+        ]
+      },
+      {
+        "loan_guid": "82510580",
+        "loan_amount": 505750.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 39,
+        "ml_probability": 0.271,
+        "expected_value": 137058.0,
+        "recovery_gap": 368692.0,
+        "risk_factors": [
+          "Stalled at Approved",
+          "Sitting 39d at stage"
+        ]
+      },
+      {
+        "loan_guid": "82507035",
+        "loan_amount": 515000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 155,
+        "ml_probability": 0.2936,
+        "expected_value": 151202.0,
+        "recovery_gap": 363798.0,
+        "risk_factors": [
+          "Stalled at Approved",
+          "Sitting 155d at stage"
+        ]
+      }
+    ]
+  },
+  "bottleneck_detection": {
+    "heatmap": [
+      {
+        "transition": "Open \u2192 Submitted",
+        "overall_median": 0.0,
+        "overall_p75": 0.0,
+        "NONCONFORMING": 0.0,
+        "CONFORMING": 0.0,
+        "FHA": 0.0,
+        "VA": 0.0,
+        "2ND": 0.0
+      },
+      {
+        "transition": "Submitted \u2192 Approved",
+        "overall_median": 5.0,
+        "overall_p75": 7.0,
+        "NONCONFORMING": 4.0,
+        "CONFORMING": 5.0,
+        "FHA": 5.0,
+        "VA": 5.0,
+        "2ND": 5.0
+      },
+      {
+        "transition": "Approved \u2192 CTC",
+        "overall_median": 18.0,
+        "overall_p75": 26.0,
+        "NONCONFORMING": 18.0,
+        "CONFORMING": 16.0,
+        "FHA": 16.0,
+        "VA": 20.0,
+        "2ND": 21.0
+      },
+      {
+        "transition": "CTC \u2192 Funded",
+        "overall_median": 5.0,
+        "overall_p75": 7.0,
+        "NONCONFORMING": 5.0,
+        "CONFORMING": 5.0,
+        "FHA": 5.0,
+        "VA": 5.0,
+        "2ND": 7.0
+      }
+    ],
+    "products": [
+      "NONCONFORMING",
+      "CONFORMING",
+      "FHA",
+      "VA",
+      "2ND"
+    ],
+    "conversion_rates": [
+      {
+        "stage": "Submitted",
+        "reached_count": 11227,
+        "funded_count": 5660,
+        "conversion_rate": 0.5041
+      },
+      {
+        "stage": "Underwriting",
+        "reached_count": 8964,
+        "funded_count": 5492,
+        "conversion_rate": 0.6127
+      },
+      {
+        "stage": "Approved",
+        "reached_count": 8194,
+        "funded_count": 5654,
+        "conversion_rate": 0.69
+      },
+      {
+        "stage": "Cond Review",
+        "reached_count": 5654,
+        "funded_count": 5228,
+        "conversion_rate": 0.9247
+      },
+      {
+        "stage": "CTC",
+        "reached_count": 5696,
+        "funded_count": 5623,
+        "conversion_rate": 0.9872
+      },
+      {
+        "stage": "Docs",
+        "reached_count": 5650,
+        "funded_count": 5624,
+        "conversion_rate": 0.9954
+      },
+      {
+        "stage": "Funded",
+        "reached_count": 5661,
+        "funded_count": 5661,
+        "conversion_rate": 1.0
+      }
+    ],
+    "current_bottlenecks": [
+      {
+        "stage": "Opened",
+        "rank": 0,
+        "loan_count": 57,
+        "total_value": 0.0,
+        "avg_days_at_stage": 13.4,
+        "median_days_at_stage": 12.0,
+        "avg_probability": 0.0022,
+        "pct_over_30d": 0.0
+      },
+      {
+        "stage": "Application",
+        "rank": 1,
+        "loan_count": 28,
+        "total_value": 0.0,
+        "avg_days_at_stage": 5.7,
+        "median_days_at_stage": 4.0,
+        "avg_probability": 0.0653,
+        "pct_over_30d": 0.0
+      },
+      {
+        "stage": "Submitted",
+        "rank": 2,
+        "loan_count": 79,
+        "total_value": 0.0,
+        "avg_days_at_stage": 3.7,
+        "median_days_at_stage": 3.0,
+        "avg_probability": 0.0819,
+        "pct_over_30d": 0.0
+      },
+      {
+        "stage": "Underwriting",
+        "rank": 3,
+        "loan_count": 28,
+        "total_value": 3070125.0,
+        "avg_days_at_stage": 8.8,
+        "median_days_at_stage": 9.0,
+        "avg_probability": 0.0803,
+        "pct_over_30d": 0.0
+      },
+      {
+        "stage": "Approved",
+        "rank": 4,
+        "loan_count": 425,
+        "total_value": 122337511.0,
+        "avg_days_at_stage": 35.8,
+        "median_days_at_stage": 22.0,
+        "avg_probability": 0.2363,
+        "pct_over_30d": 41.9
+      },
+      {
+        "stage": "Cond Review",
+        "rank": 5,
+        "loan_count": 16,
+        "total_value": 4846303.0,
+        "avg_days_at_stage": 1.5,
+        "median_days_at_stage": 0.0,
+        "avg_probability": 0.8902,
+        "pct_over_30d": 0.0
+      },
+      {
+        "stage": "Final UW",
+        "rank": 6,
+        "loan_count": 15,
+        "total_value": 3102750.0,
+        "avg_days_at_stage": 0.0,
+        "median_days_at_stage": 0.0,
+        "avg_probability": 0.9353,
+        "pct_over_30d": 0.0
+      },
+      {
+        "stage": "CTC",
+        "rank": 7,
+        "loan_count": 21,
+        "total_value": 6502408.0,
+        "avg_days_at_stage": 3.8,
+        "median_days_at_stage": 0.0,
+        "avg_probability": 0.8951,
+        "pct_over_30d": 0.0
+      },
+      {
+        "stage": "Docs",
+        "rank": 8,
+        "loan_count": 26,
+        "total_value": 3835400.0,
+        "avg_days_at_stage": 1.7,
+        "median_days_at_stage": 0.0,
+        "avg_probability": 0.9818,
+        "pct_over_30d": 0.0
+      },
+      {
+        "stage": "Fund Cond",
+        "rank": 10,
+        "loan_count": 11,
+        "total_value": 2987175.0,
+        "avg_days_at_stage": 1.5,
+        "median_days_at_stage": 0.0,
+        "avg_probability": 0.9829,
+        "pct_over_30d": 0.0
+      }
+    ]
+  },
+  "velocity_momentum": {
+    "overall_median_velocity": 0.075,
+    "distribution": [
+      {
+        "band": "Fast Track",
+        "loan_count": 1,
+        "total_value": 381175.0,
+        "expected_value": 375133.0,
+        "avg_probability": 0.9841
+      },
+      {
+        "band": "On Pace",
+        "loan_count": 24,
+        "total_value": 11792275.0,
+        "expected_value": 11069040.0,
+        "avg_probability": 0.9269
+      },
+      {
+        "band": "Slow",
+        "loan_count": 158,
+        "total_value": 92426228.0,
+        "expected_value": 14806709.0,
+        "avg_probability": 0.2021
+      },
+      {
+        "band": "Stalled",
+        "loan_count": 70,
+        "total_value": 42386994.0,
+        "expected_value": 6193457.0,
+        "avg_probability": 0.1267
+      }
+    ],
+    "stage_velocity": [
+      {
+        "stage": "Approved",
+        "loan_count": 206,
+        "avg_velocity": 0.0723,
+        "median_velocity": 0.0678,
+        "avg_days_at_stage": 63.0,
+        "avg_probability": 0.1125,
+        "pct_stalled": 31.1
+      },
+      {
+        "stage": "Cond Review",
+        "loan_count": 9,
+        "avg_velocity": 0.0909,
+        "median_velocity": 0.082,
+        "avg_days_at_stage": 1.9,
+        "avg_probability": 0.8763,
+        "pct_stalled": 33.3
+      },
+      {
+        "stage": "Final UW",
+        "loan_count": 7,
+        "avg_velocity": 0.137,
+        "median_velocity": 0.1579,
+        "avg_days_at_stage": 0.0,
+        "avg_probability": 0.9044,
+        "pct_stalled": 0.0
+      },
+      {
+        "stage": "CTC",
+        "loan_count": 13,
+        "avg_velocity": 0.1419,
+        "median_velocity": 0.1522,
+        "avg_days_at_stage": 5.2,
+        "avg_probability": 0.8701,
+        "pct_stalled": 7.7
+      },
+      {
+        "stage": "Docs",
+        "loan_count": 8,
+        "avg_velocity": 0.17,
+        "median_velocity": 0.1544,
+        "avg_days_at_stage": 1.8,
+        "avg_probability": 0.988,
+        "pct_stalled": 12.5
+      },
+      {
+        "stage": "Fund Cond",
+        "loan_count": 6,
+        "avg_velocity": 0.2438,
+        "median_velocity": 0.2403,
+        "avg_days_at_stage": 0.8,
+        "avg_probability": 0.9833,
+        "pct_stalled": 0.0
+      }
+    ],
+    "momentum_alerts": [
+      {
+        "loan_guid": "82507258",
+        "loan_amount": 974650.0,
+        "product_type": "FHA",
+        "current_stage": "Approved",
+        "days_at_stage": 151,
+        "velocity": 0.0255,
+        "velocity_band": "Stalled",
+        "ml_probability": 0.821,
+        "expected_value": 800140.0
+      },
+      {
+        "loan_guid": "82509010",
+        "loan_amount": 2240000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 101,
+        "velocity": 0.0385,
+        "velocity_band": "Stalled",
+        "ml_probability": 0.2133,
+        "expected_value": 477759.0
+      },
+      {
+        "loan_guid": "82509260",
+        "loan_amount": 500000.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "days_at_stage": 90,
+        "velocity": 0.0421,
+        "velocity_band": "Stalled",
+        "ml_probability": 0.4396,
+        "expected_value": 219823.0
+      },
+      {
+        "loan_guid": "82508255",
+        "loan_amount": 270197.0,
+        "product_type": "FHA BOND",
+        "current_stage": "Approved",
+        "days_at_stage": 118,
+        "velocity": 0.032,
+        "velocity_band": "Stalled",
+        "ml_probability": 0.613,
+        "expected_value": 165638.0
+      },
+      {
+        "loan_guid": "82507035",
+        "loan_amount": 515000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 155,
+        "velocity": 0.024,
+        "velocity_band": "Stalled",
+        "ml_probability": 0.2936,
+        "expected_value": 151202.0
+      },
+      {
+        "loan_guid": "82505502",
+        "loan_amount": 477375.0,
+        "product_type": "CONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 200,
+        "velocity": 0.0188,
+        "velocity_band": "Stalled",
+        "ml_probability": 0.2793,
+        "expected_value": 133331.0
+      },
+      {
+        "loan_guid": "82510416",
+        "loan_amount": 297500.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 53,
+        "velocity": 0.0678,
+        "velocity_band": "Slow",
+        "ml_probability": 0.4238,
+        "expected_value": 126078.0
+      },
+      {
+        "loan_guid": "82509186",
+        "loan_amount": 315000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 94,
+        "velocity": 0.0408,
+        "velocity_band": "Stalled",
+        "ml_probability": 0.369,
+        "expected_value": 116230.0
+      },
+      {
+        "loan_guid": "82507521",
+        "loan_amount": 500000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "days_at_stage": 140,
+        "velocity": 0.0276,
+        "velocity_band": "Stalled",
+        "ml_probability": 0.1647,
+        "expected_value": 82354.0
+      },
+      {
+        "loan_guid": "82510451",
+        "loan_amount": 265000.0,
+        "product_type": "FHA",
+        "current_stage": "Approved",
+        "days_at_stage": 52,
+        "velocity": 0.0714,
+        "velocity_band": "Slow",
+        "ml_probability": 0.2072,
+        "expected_value": 54907.0
+      },
+      {
+        "loan_guid": "82508259",
+        "loan_amount": 9800.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "days_at_stage": 118,
+        "velocity": 0.032,
+        "velocity_band": "Stalled",
+        "ml_probability": 0.5656,
+        "expected_value": 5543.0
+      }
+    ]
+  },
+  "what_if_scenarios": {
+    "current_projected": 32444340.0,
+    "total_potential_delta": 38884123.0,
+    "total_upside_pct": 119.8,
+    "live_loans_count": 708,
+    "live_pipeline_value": 146986672.0,
+    "scenarios": [
+      {
+        "id": "reduce_appr_ctc",
+        "lever": "Accelerate Approved \u2192 CTC",
+        "description": "The Approved\u2192CTC transition is the pipeline's longest and most variable stage (median 18d, P75 30+d). Loans stalled here have materially lower funding rates. Expediting condition clearance, appraisals, and borrower follow-up compresses this stage.",
+        "current_state": "Median 18d Approved\u2192CTC \u00b7 259 loans stalled >15d at Approved",
+        "target_state": "Reduce median to 15d via weekly condition review cadence",
+        "current_value": 12708249.0,
+        "improved_value": 22465036.0,
+        "delta": 9756787.0,
+        "pct_improvement": 76.8,
+        "affected_loans": 259,
+        "affected_value": 121959841.0,
+        "methodology": "Historical funding-rate differential between <15d and \u226418d A\u2192CTC cohorts, applied to loans currently >15d stalled at Approved stage"
+      },
+      {
+        "id": "improve_lock_rate",
+        "lever": "Lock Rate on Approved Loans",
+        "description": "Unlocked loans at the Approved stage have significantly lower ML-predicted funding probabilities than locked counterparts at the same stage. Securing rate locks earlier signals borrower commitment and reduces dropout risk.",
+        "current_state": "292 unlocked loans at Approved (avg prob 7%) vs 133 locked (avg prob 61%)",
+        "target_state": "Convert 40% of unlocked Approved loans to locked status",
+        "current_value": 3500763.0,
+        "improved_value": 26122809.0,
+        "delta": 22622046.0,
+        "pct_improvement": 54.5,
+        "affected_loans": 292,
+        "affected_value": 103708999.0,
+        "methodology": "Probability gap between locked and unlocked loans at Approved stage (from ML model), applied conservatively to 40% of currently unlocked Approved loans"
+      },
+      {
+        "id": "reactivate_stale",
+        "lever": "Reactivate Stale Pipeline",
+        "description": "Loans sitting 30+ days at the same mid-pipeline stage (Underwriting through CTC) without progression are at high dropout risk. Targeted outreach \u2014 phone calls, condition reminders, processor follow-up \u2014 has historically recovered 20\u201335% of stalled loans.",
+        "current_state": "178 loans stalled 30+ days at stages Underwriting\u2013CTC \u00b7 avg prob 9%",
+        "target_state": "Re-engage 30% of stalled loans to restore pipeline-average probability",
+        "current_value": 8427060.0,
+        "improved_value": 14224307.0,
+        "delta": 5797247.0,
+        "pct_improvement": 5.5,
+        "affected_loans": 178,
+        "affected_value": 104760171.0,
+        "methodology": "Probability gap between stalled loans and overall pipeline average, applied to 30% of stalled loan value (historical re-engagement success rate)"
+      },
+      {
+        "id": "retail_channel_optimization",
+        "lever": "Retail Channel Optimization",
+        "description": "Retail loans currently fund at a fraction of the rate of Wholesale loans. This gap reflects differences in processor experience, borrower profile, and pipeline management rigor. Closing half the gap through dedicated Retail ops support, tighter SLAs, and earlier lock discipline would materially increase projected fundings.",
+        "current_state": "Retail avg prob 5% vs Wholesale 30% \u00b7 59 active Retail loans",
+        "target_state": "Improve Retail probability to 18% (halfway to Wholesale levels)",
+        "current_value": 670551.0,
+        "improved_value": 1378594.0,
+        "delta": 708043.0,
+        "pct_improvement": 228.3,
+        "affected_loans": 59,
+        "affected_value": 5809336.0,
+        "hist_retail_rate": 10.7,
+        "hist_wholesale_rate": 44.6,
+        "methodology": "50% of the current probability gap between Retail and Wholesale channels applied to current Retail live pipeline"
+      }
+    ]
+  },
+  "performance_scorecards": {
+    "products": [
+      {
+        "pull_through_rate": 0.276,
+        "pt_recent_3m": 0.3388,
+        "pt_prior_3m": 0.2813,
+        "pt_trend_delta": 0.0575,
+        "pt_trend": "up",
+        "median_cycle_days": 34.0,
+        "avg_loan_amount": 185527.0,
+        "funded_volume_6m": 42299807.0,
+        "pipeline_volume_6m": 51038181.0,
+        "revenue_efficiency": 0.8288,
+        "current_active_loans": 82,
+        "current_projected_value": 2507933.0,
+        "avg_pipeline_probability": 0.3179,
+        "efficiency_score": 51213.0,
+        "name": "2ND",
+        "dimension": "product"
+      },
+      {
+        "pull_through_rate": 0.2415,
+        "pt_recent_3m": 0.309,
+        "pt_prior_3m": 0.2145,
+        "pt_trend_delta": 0.0945,
+        "pt_trend": "up",
+        "median_cycle_days": 28.0,
+        "avg_loan_amount": 478809.0,
+        "funded_volume_6m": 77006486.0,
+        "pipeline_volume_6m": 110065726.0,
+        "revenue_efficiency": 0.6996,
+        "current_active_loans": 43,
+        "current_projected_value": 2402878.0,
+        "avg_pipeline_probability": 0.299,
+        "efficiency_score": 115635.0,
+        "name": "CONFORMING",
+        "dimension": "product"
+      },
+      {
+        "pull_through_rate": 0.0299,
+        "pt_recent_3m": 0.0303,
+        "pt_prior_3m": 0.0,
+        "pt_trend_delta": 0.0303,
+        "pt_trend": "up",
+        "median_cycle_days": 30.5,
+        "avg_loan_amount": 306981.0,
+        "funded_volume_6m": 355960.0,
+        "pipeline_volume_6m": 355960.0,
+        "revenue_efficiency": 1.0,
+        "current_active_loans": 1,
+        "current_projected_value": 0.0,
+        "avg_pipeline_probability": 0.0172,
+        "efficiency_score": 9164.0,
+        "name": "CONVENTIONAL BOND",
+        "dimension": "product"
+      },
+      {
+        "pull_through_rate": 0.0747,
+        "pt_recent_3m": 0.1979,
+        "pt_prior_3m": 0.034,
+        "pt_trend_delta": 0.1639,
+        "pt_trend": "up",
+        "median_cycle_days": 29.0,
+        "avg_loan_amount": 497557.0,
+        "funded_volume_6m": 13001147.0,
+        "pipeline_volume_6m": 18172607.0,
+        "revenue_efficiency": 0.7154,
+        "current_active_loans": 5,
+        "current_projected_value": 643846.0,
+        "avg_pipeline_probability": 0.5878,
+        "efficiency_score": 37166.0,
+        "name": "CONVENTIONAL BOND STD MI",
+        "dimension": "product"
+      },
+      {
+        "pull_through_rate": 0.2498,
+        "pt_recent_3m": 0.3035,
+        "pt_prior_3m": 0.2256,
+        "pt_trend_delta": 0.0779,
+        "pt_trend": "up",
+        "median_cycle_days": 27.5,
+        "avg_loan_amount": 459277.0,
+        "funded_volume_6m": 77965527.0,
+        "pipeline_volume_6m": 115200492.0,
+        "revenue_efficiency": 0.6768,
+        "current_active_loans": 59,
+        "current_projected_value": 3004382.0,
+        "avg_pipeline_probability": 0.3165,
+        "efficiency_score": 114718.0,
+        "name": "FHA",
+        "dimension": "product"
+      },
+      {
+        "pull_through_rate": 0.1985,
+        "pt_recent_3m": 0.2959,
+        "pt_prior_3m": 0.1439,
+        "pt_trend_delta": 0.152,
+        "pt_trend": "up",
+        "median_cycle_days": 31.0,
+        "avg_loan_amount": 407640.0,
+        "funded_volume_6m": 23278815.0,
+        "pipeline_volume_6m": 28880557.0,
+        "revenue_efficiency": 0.806,
+        "current_active_loans": 22,
+        "current_projected_value": 170277.0,
+        "avg_pipeline_probability": 0.2909,
+        "efficiency_score": 80910.0,
+        "name": "FHA BOND",
+        "dimension": "product"
+      },
+      {
+        "pull_through_rate": 0.399,
+        "pt_recent_3m": 0.4389,
+        "pt_prior_3m": 0.3773,
+        "pt_trend_delta": 0.0616,
+        "pt_trend": "up",
+        "median_cycle_days": 28.0,
+        "avg_loan_amount": 572790.0,
+        "funded_volume_6m": 559264667.0,
+        "pipeline_volume_6m": 789748423.0,
+        "revenue_efficiency": 0.7082,
+        "current_active_loans": 401,
+        "current_projected_value": 23070178.0,
+        "avg_pipeline_probability": 0.3044,
+        "efficiency_score": 228540.0,
+        "name": "NONCONFORMING",
+        "dimension": "product"
+      },
+      {
+        "pull_through_rate": 0.16,
+        "pt_recent_3m": 0.2045,
+        "pt_prior_3m": 0.0714,
+        "pt_trend_delta": 0.1331,
+        "pt_trend": "up",
+        "median_cycle_days": 29.0,
+        "avg_loan_amount": 511128.0,
+        "funded_volume_6m": 7791740.0,
+        "pipeline_volume_6m": 12989430.0,
+        "revenue_efficiency": 0.5999,
+        "current_active_loans": 9,
+        "current_projected_value": 552297.0,
+        "avg_pipeline_probability": 0.2337,
+        "efficiency_score": 81780.0,
+        "name": "VA",
+        "dimension": "product"
+      },
+      {
+        "pull_through_rate": 0.0925,
+        "pt_recent_3m": 0.2683,
+        "pt_prior_3m": 0.0844,
+        "pt_trend_delta": 0.1838,
+        "pt_trend": "up",
+        "median_cycle_days": 29.0,
+        "avg_loan_amount": 51476.0,
+        "funded_volume_6m": 2472953.0,
+        "pipeline_volume_6m": 3262151.0,
+        "revenue_efficiency": 0.7581,
+        "current_active_loans": 12,
+        "current_projected_value": 92548.0,
+        "avg_pipeline_probability": 0.3912,
+        "efficiency_score": 4759.0,
+        "name": "ZERO INTEREST PROGRAM",
+        "dimension": "product"
+      }
+    ],
+    "channels": [
+      {
+        "pull_through_rate": 0.0614,
+        "pt_recent_3m": 0.052,
+        "pt_prior_3m": 0.0609,
+        "pt_trend_delta": -0.0088,
+        "pt_trend": "flat",
+        "median_cycle_days": 30.0,
+        "avg_loan_amount": 431923.0,
+        "funded_volume_6m": 26966743.0,
+        "pipeline_volume_6m": 153929098.0,
+        "revenue_efficiency": 0.1752,
+        "current_active_loans": 59,
+        "current_projected_value": 670551.0,
+        "avg_pipeline_probability": 0.0534,
+        "efficiency_score": 26515.0,
+        "name": "Retail",
+        "dimension": "channel"
+      },
+      {
+        "pull_through_rate": 0.0,
+        "pt_recent_3m": 0.0,
+        "pt_prior_3m": 0.0,
+        "pt_trend_delta": 0.0,
+        "pt_trend": "flat",
+        "median_cycle_days": null,
+        "avg_loan_amount": 0.0,
+        "funded_volume_6m": 0.0,
+        "pipeline_volume_6m": 0.0,
+        "revenue_efficiency": 0.0,
+        "current_active_loans": 0,
+        "current_projected_value": 0.0,
+        "avg_pipeline_probability": 0.0,
+        "efficiency_score": 0.0,
+        "name": "Unknown",
+        "dimension": "channel"
+      },
+      {
+        "pull_through_rate": 0.2521,
+        "pt_recent_3m": 0.3306,
+        "pt_prior_3m": 0.2354,
+        "pt_trend_delta": 0.0952,
+        "pt_trend": "up",
+        "median_cycle_days": 29.0,
+        "avg_loan_amount": 474758.0,
+        "funded_volume_6m": 777153489.0,
+        "pipeline_volume_6m": 1262037203.0,
+        "revenue_efficiency": 0.6158,
+        "current_active_loans": 649,
+        "current_projected_value": 31773788.0,
+        "avg_pipeline_probability": 0.2971,
+        "efficiency_score": 119703.0,
+        "name": "Wholesale",
+        "dimension": "channel"
+      }
+    ],
+    "rankings": [
+      {
+        "rank": 1,
+        "name": "NONCONFORMING",
+        "efficiency_score": 228540.0,
+        "pull_through_rate": 0.399,
+        "avg_loan_amount": 572790.0,
+        "funded_volume_6m": 559264667.0,
+        "pt_trend": "up",
+        "tier": "top"
+      },
+      {
+        "rank": 2,
+        "name": "CONFORMING",
+        "efficiency_score": 115635.0,
+        "pull_through_rate": 0.2415,
+        "avg_loan_amount": 478809.0,
+        "funded_volume_6m": 77006486.0,
+        "pt_trend": "up",
+        "tier": "top"
+      },
+      {
+        "rank": 3,
+        "name": "FHA",
+        "efficiency_score": 114718.0,
+        "pull_through_rate": 0.2498,
+        "avg_loan_amount": 459277.0,
+        "funded_volume_6m": 77965527.0,
+        "pt_trend": "up",
+        "tier": "mid"
+      },
+      {
+        "rank": 4,
+        "name": "VA",
+        "efficiency_score": 81780.0,
+        "pull_through_rate": 0.16,
+        "avg_loan_amount": 511128.0,
+        "funded_volume_6m": 7791740.0,
+        "pt_trend": "up",
+        "tier": "mid"
+      },
+      {
+        "rank": 5,
+        "name": "FHA BOND",
+        "efficiency_score": 80910.0,
+        "pull_through_rate": 0.1985,
+        "avg_loan_amount": 407640.0,
+        "funded_volume_6m": 23278815.0,
+        "pt_trend": "up",
+        "tier": "mid"
+      },
+      {
+        "rank": 6,
+        "name": "2ND",
+        "efficiency_score": 51213.0,
+        "pull_through_rate": 0.276,
+        "avg_loan_amount": 185527.0,
+        "funded_volume_6m": 42299807.0,
+        "pt_trend": "up",
+        "tier": "mid"
+      },
+      {
+        "rank": 7,
+        "name": "CONVENTIONAL BOND STD MI",
+        "efficiency_score": 37166.0,
+        "pull_through_rate": 0.0747,
+        "avg_loan_amount": 497557.0,
+        "funded_volume_6m": 13001147.0,
+        "pt_trend": "up",
+        "tier": "mid"
+      },
+      {
+        "rank": 8,
+        "name": "CONVENTIONAL BOND",
+        "efficiency_score": 9164.0,
+        "pull_through_rate": 0.0299,
+        "avg_loan_amount": 306981.0,
+        "funded_volume_6m": 355960.0,
+        "pt_trend": "up",
+        "tier": "bottom"
+      },
+      {
+        "rank": 9,
+        "name": "ZERO INTEREST PROGRAM",
+        "efficiency_score": 4759.0,
+        "pull_through_rate": 0.0925,
+        "avg_loan_amount": 51476.0,
+        "funded_volume_6m": 2472953.0,
+        "pt_trend": "up",
+        "tier": "bottom"
+      }
+    ]
+  },
+  "optimization_recommendations": {
+    "total_estimated_impact": 7149296.0,
+    "recommendations": [
+      {
+        "priority": 1,
+        "title": "Secure rate locks on 3 unlocked late-stage loans",
+        "description": "These loans have reached Approved or later without a rate lock. Unlocked late-stage loans fund at ~8% vs ~42% for locked loans \u2014 contact borrowers immediately to secure pricing.",
+        "estimated_impact": 0.0,
+        "effort": "low",
+        "loan_count": 3,
+        "category": "lock_management",
+        "urgency": "immediate"
+      },
+      {
+        "priority": 2,
+        "title": "Rush CTC for 7 loans with locks expiring in 14 days",
+        "description": "Rate locks expire before these loans reach Clear-to-Close. Each day of delay risks lock expiry and borrower fallout. Prioritize condition clearance for this cohort.",
+        "estimated_impact": 1202526.0,
+        "effort": "medium",
+        "loan_count": 7,
+        "category": "pipeline_acceleration",
+        "urgency": "immediate"
+      },
+      {
+        "priority": 3,
+        "title": "Clear final conditions on 26 near-certain CTC+ loans",
+        "description": "These 26 loans are at CTC or beyond with 80%+ ML probability \u2014 they represent $12.8M in near-guaranteed volume. Dedicated ops support ensures they fund this month, not next.",
+        "estimated_impact": 484313.0,
+        "effort": "low",
+        "loan_count": 26,
+        "category": "pipeline_acceleration",
+        "urgency": "this_week"
+      },
+      {
+        "priority": 4,
+        "title": "Re-engage 17 stalled above-median loans",
+        "description": "These above-median loans have been at the same stage for 73+ days on average \u2014 longer than historical norms. Proactive borrower outreach and condition escalation can move them before month-end.",
+        "estimated_impact": 2272552.0,
+        "effort": "medium",
+        "loan_count": 17,
+        "category": "borrower_engagement",
+        "urgency": "this_week"
+      },
+      {
+        "priority": 6,
+        "title": "Archive 401 eliminated loans to free ops capacity",
+        "description": "401 loans ($167.1M face value) have been flagged by the elimination filter as unlikely to fund. Formally closing them stops ops follow-up on dead deals and redirects focus to the live pipeline.",
+        "estimated_impact": 2939733.0,
+        "effort": "low",
+        "loan_count": 401,
+        "category": "resource_reallocation",
+        "urgency": "this_week"
+      },
+      {
+        "priority": 7,
+        "title": "Lift Retail pull-through: coach LOs on 5 at-risk loans",
+        "description": "Retail channel pull-through runs ~10% vs 42% Wholesale. 5 Retail loans have <40% ML probability. Targeted LO coaching and condition tracking can lift conversion on these deals.",
+        "estimated_impact": 250172.0,
+        "effort": "high",
+        "loan_count": 5,
+        "category": "resource_reallocation",
+        "urgency": "this_month"
+      }
+    ]
+  }
 }

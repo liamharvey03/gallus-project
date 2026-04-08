@@ -67,6 +67,12 @@ embedded = {
     "channelSplit":     raw.get("channel_split", []),
     "productBreakdown": raw.get("product_breakdown", []),
     "atRiskLoans":      raw.get("at_risk_loans", []),
+    "revenueAtRisk":    raw.get("revenue_at_risk", {}),
+    "bottleneckDetection": raw.get("bottleneck_detection", {}),
+    "velocityMomentum": raw.get("velocity_momentum", {}),
+    "whatIfScenarios":  raw.get("what_if_scenarios", {}),
+    "performanceScorecards": raw.get("performance_scorecards", {}),
+    "optimizationRecommendations": raw.get("optimization_recommendations", {}),
 }
 
 data_js = json.dumps(embedded, indent=2)
