@@ -139,3 +139,102 @@ FAILURE_DATE_COLUMNS = [
     "Withdrawn D",
     "Loan Suspended D",
 ]
+
+# ─── Industry benchmarks ────────────────────────────────────────────────────
+#
+# SOURCING NOTES (read before citing to clients):
+#
+# WELL-SOURCED (primary data):
+#   - Total days to close: ICE Mortgage Technology (Ellie Mae) Origination
+#     Insight Reports, covers ~80% of US mortgage applications.
+#     Purchase avg 42d overall (ICE 2024). Conv ~42d, FHA ~45d, VA ~49d
+#     (ValuePenguin citing Ellie Mae 2019; LendingTree 2024).
+#   - Closing rates (= pull-through from formal application): 76-78%
+#     overall on 90-day cycle (Ellie Mae OIR, Feb-Sep 2020 reports).
+#     Purchase 80.7%, Refi 76.0% (Ellie Mae Feb 2020).
+#   - Industry pull-through benchmark: 75% (FundMore.ai 2021 composite;
+#     corroborated by Ellie Mae 76-78% closing rate data).
+#
+# ESTIMATED (derived, not from a single authoritative report):
+#   - Stage-by-stage transition times: No public source breaks down
+#     Submitted->Approved or Approved->CTC by product type. These are
+#     estimated from total cycle times and general underwriting timelines.
+#   - Pull-through by product type: Not publicly available with
+#     specificity. Per-product rates are directional estimates.
+#   - "fast"/"slow" thresholds: Approximate top/bottom quartile.
+#
+# RECOMMENDATION: Validate stage-specific benchmarks with Augie before
+# presenting as authoritative. He knows the industry numbers.
+#
+INDUSTRY_BENCHMARKS = {
+    "transition_days": {
+        "Open → Submitted": {
+            "overall":       {"median": 1, "fast": 0, "slow": 3},
+            "NONCONFORMING": {"median": 1, "fast": 0, "slow": 3},
+            "CONFORMING":    {"median": 1, "fast": 0, "slow": 2},
+            "FHA":           {"median": 1, "fast": 0, "slow": 3},
+            "VA":            {"median": 1, "fast": 0, "slow": 3},
+            "2ND":           {"median": 1, "fast": 0, "slow": 3},
+        },
+        "Submitted → Approved": {
+            "overall":       {"median": 5, "fast": 3, "slow": 7},
+            "NONCONFORMING": {"median": 6, "fast": 4, "slow": 8},
+            "CONFORMING":    {"median": 4, "fast": 3, "slow": 6},
+            "FHA":           {"median": 5, "fast": 3, "slow": 7},
+            "VA":            {"median": 6, "fast": 4, "slow": 8},
+            "2ND":           {"median": 5, "fast": 3, "slow": 7},
+        },
+        "Approved → CTC": {
+            # Derived: total_cycle minus other stages. Most variable stage.
+            # VA/jumbo longer due to appraisal complexity + documentation.
+            "overall":       {"median": 20, "fast": 12, "slow": 28},
+            "NONCONFORMING": {"median": 24, "fast": 14, "slow": 32},
+            "CONFORMING":    {"median": 18, "fast": 10, "slow": 24},
+            "FHA":           {"median": 22, "fast": 13, "slow": 28},
+            "VA":            {"median": 26, "fast": 16, "slow": 34},
+            "2ND":           {"median": 20, "fast": 12, "slow": 26},
+        },
+        "CTC → Funded": {
+            "overall":       {"median": 5, "fast": 3, "slow": 7},
+            "NONCONFORMING": {"median": 5, "fast": 3, "slow": 7},
+            "CONFORMING":    {"median": 4, "fast": 3, "slow": 6},
+            "FHA":           {"median": 5, "fast": 3, "slow": 7},
+            "VA":            {"median": 6, "fast": 3, "slow": 8},
+            "2ND":           {"median": 5, "fast": 3, "slow": 7},
+        },
+    },
+    # Total app-to-funded. Sources: ICE 2024 (42d purchase overall);
+    # ValuePenguin/Ellie Mae 2019 (Conv 47d, FHA 47d, VA 49d purchase);
+    # LendingTree 2024 (Conv 42d, FHA 43d, VA 40-50d).
+    "total_cycle_days": {
+        "overall": 43,           # ICE Mortgage Technology 2024
+        "NONCONFORMING": 49,     # JVM Lending: jumbos take longer
+        "CONFORMING": 42,        # LendingTree 2024; ICE 2024
+        "FHA": 45,               # LendingTree 43d + Ellie Mae 47d, avg
+        "VA": 49,                # LendingTree 40-50d; Ellie Mae 49d
+        "2ND": 42,               # No specific data; assumed ~conforming
+    },
+    # Closing rates. Ellie Mae measures on 90-day cycle from application.
+    # NOT the same as FlexPoint's pipeline-entry pull-through.
+    "closing_rates": {
+        "overall": 0.77,         # Ellie Mae OIR avg Feb-Sep 2020
+        "purchase": 0.81,        # Ellie Mae Feb 2020: 80.7%
+        "refinance": 0.76,       # Ellie Mae Feb 2020: 76.0%
+        "industry_pull_through_benchmark": 0.75,  # FundMore.ai 2021
+        "note": (
+            "Industry 'closing rate' is measured from formal application "
+            "on a 90-day cycle (Ellie Mae/ICE, ~80% of US mortgage apps). "
+            "FlexPoint's 37% pull-through is from pipeline entry — much "
+            "earlier. These are NOT directly comparable."
+        ),
+    },
+    "sources": [
+        "ICE Mortgage Technology Origination Insight Report 2024 (42d purchase avg)",
+        "Ellie Mae OIR press releases Feb-Sep 2020 (closing rates 76-78%)",
+        "ValuePenguin citing Ellie Mae Feb 2019 (Conv 47d, FHA 47d, VA 49d)",
+        "LendingTree 2024 (Conv 42d, FHA 43d, VA 40-50d)",
+        "FundMore.ai 2021 (75% pull-through benchmark)",
+        "Stage transitions: ESTIMATED from total cycle + industry guides",
+    ],
+    "source_display": "ICE Mortgage Technology 2024, Ellie Mae OIR, LendingTree",
+}

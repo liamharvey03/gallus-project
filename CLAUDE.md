@@ -29,7 +29,7 @@ The prior analysis built a classification model (Random Forest, AUC 0.99) on com
 
 ## 2. THE CLIENT'S DIRECTION (from Augie, the stakeholder)
 
-From the Feb 11, 2026 call — these are direct instructions, not suggestions:
+### Feb 11, 2026 call — original directives:
 
 1. **Add Product Type and Loan Purpose first** — "I guarantee you if we start by product and purpose, that's going to add a lot of value." Fannie/Freddie loans behave differently than FHA/government loans. Purchase loans close faster than refis.
 
@@ -46,6 +46,26 @@ From the Feb 11, 2026 call — these are direct instructions, not suggestions:
 7. **Run 3-5 models, compare** — Different methodologies, find highest predictive power.
 
 8. **Don't over-engineer explainability yet** — Focus on accuracy first. Explanatory framework comes later.
+
+### Apr 8, 2026 call — enhancement directives (all implemented):
+
+9. **Actionable recommendations with probability deltas** — "If you take this action, you increase probability from 16% to 34%." Show specific steps to improve funding likelihood. → DONE: counterfactual scoring.
+
+10. **Moneyball difficulty × probability matrix** — Y-axis: probability, X-axis: difficulty, bubble size: loan amount. Target upper-left quadrant. Identify loans that can move quadrants with simple actions. → DONE: Moneyball Matrix in Revenue at Risk tab.
+
+11. **Industry standards / benchmarks** — Research competitive benchmarks for stage transition times. "Is VA at 20 days good or bad?" → DONE: ICE Mortgage Technology 2024 benchmarks in heatmap.
+
+12. **Show variance alongside medians** — Domino's pizza analogy. Need IQR or std dev. "Competitive medians and low variances." → DONE: IQR throughout Pipeline Health.
+
+13. **Split all analytics by product type** — "You cannot just look at it in aggregate." → DONE: product filter in Pipeline Health.
+
+14. **Balanced scorecard** — Single composite number per product that can be tracked. → DONE: 0-100 composite in Scorecards.
+
+15. **Red-team AI conclusions** — "Like the CIA... red team the hell out of them." Stress-test with industry knowledge. → DONE: confidence badges, caveats, overlap analysis.
+
+16. **Build inside ThoughtSpot** — "It doesn't make sense for Ajer and Liam to be building anything outside of ThoughtSpot." → RESEARCHED: see `THOUGHTSPOT_INTEGRATION.md`. Pending Gallus access.
+
+17. **Create a Claude agent** — "Working 24/7... actionable insights for mortgage operations." Multi-agent architecture. → NOT YET BUILT. Pending Gallus enterprise API access.
 
 ---
 
@@ -274,58 +294,104 @@ When stratifying by stage × product × purpose, some cells will have very few l
 
 ```
 flexpoint-forecast/
-├── CLAUDE.md                     # This file (symlink or copy of README.md)
+├── CLAUDE.md                     # This file — project context
 ├── config.py                     # Stage definitions, feature lists, constants
 ├── data/
-│   └── sectG.csv                 # Raw loan data
+│   └── sectG.csv                 # Raw loan data (15,272 loans × 152 cols)
 ├── src/
 │   ├── data_prep.py              # Load, clean, parse dates, define targets
 │   ├── pipeline_snapshot.py      # Reconstruct pipeline state at any date T
 │   ├── eda.py                    # Correlation matrices, distribution analysis
 │   ├── transition_tables.py      # Build P(fund | stage, product, purpose) tables
-│   ├── feature_engineering.py    # Build ML feature set from snapshots
-│   ├── models.py                 # Train and compare models
+│   ├── feature_engineering_v3.py # v3 feature set (27 features: 15 v2 + 12 interactions)
+│   ├── models.py                 # Train and compare models (GBM selected)
 │   ├── backtest.py               # Monthly backtesting harness
-│   └── scorer.py                 # Score active pipeline → monthly projection
+│   ├── elimination_filter.py     # Dead-loan detection (5 conservative rules)
+│   ├── generate_dashboard_data.py # Orchestrator: builds all 16 dashboard data sections
+│   ├── build_dashboard_jsx.py    # Builds JSX + embeds data for dashboard HTML
+│   └── patch_dashboard_whatif.py # What-if scenario patching utility
 ├── outputs/
-│   ├── figures/                  # EDA plots, backtest charts
-│   └── results/                  # Backtest results, model comparison tables
+│   ├── flexpoint_dashboard_v2.html  # Main dashboard (self-contained, 7 tabs, ~10K lines)
+│   ├── dashboard_demo_data.json     # Generated data (16 sections)
+│   ├── dashboardv2_script.pdf       # Speaker script for client presentation
+│   ├── generate_script_pdf.py       # Script PDF generator
+│   └── results/                     # Backtest CSVs, feature importance, etc.
+├── THOUGHTSPOT_INTEGRATION.md       # ThoughtSpot integration research & strategy
 └── requirements.txt
 ```
 
 ---
 
-## 7. DEVELOPMENT SEQUENCE
+## 7. DEVELOPMENT STATUS
 
-### Phase 1: Foundation (Week 1)
-- [ ] `config.py` — Constants and stage definitions
-- [ ] `data_prep.py` — Load data, parse all dates, define funded/failed/active
-- [ ] `pipeline_snapshot.py` — Reconstruct pipeline at any date T
-- [ ] `transition_tables.py` — Build stratified P(fund | stage × product × purpose) tables
-- [ ] Validate: reproduce the 4.7% POC result, then beat it with stratification
+### Phase 1–4: COMPLETE
+- Config, data prep, pipeline snapshot, transition tables — all built
+- v3 feature engineering: 27 features (15 base + 12 lock/velocity interactions)
+- GradientBoosting model selected (best Brier score), trained on 2024, tested on 2025
+- Backtest: 5.8% MAPE across 24 months, 19/24 within 10%
+- Elimination filter: 5 conservative rules, flags ~36% of pipeline as dead (<2% funding rate)
 
-### Phase 2: EDA & Feature Selection (Week 1-2)
-- [ ] `eda.py` — Correlation with funding outcome, by-segment analysis
-- [ ] Time-at-stage distributions by outcome
-- [ ] Identify top features, validate Augie's intuition with data
-- [ ] Produce the "Augie was right" evidence (product/purpose add value)
+### Phase 5: Dashboard v2 — COMPLETE
+The dashboard (`outputs/flexpoint_dashboard_v2.html`) is a self-contained dark-themed HTML file with embedded React, Recharts, and inline data. It has **7 tabs** powered by **16 data sections** generated by `src/generate_dashboard_data.py`.
 
-### Phase 3: Model Training (Week 2-3)
-- [ ] `feature_engineering.py` — Build snapshot-based training set
-- [ ] `models.py` — Logistic, GBM, survival model, compare on held-out data
-- [ ] Feature importance analysis
-- [ ] Calibration — ensure predicted probabilities are well-calibrated
+**Dashboard tabs and their data sources:**
 
-### Phase 4: Backtesting (Week 3)
-- [ ] `backtest.py` — Monthly backtest harness across 2024-2025
-- [ ] Measure MAPE at day 1, day 15, day 22 of each month
-- [ ] Compare: naive stage-prob vs stratified vs ML-enhanced
-- [ ] Produce backtest summary table for Augie
+| Tab | Data Sections | What It Shows |
+|---|---|---|
+| Overview | summary, stage_funnel, channel_split, product_breakdown, backtest_accuracy, optimization_recommendations | KPI row, action recommendations (with confidence caveats), funnel, breakdowns |
+| Watch List | at_risk_loans, loan_table | At-risk loans with **counterfactual actions + impact columns**, live/dead loan tables |
+| Revenue at Risk | revenue_at_risk, moneyball_matrix | $145M at risk, **Moneyball bubble chart** (difficulty × probability), top 12 recovery opportunities with **counterfactual recommendations** |
+| Pipeline Health | bottleneck_detection, velocity_momentum | Stage transition heatmap **with industry benchmarks + IQR variance**, **product filter dropdown**, conversion funnel, velocity bands, momentum alerts |
+| Trends | pull_through, cycle_times | Monthly pull-through chart, cycle time distributions |
+| What-If | what_if_scenarios | 4 operational levers, **overlap-adjusted totals ($18.7M realistic vs $38.9M raw)**, **confidence badges**, **caveats per scenario**, **red-team analysis footer** |
+| Scorecards | performance_scorecards | Product/channel comparison, **composite score (0-100)**, efficiency rankings, trend analysis |
 
-### Phase 5: Delivery (Week 4)
-- [ ] `scorer.py` — Production scoring logic
-- [ ] Documentation of model, features, and results
-- [ ] Presentation-ready backtest results and recommendations
+**Data generation pipeline:**
+```
+sectG.csv → data_prep → transition_tables → feature_engineering_v3 → models.train_and_select()
+  → pipeline_snapshot (at 2025-12-15) → elimination_filter → 16 section builders
+  → dashboard_demo_data.json → flexpoint_dashboard_v2.html (DATA re-embedded)
+```
+
+**To regenerate the dashboard data:**
+```bash
+/Users/ajersher/anaconda3/bin/python3 src/generate_dashboard_data.py
+```
+Note: After regenerating the JSON, the DATA object in `flexpoint_dashboard_v2.html` must be re-embedded (currently done manually or via agent — `build_dashboard_jsx.py` only generates the older 3-tab version).
+
+### Phase 5.5: Dashboard v3 Enhancements — COMPLETE (Apr 14-15, 2026)
+
+Seven enhancements from Augie's April 8 call directives:
+
+1. **Counterfactual Probability Deltas** — Each at-risk and recovery loan shows "if you do X, probability goes from Y% to Z%, adding $N." Uses `_counterfactual_score()` helper that re-runs feature engineering + ML on modified raw columns. 49/59 at-risk loans have actionable recommendations. Top feature lever: rate lock (lock_expiry_vs_month_end, 0.678 importance).
+
+2. **Moneyball Matrix** — Scatter/bubble chart (difficulty × probability, size = loan amount). 4 quadrants: easy_win, quick_fix, stretch, long_shot. 43 "movable" loans highlighted in gold (can shift quadrants with a single action). Placed in Revenue at Risk tab.
+
+3. **Variance Metrics (IQR)** — p25-p75 ranges shown alongside all medians: heatmap cells, bottleneck pileup, velocity stage metrics. Addresses Augie's Domino's pizza analogy.
+
+4. **Product-Level Splits** — Product filter dropdown in Pipeline Health tab. Conversion funnel, velocity distribution, and bottleneck pileup all filter by product. New data: `conversion_by_product`, `current_bottlenecks_by_product`, `distribution_by_product`.
+
+5. **Balanced Composite Scorecard** — 0-100 weighted composite per product/channel: pull-through 30%, cycle time 20%, revenue efficiency 20%, trend 15%, pipeline probability 15%. Color-coded in Scorecards tab. Rankings sorted by composite.
+
+6. **Industry Benchmarks** — "Industry" column in Pipeline Health heatmap showing ICE Mortgage Technology 2024 benchmarks with fast-slow ranges. Delta indicators per product cell (e.g., "-6.0d vs ind." in green). Key finding: FlexPoint is ~6 days faster than industry on Approved→CTC across all products. Sources documented with confidence levels in `config.py`.
+
+7. **Red-Team Analysis** — What-If tab shows overlap-adjusted totals (52% measured overlap). Confidence badges (medium/low) on each scenario. "Assumptions & Caveats" section per card. Red-team footer in methodology section covering correlation-vs-causation and overlap. Recommendation caveats on lock and re-engagement actions.
+
+### Phase 6: ThoughtSpot Integration — RESEARCHED (not yet built)
+
+Full research at `THOUGHTSPOT_INTEGRATION.md`. Key findings:
+- ThoughtSpot has an **official MCP server** (`https://agent.thoughtspot.app/mcp`) compatible with Claude Code
+- MCP tools: ping, getDataSourceSuggestions, getRelevantQuestions, getAnswer, createLiveboard
+- Python SDK: `pip install thoughtspot-rest-api` for programmatic data operations
+- Integration strategy: 4 phases (explore → push data → build liveboards → Spotter agent)
+- Prerequisites: Gallus email + ThoughtSpot access from Augie/Ramito, CORS whitelist update
+
+### Potential Phase 7 features (not yet built):
+- Early Warning Predictive Alerts (re-score loans at T+7/T+14, flag probability drops)
+- Cohort Funnel Analysis (track loan cohorts through pipeline)
+- Historical Pattern Intelligence (contextual benchmarking by loan profile)
+- Monthly Narrative / Executive Summary (auto-generated plain-English report)
+- Claude Agent for 24/7 operational insights (Augie's vision — multi-agent architecture)
 
 ---
 
@@ -375,12 +441,30 @@ PRODUCT_GROUPS = {
 
 For the Wednesday calls with Augie, Mariana, and Israel:
 
-1. **"Product and purpose matter"** — Show stratified transition tables proving different funding rates and velocities by product and purpose. Augie guaranteed this; confirm it with data.
+1. **"Product and purpose matter"** — DONE. Scorecards tab proves NONCONFORMING is 40% pull-through vs VA at 34%. Bottleneck heatmap shows different cycle times by product. Augie was right.
 
-2. **"The model is more accurate"** — Backtest table showing month-by-month predictions vs actuals with MAPE <10% at mid-month, and demonstrably better than the current simple model.
+2. **"The model is more accurate"** — DONE. 5.8% MAPE, 19/24 months within 10%. Oct 2025 was <0.1% error.
 
-3. **"Here are the most important variables"** — Ranked feature importance from the ML model, showing which variables actually move the needle and which are noise.
+3. **"Here are the most important variables"** — DONE. Top feature: lock_expiry_vs_month_end (0.678 importance). Feature importance in `outputs/results/feature_importance_v3.csv`.
 
-4. **"It works across time"** — Backtest stability — the model doesn't just work for one month, it generalizes across 2024-2025.
+4. **"It works across time"** — DONE. Backtested Jan 2024–Dec 2025. Results in `outputs/results/backtest_results_v3.csv`.
 
-5. **"Here's the projection"** — Ability to score the current active pipeline and produce the same output format as the ThoughtSpot dashboard: total projected, already funded vs remaining, retail/wholesale split.
+5. **"Here's the projection"** — DONE. Overview tab: $100.6M projected, $68M already funded, wholesale/retail split, weekly breakdown.
+
+6. **"Tell me what to DO about it"** — DONE. Optimization Recommendations at top of Overview: 6 ranked actions, $7.1M estimated impact. Revenue at Risk: $145M categorized with recovery actions. What-If: $18.7M realistic upside (overlap-adjusted).
+
+7. **"If you do X, probability goes from 16% to 34%"** — DONE. Counterfactual scoring on 49/59 at-risk loans. Watch List shows Action + Impact columns. Revenue at Risk recovery table shows recommended action + probability delta.
+
+8. **"Moneyball — pick up the easy chips first"** — DONE. Bubble scatter chart with difficulty × probability × loan amount. 4 quadrants, 43 movable loans highlighted in gold.
+
+9. **"Show variance, not just medians"** — DONE. IQR (p25-p75) on heatmap cells, bottleneck pileup, velocity metrics.
+
+10. **"Split everything by product"** — DONE. Product filter dropdown on Pipeline Health tab filters conversion funnel, velocity distribution, and bottleneck pileup.
+
+11. **"Industry benchmarks — is VA at 20 days good or bad?"** — DONE. Industry column in heatmap (ICE Mortgage Technology 2024). FlexPoint is ~6d faster than industry on Approved→CTC.
+
+12. **"Red-team the conclusions"** — DONE. Overlap-adjusted What-If totals, confidence badges, caveats per scenario, analytical footnotes.
+
+13. **"Balanced scorecard — single number"** — DONE. Composite score (0-100) per product in Scorecards tab.
+
+**Speaker script for the presentation:** `outputs/dashboardv2_script.pdf` — verbatim read-off script (may need updating to cover new features).

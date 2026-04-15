@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-08T15:06:39.252879",
+  "generated_at": "2026-04-15T00:01:19.157627",
   "loan_table": [
     {
       "loan_guid": "82509113",
@@ -2365,6 +2365,7 @@
       "p75": 38.0,
       "p90": 52.0,
       "mean": 33.1,
+      "std": 18.4,
       "count": 5660,
       "above_sla": 868,
       "above_sla_pct": 15.3,
@@ -8039,6 +8040,7 @@
         "p75": 44.0,
         "p90": 59.200000000000045,
         "mean": 37.8,
+        "std": 18.6,
         "count": 709,
         "above_sla": 166,
         "above_sla_pct": 23.4,
@@ -8761,6 +8763,7 @@
         "p75": 36.0,
         "p90": 51.0,
         "mean": 33.1,
+        "std": 21.9,
         "count": 639,
         "above_sla": 95,
         "above_sla_pct": 14.9,
@@ -9413,6 +9416,7 @@
         "p75": 34.25,
         "p90": 42.8,
         "mean": 30.9,
+        "std": 10.1,
         "count": 10,
         "above_sla": 1,
         "above_sla_pct": 10.0,
@@ -9436,6 +9440,7 @@
         "p75": 35.0,
         "p90": 41.5,
         "mean": 30.9,
+        "std": 9.2,
         "count": 96,
         "above_sla": 8,
         "above_sla_pct": 8.3,
@@ -9545,6 +9550,7 @@
         "p75": 36.0,
         "p90": 49.0,
         "mean": 31.3,
+        "std": 15.8,
         "count": 816,
         "above_sla": 103,
         "above_sla_pct": 12.6,
@@ -10374,6 +10380,7 @@
         "p75": 39.0,
         "p90": 48.0,
         "mean": 33.2,
+        "std": 13.7,
         "count": 233,
         "above_sla": 31,
         "above_sla_pct": 13.3,
@@ -10620,6 +10627,7 @@
         "p75": 37.0,
         "p90": 52.0,
         "mean": 32.6,
+        "std": 18.8,
         "count": 2911,
         "above_sla": 431,
         "above_sla_pct": 14.8,
@@ -13544,6 +13552,7 @@
         "p75": 36.75,
         "p90": 55.400000000000034,
         "mean": 34.8,
+        "std": 23.2,
         "count": 82,
         "above_sla": 11,
         "above_sla_pct": 13.4,
@@ -13639,6 +13648,7 @@
         "p75": 34.0,
         "p90": 46.70000000000002,
         "mean": 31.2,
+        "std": 11.5,
         "count": 154,
         "above_sla": 17,
         "above_sla_pct": 11.0,
@@ -14118,7 +14128,11 @@
       "expected_value": 800140.0,
       "risk_reasons": [
         "Sitting at Approved for 151 days"
-      ]
+      ],
+      "recommended_action": null,
+      "counterfactual_probability": null,
+      "probability_delta": 0.0,
+      "expected_value_uplift": 0.0
     },
     {
       "loan_guid": "82510624",
@@ -14131,7 +14145,11 @@
       "expected_value": 657896.0,
       "risk_reasons": [
         "No rate lock \u2014 16% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.8748,
+      "probability_delta": 0.7104,
+      "expected_value_uplift": 2841413.0
     },
     {
       "loan_guid": "82511164",
@@ -14144,7 +14162,11 @@
       "expected_value": 554209.0,
       "risk_reasons": [
         "Rate lock expires within 7 days \u2014 still at Final UW"
-      ]
+      ],
+      "recommended_action": null,
+      "counterfactual_probability": null,
+      "probability_delta": 0.0,
+      "expected_value_uplift": 0.0
     },
     {
       "loan_guid": "82510338",
@@ -14157,7 +14179,11 @@
       "expected_value": 548634.0,
       "risk_reasons": [
         "Rate lock expires within 7 days \u2014 still at Cond Review"
-      ]
+      ],
+      "recommended_action": null,
+      "counterfactual_probability": null,
+      "probability_delta": 0.0,
+      "expected_value_uplift": 0.0
     },
     {
       "loan_guid": "82509010",
@@ -14171,7 +14197,11 @@
       "risk_reasons": [
         "Sitting at Approved for 101 days",
         "Only 21% funding probability"
-      ]
+      ],
+      "recommended_action": null,
+      "counterfactual_probability": null,
+      "probability_delta": 0.0,
+      "expected_value_uplift": 0.0
     },
     {
       "loan_guid": "82507572",
@@ -14184,7 +14214,11 @@
       "expected_value": 289941.0,
       "risk_reasons": [
         "No rate lock despite reaching Cond Review"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.9446,
+      "probability_delta": 0.1714,
+      "expected_value_uplift": 64269.0
     },
     {
       "loan_guid": "82510511",
@@ -14197,7 +14231,11 @@
       "expected_value": 255222.0,
       "risk_reasons": [
         "No rate lock despite reaching Final UW"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.8917,
+      "probability_delta": 0.127,
+      "expected_value_uplift": 42380.0
     },
     {
       "loan_guid": "82511128",
@@ -14210,7 +14248,11 @@
       "expected_value": 224631.0,
       "risk_reasons": [
         "Rate lock expires within 7 days \u2014 still at Approved"
-      ]
+      ],
+      "recommended_action": null,
+      "counterfactual_probability": null,
+      "probability_delta": 0.0,
+      "expected_value_uplift": 0.0
     },
     {
       "loan_guid": "82510470",
@@ -14223,7 +14265,11 @@
       "expected_value": 165902.0,
       "risk_reasons": [
         "No rate lock despite reaching CTC"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.781,
+      "probability_delta": 0.4082,
+      "expected_value_uplift": 181664.0
     },
     {
       "loan_guid": "82508255",
@@ -14236,7 +14282,11 @@
       "expected_value": 165638.0,
       "risk_reasons": [
         "Sitting at Approved for 118 days"
-      ]
+      ],
+      "recommended_action": null,
+      "counterfactual_probability": null,
+      "probability_delta": 0.0,
+      "expected_value_uplift": 0.0
     },
     {
       "loan_guid": "82509028",
@@ -14249,7 +14299,11 @@
       "expected_value": 135363.0,
       "risk_reasons": [
         "Rate lock expires within 7 days \u2014 still at Cond Review"
-      ]
+      ],
+      "recommended_action": null,
+      "counterfactual_probability": null,
+      "probability_delta": 0.0,
+      "expected_value_uplift": 0.0
     },
     {
       "loan_guid": "82509455",
@@ -14262,7 +14316,11 @@
       "expected_value": 122287.0,
       "risk_reasons": [
         "Rate lock expires within 7 days \u2014 still at Cond Review"
-      ]
+      ],
+      "recommended_action": null,
+      "counterfactual_probability": null,
+      "probability_delta": 0.0,
+      "expected_value_uplift": 0.0
     },
     {
       "loan_guid": "82510441",
@@ -14275,7 +14333,11 @@
       "expected_value": 111979.0,
       "risk_reasons": [
         "No rate lock \u2014 3% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.7506,
+      "probability_delta": 0.7226,
+      "expected_value_uplift": 2890344.0
     },
     {
       "loan_guid": "82507521",
@@ -14288,7 +14350,11 @@
       "expected_value": 82354.0,
       "risk_reasons": [
         "Sitting at Approved for 140 days"
-      ]
+      ],
+      "recommended_action": null,
+      "counterfactual_probability": null,
+      "probability_delta": 0.0,
+      "expected_value_uplift": 0.0
     },
     {
       "loan_guid": "82511035",
@@ -14302,7 +14368,11 @@
       "risk_reasons": [
         "Rate lock expires within 7 days \u2014 still at Approved",
         "Only 8% funding probability"
-      ]
+      ],
+      "recommended_action": "Extend rate lock 30 days",
+      "counterfactual_probability": 0.401,
+      "probability_delta": 0.3169,
+      "expected_value_uplift": 299475.0
     },
     {
       "loan_guid": "82510068",
@@ -14315,7 +14385,11 @@
       "expected_value": 76759.0,
       "risk_reasons": [
         "No rate lock \u2014 7% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.8161,
+      "probability_delta": 0.7456,
+      "expected_value_uplift": 811181.0
     },
     {
       "loan_guid": "82510379",
@@ -14328,7 +14402,11 @@
       "expected_value": 63742.0,
       "risk_reasons": [
         "No rate lock \u2014 2% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.7661,
+      "probability_delta": 0.75,
+      "expected_value_uplift": 2962426.0
     },
     {
       "loan_guid": "82510757",
@@ -14341,7 +14419,11 @@
       "expected_value": 54573.0,
       "risk_reasons": [
         "No rate lock \u2014 5% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.1921,
+      "probability_delta": 0.1381,
+      "expected_value_uplift": 139490.0
     },
     {
       "loan_guid": "82509760",
@@ -14354,7 +14436,11 @@
       "expected_value": 45422.0,
       "risk_reasons": [
         "No rate lock \u2014 4% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.9471,
+      "probability_delta": 0.9083,
+      "expected_value_uplift": 1062697.0
     },
     {
       "loan_guid": "82510279",
@@ -14367,7 +14453,11 @@
       "expected_value": 21815.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.81,
+      "probability_delta": 0.8027,
+      "expected_value_uplift": 2408208.0
     },
     {
       "loan_guid": "82511143",
@@ -14380,7 +14470,11 @@
       "expected_value": 18267.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.5506,
+      "probability_delta": 0.5445,
+      "expected_value_uplift": 1633453.0
     },
     {
       "loan_guid": "82510724",
@@ -14393,7 +14487,11 @@
       "expected_value": 15491.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.5753,
+      "probability_delta": 0.5663,
+      "expected_value_uplift": 976421.0
     },
     {
       "loan_guid": "82511158",
@@ -14406,7 +14504,11 @@
       "expected_value": 15484.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.6294,
+      "probability_delta": 0.6218,
+      "expected_value_uplift": 1268570.0
     },
     {
       "loan_guid": "82510651",
@@ -14419,7 +14521,11 @@
       "expected_value": 14530.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.6475,
+      "probability_delta": 0.634,
+      "expected_value_uplift": 684773.0
     },
     {
       "loan_guid": "82510214",
@@ -14432,7 +14538,11 @@
       "expected_value": 13431.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.7935,
+      "probability_delta": 0.783,
+      "expected_value_uplift": 1002249.0
     },
     {
       "loan_guid": "82510593",
@@ -14445,7 +14555,11 @@
       "expected_value": 12485.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.5889,
+      "probability_delta": 0.5827,
+      "expected_value_uplift": 1165361.0
     },
     {
       "loan_guid": "82508131",
@@ -14458,7 +14572,11 @@
       "expected_value": 11840.0,
       "risk_reasons": [
         "No rate lock \u2014 0% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.6232,
+      "probability_delta": 0.6183,
+      "expected_value_uplift": 1483855.0
     },
     {
       "loan_guid": "82511198",
@@ -14471,7 +14589,11 @@
       "expected_value": 11048.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.7634,
+      "probability_delta": 0.7498,
+      "expected_value_uplift": 609221.0
     },
     {
       "loan_guid": "82511306",
@@ -14484,7 +14606,11 @@
       "expected_value": 10853.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.8063,
+      "probability_delta": 0.7932,
+      "expected_value_uplift": 656739.0
     },
     {
       "loan_guid": "62510488",
@@ -14497,7 +14623,11 @@
       "expected_value": 10194.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.5361,
+      "probability_delta": 0.5288,
+      "expected_value_uplift": 742477.0
     },
     {
       "loan_guid": "82511314",
@@ -14510,7 +14640,11 @@
       "expected_value": 9409.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.5816,
+      "probability_delta": 0.5762,
+      "expected_value_uplift": 1014165.0
     },
     {
       "loan_guid": "82510195",
@@ -14523,7 +14657,11 @@
       "expected_value": 9322.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.6784,
+      "probability_delta": 0.6726,
+      "expected_value_uplift": 1076132.0
     },
     {
       "loan_guid": "82510608",
@@ -14536,7 +14674,11 @@
       "expected_value": 9157.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.636,
+      "probability_delta": 0.6261,
+      "expected_value_uplift": 579132.0
     },
     {
       "loan_guid": "82510262",
@@ -14549,7 +14691,11 @@
       "expected_value": 8914.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.7548,
+      "probability_delta": 0.7484,
+      "expected_value_uplift": 1047817.0
     },
     {
       "loan_guid": "62508536",
@@ -14562,7 +14708,11 @@
       "expected_value": 8639.0,
       "risk_reasons": [
         "No rate lock \u2014 0% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.3823,
+      "probability_delta": 0.3792,
+      "expected_value_uplift": 1050477.0
     },
     {
       "loan_guid": "82508624",
@@ -14575,7 +14725,11 @@
       "expected_value": 8528.0,
       "risk_reasons": [
         "No rate lock \u2014 0% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.6907,
+      "probability_delta": 0.6859,
+      "expected_value_uplift": 1214035.0
     },
     {
       "loan_guid": "82507569",
@@ -14588,7 +14742,11 @@
       "expected_value": 8229.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.9141,
+      "probability_delta": 0.9053,
+      "expected_value_uplift": 848251.0
     },
     {
       "loan_guid": "82511108",
@@ -14601,7 +14759,11 @@
       "expected_value": 8044.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.7391,
+      "probability_delta": 0.7288,
+      "expected_value_uplift": 569682.0
     },
     {
       "loan_guid": "82509271",
@@ -14614,7 +14776,11 @@
       "expected_value": 8022.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.7576,
+      "probability_delta": 0.7483,
+      "expected_value_uplift": 648513.0
     },
     {
       "loan_guid": "82510726",
@@ -14627,7 +14793,11 @@
       "expected_value": 8012.0,
       "risk_reasons": [
         "Rate lock expires within 7 days \u2014 still at Approved"
-      ]
+      ],
+      "recommended_action": "Extend rate lock 30 days",
+      "counterfactual_probability": 0.468,
+      "probability_delta": 0.4146,
+      "expected_value_uplift": 62192.0
     },
     {
       "loan_guid": "82510427",
@@ -14640,7 +14810,11 @@
       "expected_value": 6918.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.8261,
+      "probability_delta": 0.8168,
+      "expected_value_uplift": 612629.0
     },
     {
       "loan_guid": "82506436",
@@ -14653,7 +14827,11 @@
       "expected_value": 6846.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.6003,
+      "probability_delta": 0.5952,
+      "expected_value_uplift": 803519.0
     },
     {
       "loan_guid": "82509715",
@@ -14666,7 +14844,11 @@
       "expected_value": 6662.0,
       "risk_reasons": [
         "No rate lock \u2014 0% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.3427,
+      "probability_delta": 0.3379,
+      "expected_value_uplift": 460847.0
     },
     {
       "loan_guid": "82510522",
@@ -14679,7 +14861,11 @@
       "expected_value": 6493.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.6059,
+      "probability_delta": 0.5972,
+      "expected_value_uplift": 447933.0
     },
     {
       "loan_guid": "82508566",
@@ -14692,7 +14878,11 @@
       "expected_value": 6213.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.8082,
+      "probability_delta": 0.8018,
+      "expected_value_uplift": 781761.0
     },
     {
       "loan_guid": "82509240",
@@ -14705,7 +14895,11 @@
       "expected_value": 5946.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.7,
+      "probability_delta": 0.6903,
+      "expected_value_uplift": 424538.0
     },
     {
       "loan_guid": "82510094",
@@ -14718,7 +14912,11 @@
       "expected_value": 5701.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.8494,
+      "probability_delta": 0.8403,
+      "expected_value_uplift": 526239.0
     },
     {
       "loan_guid": "82507567",
@@ -14731,7 +14929,11 @@
       "expected_value": 5698.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.8959,
+      "probability_delta": 0.8872,
+      "expected_value_uplift": 576654.0
     },
     {
       "loan_guid": "82508578",
@@ -14744,7 +14946,11 @@
       "expected_value": 5691.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.8003,
+      "probability_delta": 0.7927,
+      "expected_value_uplift": 594508.0
     },
     {
       "loan_guid": "82509450",
@@ -14757,7 +14963,11 @@
       "expected_value": 5654.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.6107,
+      "probability_delta": 0.6029,
+      "expected_value_uplift": 434068.0
     },
     {
       "loan_guid": "82511068",
@@ -14770,7 +14980,11 @@
       "expected_value": 5602.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.7673,
+      "probability_delta": 0.7586,
+      "expected_value_uplift": 486826.0
     },
     {
       "loan_guid": "82510495",
@@ -14783,7 +14997,11 @@
       "expected_value": 5580.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.8049,
+      "probability_delta": 0.7969,
+      "expected_value_uplift": 557845.0
     },
     {
       "loan_guid": "82508259",
@@ -14796,7 +15014,11 @@
       "expected_value": 5543.0,
       "risk_reasons": [
         "Sitting at Approved for 118 days"
-      ]
+      ],
+      "recommended_action": null,
+      "counterfactual_probability": null,
+      "probability_delta": 0.0,
+      "expected_value_uplift": 0.0
     },
     {
       "loan_guid": "82508195",
@@ -14809,7 +15031,11 @@
       "expected_value": 5474.0,
       "risk_reasons": [
         "No rate lock \u2014 0% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.6821,
+      "probability_delta": 0.6772,
+      "expected_value_uplift": 767997.0
     },
     {
       "loan_guid": "82509443",
@@ -14822,7 +15048,11 @@
       "expected_value": 5262.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.4078,
+      "probability_delta": 0.4016,
+      "expected_value_uplift": 341369.0
     },
     {
       "loan_guid": "82507195",
@@ -14835,7 +15065,11 @@
       "expected_value": 4430.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.7763,
+      "probability_delta": 0.7695,
+      "expected_value_uplift": 497083.0
     },
     {
       "loan_guid": "82510542",
@@ -14848,7 +15082,11 @@
       "expected_value": 3876.0,
       "risk_reasons": [
         "No rate lock \u2014 0% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.3915,
+      "probability_delta": 0.3867,
+      "expected_value_uplift": 310722.0
     },
     {
       "loan_guid": "82505389",
@@ -14861,7 +15099,11 @@
       "expected_value": 3701.0,
       "risk_reasons": [
         "No rate lock \u2014 1% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.7995,
+      "probability_delta": 0.7934,
+      "expected_value_uplift": 479983.0
     },
     {
       "loan_guid": "82511032",
@@ -14874,7 +15116,11 @@
       "expected_value": 2570.0,
       "risk_reasons": [
         "No rate lock \u2014 0% funding probability"
-      ]
+      ],
+      "recommended_action": "Secure rate lock (30-day)",
+      "counterfactual_probability": 0.6505,
+      "probability_delta": 0.6468,
+      "expected_value_uplift": 452761.0
     }
   ],
   "revenue_at_risk": {
@@ -14951,7 +15197,11 @@
         "risk_factors": [
           "Stalled at Approved",
           "Sitting 46d at stage"
-        ]
+        ],
+        "recommended_action": "Secure rate lock (30-day)",
+        "counterfactual_probability": 0.8748,
+        "probability_delta": 0.7104,
+        "expected_value_uplift": 2841413.0
       },
       {
         "loan_guid": "82509010",
@@ -14965,7 +15215,11 @@
         "risk_factors": [
           "Stalled at Approved",
           "Sitting 101d at stage"
-        ]
+        ],
+        "recommended_action": null,
+        "counterfactual_probability": null,
+        "probability_delta": 0.0,
+        "expected_value_uplift": 0.0
       },
       {
         "loan_guid": "82511316",
@@ -14978,7 +15232,11 @@
         "recovery_gap": 1424397.0,
         "risk_factors": [
           "Below-average probability"
-        ]
+        ],
+        "recommended_action": "Secure rate lock (30-day)",
+        "counterfactual_probability": 0.6812,
+        "probability_delta": 0.4117,
+        "expected_value_uplift": 802740.0
       },
       {
         "loan_guid": "82511212",
@@ -14991,7 +15249,11 @@
         "recovery_gap": 556353.0,
         "risk_factors": [
           "Below-average probability"
-        ]
+        ],
+        "recommended_action": "Clear conditions (reduce stage dwell to 5d)",
+        "counterfactual_probability": 0.6574,
+        "probability_delta": 0.0382,
+        "expected_value_uplift": 55775.0
       },
       {
         "loan_guid": "82509257",
@@ -15005,7 +15267,11 @@
         "risk_factors": [
           "Stalled at Approved",
           "Sitting 81d at stage"
-        ]
+        ],
+        "recommended_action": "Secure rate lock (30-day)",
+        "counterfactual_probability": 0.6826,
+        "probability_delta": 0.5816,
+        "expected_value_uplift": 344293.0
       },
       {
         "loan_guid": "82511078",
@@ -15019,7 +15285,11 @@
         "risk_factors": [
           "Stalled at Approved",
           "Sitting 38d at stage"
-        ]
+        ],
+        "recommended_action": "Clear conditions (reduce stage dwell to 5d)",
+        "counterfactual_probability": 0.6259,
+        "probability_delta": 0.0436,
+        "expected_value_uplift": 49629.0
       },
       {
         "loan_guid": "82507521",
@@ -15033,7 +15303,11 @@
         "risk_factors": [
           "Stalled at Approved",
           "Sitting 140d at stage"
-        ]
+        ],
+        "recommended_action": null,
+        "counterfactual_probability": null,
+        "probability_delta": 0.0,
+        "expected_value_uplift": 0.0
       },
       {
         "loan_guid": "82511350",
@@ -15046,7 +15320,11 @@
         "recovery_gap": 408672.0,
         "risk_factors": [
           "Below-average probability"
-        ]
+        ],
+        "recommended_action": "Secure rate lock (30-day)",
+        "counterfactual_probability": 0.2015,
+        "probability_delta": 0.0582,
+        "expected_value_uplift": 27776.0
       },
       {
         "loan_guid": "82510740",
@@ -15060,7 +15338,11 @@
         "risk_factors": [
           "Stalled at Approved",
           "Sitting 35d at stage"
-        ]
+        ],
+        "recommended_action": null,
+        "counterfactual_probability": null,
+        "probability_delta": 0.0,
+        "expected_value_uplift": 0.0
       },
       {
         "loan_guid": "82510561",
@@ -15074,7 +15356,11 @@
         "risk_factors": [
           "Stalled at Approved",
           "Sitting 45d at stage"
-        ]
+        ],
+        "recommended_action": "Secure rate lock (30-day)",
+        "counterfactual_probability": 0.4008,
+        "probability_delta": 0.1496,
+        "expected_value_uplift": 74808.0
       },
       {
         "loan_guid": "82510580",
@@ -15088,7 +15374,11 @@
         "risk_factors": [
           "Stalled at Approved",
           "Sitting 39d at stage"
-        ]
+        ],
+        "recommended_action": "Clear conditions (reduce stage dwell to 5d)",
+        "counterfactual_probability": 0.3718,
+        "probability_delta": 0.1008,
+        "expected_value_uplift": 50965.0
       },
       {
         "loan_guid": "82507035",
@@ -15102,7 +15392,11 @@
         "risk_factors": [
           "Stalled at Approved",
           "Sitting 155d at stage"
-        ]
+        ],
+        "recommended_action": "Secure rate lock (30-day)",
+        "counterfactual_probability": 0.8022,
+        "probability_delta": 0.5086,
+        "expected_value_uplift": 261951.0
       }
     ]
   },
@@ -15111,42 +15405,142 @@
       {
         "transition": "Open \u2192 Submitted",
         "overall_median": 0.0,
+        "overall_p25": 0.0,
         "overall_p75": 0.0,
+        "overall_std": 2.4,
+        "benchmark_overall": 1,
+        "benchmark_fast": 0,
+        "benchmark_slow": 3,
         "NONCONFORMING": 0.0,
+        "NONCONFORMING_p25": 0.0,
+        "NONCONFORMING_p75": 0.0,
+        "NONCONFORMING_benchmark": 1,
+        "NONCONFORMING_vs_benchmark": -1.0,
         "CONFORMING": 0.0,
+        "CONFORMING_p25": 0.0,
+        "CONFORMING_p75": 0.0,
+        "CONFORMING_benchmark": 1,
+        "CONFORMING_vs_benchmark": -1.0,
         "FHA": 0.0,
+        "FHA_p25": 0.0,
+        "FHA_p75": 0.0,
+        "FHA_benchmark": 1,
+        "FHA_vs_benchmark": -1.0,
         "VA": 0.0,
-        "2ND": 0.0
+        "VA_p25": 0.0,
+        "VA_p75": 1.0,
+        "VA_benchmark": 1,
+        "VA_vs_benchmark": -1.0,
+        "2ND": 0.0,
+        "2ND_p25": 0.0,
+        "2ND_p75": 1.0,
+        "2ND_benchmark": 1,
+        "2ND_vs_benchmark": -1.0
       },
       {
         "transition": "Submitted \u2192 Approved",
         "overall_median": 5.0,
+        "overall_p25": 3.0,
         "overall_p75": 7.0,
+        "overall_std": 13.9,
+        "benchmark_overall": 5,
+        "benchmark_fast": 3,
+        "benchmark_slow": 7,
         "NONCONFORMING": 4.0,
+        "NONCONFORMING_p25": 3.0,
+        "NONCONFORMING_p75": 6.0,
+        "NONCONFORMING_benchmark": 6,
+        "NONCONFORMING_vs_benchmark": -2.0,
         "CONFORMING": 5.0,
+        "CONFORMING_p25": 3.0,
+        "CONFORMING_p75": 8.0,
+        "CONFORMING_benchmark": 4,
+        "CONFORMING_vs_benchmark": 1.0,
         "FHA": 5.0,
+        "FHA_p25": 3.0,
+        "FHA_p75": 7.0,
+        "FHA_benchmark": 5,
+        "FHA_vs_benchmark": 0.0,
         "VA": 5.0,
-        "2ND": 5.0
+        "VA_p25": 3.0,
+        "VA_p75": 8.0,
+        "VA_benchmark": 6,
+        "VA_vs_benchmark": -1.0,
+        "2ND": 5.0,
+        "2ND_p25": 3.0,
+        "2ND_p75": 7.0,
+        "2ND_benchmark": 5,
+        "2ND_vs_benchmark": 0.0
       },
       {
         "transition": "Approved \u2192 CTC",
         "overall_median": 18.0,
+        "overall_p25": 13.0,
         "overall_p75": 26.0,
+        "overall_std": 16.8,
+        "benchmark_overall": 20,
+        "benchmark_fast": 12,
+        "benchmark_slow": 28,
         "NONCONFORMING": 18.0,
+        "NONCONFORMING_p25": 12.0,
+        "NONCONFORMING_p75": 26.0,
+        "NONCONFORMING_benchmark": 24,
+        "NONCONFORMING_vs_benchmark": -6.0,
         "CONFORMING": 16.0,
+        "CONFORMING_p25": 12.0,
+        "CONFORMING_p75": 25.0,
+        "CONFORMING_benchmark": 18,
+        "CONFORMING_vs_benchmark": -2.0,
         "FHA": 16.0,
+        "FHA_p25": 11.0,
+        "FHA_p75": 25.0,
+        "FHA_benchmark": 22,
+        "FHA_vs_benchmark": -6.0,
         "VA": 20.0,
-        "2ND": 21.0
+        "VA_p25": 13.0,
+        "VA_p75": 26.8,
+        "VA_benchmark": 26,
+        "VA_vs_benchmark": -6.0,
+        "2ND": 21.0,
+        "2ND_p25": 15.0,
+        "2ND_p75": 31.0,
+        "2ND_benchmark": 20,
+        "2ND_vs_benchmark": 1.0
       },
       {
         "transition": "CTC \u2192 Funded",
         "overall_median": 5.0,
+        "overall_p25": 3.0,
         "overall_p75": 7.0,
+        "overall_std": 15.2,
+        "benchmark_overall": 5,
+        "benchmark_fast": 3,
+        "benchmark_slow": 7,
         "NONCONFORMING": 5.0,
+        "NONCONFORMING_p25": 3.0,
+        "NONCONFORMING_p75": 7.0,
+        "NONCONFORMING_benchmark": 5,
+        "NONCONFORMING_vs_benchmark": 0.0,
         "CONFORMING": 5.0,
+        "CONFORMING_p25": 3.0,
+        "CONFORMING_p75": 7.0,
+        "CONFORMING_benchmark": 4,
+        "CONFORMING_vs_benchmark": 1.0,
         "FHA": 5.0,
+        "FHA_p25": 3.0,
+        "FHA_p75": 7.0,
+        "FHA_benchmark": 5,
+        "FHA_vs_benchmark": 0.0,
         "VA": 5.0,
-        "2ND": 7.0
+        "VA_p25": 2.0,
+        "VA_p75": 8.0,
+        "VA_benchmark": 6,
+        "VA_vs_benchmark": -1.0,
+        "2ND": 7.0,
+        "2ND_p25": 4.0,
+        "2ND_p75": 8.0,
+        "2ND_benchmark": 5,
+        "2ND_vs_benchmark": 2.0
       }
     ],
     "products": [
@@ -15156,6 +15550,24 @@
       "VA",
       "2ND"
     ],
+    "benchmarks": {
+      "source": "ICE Mortgage Technology 2024, Ellie Mae OIR, LendingTree",
+      "total_cycle_days": {
+        "overall": 43,
+        "NONCONFORMING": 49,
+        "CONFORMING": 42,
+        "FHA": 45,
+        "VA": 49,
+        "2ND": 42
+      },
+      "closing_rates": {
+        "overall": 0.77,
+        "purchase": 0.81,
+        "refinance": 0.76,
+        "industry_pull_through_benchmark": 0.75,
+        "note": "Industry 'closing rate' is measured from formal application on a 90-day cycle (Ellie Mae/ICE, ~80% of US mortgage apps). FlexPoint's 37% pull-through is from pipeline entry \u2014 much earlier. These are NOT directly comparable."
+      }
+    },
     "conversion_rates": [
       {
         "stage": "Submitted",
@@ -15200,6 +15612,228 @@
         "conversion_rate": 1.0
       }
     ],
+    "conversion_by_product": {
+      "NONCONFORMING": [
+        {
+          "stage": "Submitted",
+          "reached_count": 5096,
+          "funded_count": 2910,
+          "conversion_rate": 0.571
+        },
+        {
+          "stage": "Underwriting",
+          "reached_count": 4305,
+          "funded_count": 2823,
+          "conversion_rate": 0.6557
+        },
+        {
+          "stage": "Approved",
+          "reached_count": 4190,
+          "funded_count": 2911,
+          "conversion_rate": 0.6947
+        },
+        {
+          "stage": "Cond Review",
+          "reached_count": 2963,
+          "funded_count": 2787,
+          "conversion_rate": 0.9406
+        },
+        {
+          "stage": "CTC",
+          "reached_count": 2928,
+          "funded_count": 2886,
+          "conversion_rate": 0.9857
+        },
+        {
+          "stage": "Docs",
+          "reached_count": 2899,
+          "funded_count": 2887,
+          "conversion_rate": 0.9959
+        },
+        {
+          "stage": "Funded",
+          "reached_count": 2911,
+          "funded_count": 2911,
+          "conversion_rate": 1.0
+        }
+      ],
+      "CONFORMING": [
+        {
+          "stage": "Submitted",
+          "reached_count": 1372,
+          "funded_count": 639,
+          "conversion_rate": 0.4657
+        },
+        {
+          "stage": "Underwriting",
+          "reached_count": 987,
+          "funded_count": 614,
+          "conversion_rate": 0.6221
+        },
+        {
+          "stage": "Approved",
+          "reached_count": 881,
+          "funded_count": 637,
+          "conversion_rate": 0.723
+        },
+        {
+          "stage": "Cond Review",
+          "reached_count": 661,
+          "funded_count": 610,
+          "conversion_rate": 0.9228
+        },
+        {
+          "stage": "CTC",
+          "reached_count": 649,
+          "funded_count": 639,
+          "conversion_rate": 0.9846
+        },
+        {
+          "stage": "Docs",
+          "reached_count": 643,
+          "funded_count": 639,
+          "conversion_rate": 0.9938
+        },
+        {
+          "stage": "Funded",
+          "reached_count": 639,
+          "funded_count": 639,
+          "conversion_rate": 1.0
+        }
+      ],
+      "FHA": [
+        {
+          "stage": "Submitted",
+          "reached_count": 1763,
+          "funded_count": 816,
+          "conversion_rate": 0.4628
+        },
+        {
+          "stage": "Underwriting",
+          "reached_count": 1364,
+          "funded_count": 785,
+          "conversion_rate": 0.5755
+        },
+        {
+          "stage": "Approved",
+          "reached_count": 1172,
+          "funded_count": 816,
+          "conversion_rate": 0.6962
+        },
+        {
+          "stage": "Cond Review",
+          "reached_count": 873,
+          "funded_count": 781,
+          "conversion_rate": 0.8946
+        },
+        {
+          "stage": "CTC",
+          "reached_count": 825,
+          "funded_count": 816,
+          "conversion_rate": 0.9891
+        },
+        {
+          "stage": "Docs",
+          "reached_count": 820,
+          "funded_count": 816,
+          "conversion_rate": 0.9951
+        },
+        {
+          "stage": "Funded",
+          "reached_count": 816,
+          "funded_count": 816,
+          "conversion_rate": 1.0
+        }
+      ],
+      "VA": [
+        {
+          "stage": "Submitted",
+          "reached_count": 227,
+          "funded_count": 82,
+          "conversion_rate": 0.3612
+        },
+        {
+          "stage": "Underwriting",
+          "reached_count": 149,
+          "funded_count": 81,
+          "conversion_rate": 0.5436
+        },
+        {
+          "stage": "Approved",
+          "reached_count": 112,
+          "funded_count": 82,
+          "conversion_rate": 0.7321
+        },
+        {
+          "stage": "Cond Review",
+          "reached_count": 85,
+          "funded_count": 80,
+          "conversion_rate": 0.9412
+        },
+        {
+          "stage": "CTC",
+          "reached_count": 82,
+          "funded_count": 82,
+          "conversion_rate": 1.0
+        },
+        {
+          "stage": "Docs",
+          "reached_count": 82,
+          "funded_count": 82,
+          "conversion_rate": 1.0
+        },
+        {
+          "stage": "Funded",
+          "reached_count": 82,
+          "funded_count": 82,
+          "conversion_rate": 1.0
+        }
+      ],
+      "2ND": [
+        {
+          "stage": "Submitted",
+          "reached_count": 1516,
+          "funded_count": 709,
+          "conversion_rate": 0.4677
+        },
+        {
+          "stage": "Underwriting",
+          "reached_count": 1212,
+          "funded_count": 696,
+          "conversion_rate": 0.5743
+        },
+        {
+          "stage": "Approved",
+          "reached_count": 1112,
+          "funded_count": 704,
+          "conversion_rate": 0.6331
+        },
+        {
+          "stage": "Cond Review",
+          "reached_count": 620,
+          "funded_count": 570,
+          "conversion_rate": 0.9194
+        },
+        {
+          "stage": "CTC",
+          "reached_count": 704,
+          "funded_count": 696,
+          "conversion_rate": 0.9886
+        },
+        {
+          "stage": "Docs",
+          "reached_count": 701,
+          "funded_count": 696,
+          "conversion_rate": 0.9929
+        },
+        {
+          "stage": "Funded",
+          "reached_count": 709,
+          "funded_count": 709,
+          "conversion_rate": 1.0
+        }
+      ]
+    },
     "current_bottlenecks": [
       {
         "stage": "Opened",
@@ -15208,6 +15842,8 @@
         "total_value": 0.0,
         "avg_days_at_stage": 13.4,
         "median_days_at_stage": 12.0,
+        "p25_days_at_stage": 7.0,
+        "p75_days_at_stage": 19.0,
         "avg_probability": 0.0022,
         "pct_over_30d": 0.0
       },
@@ -15218,6 +15854,8 @@
         "total_value": 0.0,
         "avg_days_at_stage": 5.7,
         "median_days_at_stage": 4.0,
+        "p25_days_at_stage": 0.0,
+        "p75_days_at_stage": 6.0,
         "avg_probability": 0.0653,
         "pct_over_30d": 0.0
       },
@@ -15228,6 +15866,8 @@
         "total_value": 0.0,
         "avg_days_at_stage": 3.7,
         "median_days_at_stage": 3.0,
+        "p25_days_at_stage": 0.0,
+        "p75_days_at_stage": 5.0,
         "avg_probability": 0.0819,
         "pct_over_30d": 0.0
       },
@@ -15238,6 +15878,8 @@
         "total_value": 3070125.0,
         "avg_days_at_stage": 8.8,
         "median_days_at_stage": 9.0,
+        "p25_days_at_stage": 3.8,
+        "p75_days_at_stage": 12.5,
         "avg_probability": 0.0803,
         "pct_over_30d": 0.0
       },
@@ -15248,6 +15890,8 @@
         "total_value": 122337511.0,
         "avg_days_at_stage": 35.8,
         "median_days_at_stage": 22.0,
+        "p25_days_at_stage": 10.0,
+        "p75_days_at_stage": 49.0,
         "avg_probability": 0.2363,
         "pct_over_30d": 41.9
       },
@@ -15258,6 +15902,8 @@
         "total_value": 4846303.0,
         "avg_days_at_stage": 1.5,
         "median_days_at_stage": 0.0,
+        "p25_days_at_stage": 0.0,
+        "p75_days_at_stage": 0.8,
         "avg_probability": 0.8902,
         "pct_over_30d": 0.0
       },
@@ -15268,6 +15914,8 @@
         "total_value": 3102750.0,
         "avg_days_at_stage": 0.0,
         "median_days_at_stage": 0.0,
+        "p25_days_at_stage": 0.0,
+        "p75_days_at_stage": 0.0,
         "avg_probability": 0.9353,
         "pct_over_30d": 0.0
       },
@@ -15278,6 +15926,8 @@
         "total_value": 6502408.0,
         "avg_days_at_stage": 3.8,
         "median_days_at_stage": 0.0,
+        "p25_days_at_stage": 0.0,
+        "p75_days_at_stage": 5.0,
         "avg_probability": 0.8951,
         "pct_over_30d": 0.0
       },
@@ -15288,6 +15938,8 @@
         "total_value": 3835400.0,
         "avg_days_at_stage": 1.7,
         "median_days_at_stage": 0.0,
+        "p25_days_at_stage": 0.0,
+        "p75_days_at_stage": 3.0,
         "avg_probability": 0.9818,
         "pct_over_30d": 0.0
       },
@@ -15298,10 +15950,276 @@
         "total_value": 2987175.0,
         "avg_days_at_stage": 1.5,
         "median_days_at_stage": 0.0,
+        "p25_days_at_stage": 0.0,
+        "p75_days_at_stage": 0.0,
         "avg_probability": 0.9829,
         "pct_over_30d": 0.0
       }
-    ]
+    ],
+    "current_bottlenecks_by_product": {
+      "NONCONFORMING": [
+        {
+          "stage": "Application",
+          "rank": 1,
+          "loan_count": 6,
+          "total_value": 0.0,
+          "avg_days_at_stage": 4.2,
+          "median_days_at_stage": 3.5,
+          "pct_over_30d": 0.0
+        },
+        {
+          "stage": "Submitted",
+          "rank": 2,
+          "loan_count": 50,
+          "total_value": 0.0,
+          "avg_days_at_stage": 2.8,
+          "median_days_at_stage": 3.0,
+          "pct_over_30d": 0.0
+        },
+        {
+          "stage": "Underwriting",
+          "rank": 3,
+          "loan_count": 5,
+          "total_value": 2770125.0,
+          "avg_days_at_stage": 2.4,
+          "median_days_at_stage": 0.0,
+          "pct_over_30d": 0.0
+        },
+        {
+          "stage": "Approved",
+          "rank": 4,
+          "loan_count": 281,
+          "total_value": 97525528.0,
+          "avg_days_at_stage": 36.8,
+          "median_days_at_stage": 23.0,
+          "pct_over_30d": 43.1
+        },
+        {
+          "stage": "Cond Review",
+          "rank": 5,
+          "loan_count": 11,
+          "total_value": 3277303.0,
+          "avg_days_at_stage": 0.6,
+          "median_days_at_stage": 0.0,
+          "pct_over_30d": 0.0
+        },
+        {
+          "stage": "Final UW",
+          "rank": 6,
+          "loan_count": 8,
+          "total_value": 1952750.0,
+          "avg_days_at_stage": 0.0,
+          "median_days_at_stage": 0.0,
+          "pct_over_30d": 0.0
+        },
+        {
+          "stage": "CTC",
+          "rank": 7,
+          "loan_count": 15,
+          "total_value": 5287408.0,
+          "avg_days_at_stage": 3.1,
+          "median_days_at_stage": 0.0,
+          "pct_over_30d": 0.0
+        },
+        {
+          "stage": "Docs",
+          "rank": 8,
+          "loan_count": 18,
+          "total_value": 3560400.0,
+          "avg_days_at_stage": 1.3,
+          "median_days_at_stage": 0.0,
+          "pct_over_30d": 0.0
+        },
+        {
+          "stage": "Fund Cond",
+          "rank": 10,
+          "loan_count": 5,
+          "total_value": 1511000.0,
+          "avg_days_at_stage": 1.0,
+          "median_days_at_stage": 0.0,
+          "pct_over_30d": 0.0
+        }
+      ],
+      "CONFORMING": [
+        {
+          "stage": "Submitted",
+          "rank": 2,
+          "loan_count": 8,
+          "total_value": 0.0,
+          "avg_days_at_stage": 6.8,
+          "median_days_at_stage": 4.5,
+          "pct_over_30d": 0.0
+        },
+        {
+          "stage": "Underwriting",
+          "rank": 3,
+          "loan_count": 2,
+          "total_value": 0.0,
+          "avg_days_at_stage": 7.0,
+          "median_days_at_stage": 7.0,
+          "pct_over_30d": 0.0
+        },
+        {
+          "stage": "Approved",
+          "rank": 4,
+          "loan_count": 25,
+          "total_value": 6841625.0,
+          "avg_days_at_stage": 39.5,
+          "median_days_at_stage": 22.0,
+          "pct_over_30d": 44.0
+        },
+        {
+          "stage": "CTC",
+          "rank": 7,
+          "loan_count": 2,
+          "total_value": 765000.0,
+          "avg_days_at_stage": 12.0,
+          "median_days_at_stage": 12.0,
+          "pct_over_30d": 0.0
+        },
+        {
+          "stage": "Docs",
+          "rank": 8,
+          "loan_count": 2,
+          "total_value": 275000.0,
+          "avg_days_at_stage": 3.0,
+          "median_days_at_stage": 3.0,
+          "pct_over_30d": 0.0
+        },
+        {
+          "stage": "Fund Cond",
+          "rank": 10,
+          "loan_count": 3,
+          "total_value": 595000.0,
+          "avg_days_at_stage": 3.7,
+          "median_days_at_stage": 0.0,
+          "pct_over_30d": 0.0
+        }
+      ],
+      "FHA": [
+        {
+          "stage": "Submitted",
+          "rank": 2,
+          "loan_count": 7,
+          "total_value": 0.0,
+          "avg_days_at_stage": 3.6,
+          "median_days_at_stage": 4.0,
+          "pct_over_30d": 0.0
+        },
+        {
+          "stage": "Underwriting",
+          "rank": 3,
+          "loan_count": 4,
+          "total_value": 0.0,
+          "avg_days_at_stage": 8.0,
+          "median_days_at_stage": 5.5,
+          "pct_over_30d": 0.0
+        },
+        {
+          "stage": "Approved",
+          "rank": 4,
+          "loan_count": 39,
+          "total_value": 10118034.0,
+          "avg_days_at_stage": 36.2,
+          "median_days_at_stage": 21.0,
+          "pct_over_30d": 35.9
+        },
+        {
+          "stage": "Cond Review",
+          "rank": 5,
+          "loan_count": 2,
+          "total_value": 136000.0,
+          "avg_days_at_stage": 1.5,
+          "median_days_at_stage": 1.5,
+          "pct_over_30d": 0.0
+        },
+        {
+          "stage": "CTC",
+          "rank": 7,
+          "loan_count": 3,
+          "total_value": 450000.0,
+          "avg_days_at_stage": 2.0,
+          "median_days_at_stage": 0.0,
+          "pct_over_30d": 0.0
+        },
+        {
+          "stage": "Fund Cond",
+          "rank": 10,
+          "loan_count": 2,
+          "total_value": 381175.0,
+          "avg_days_at_stage": 0.0,
+          "median_days_at_stage": 0.0,
+          "pct_over_30d": 0.0
+        }
+      ],
+      "VA": [
+        {
+          "stage": "Underwriting",
+          "rank": 3,
+          "loan_count": 2,
+          "total_value": 300000.0,
+          "avg_days_at_stage": 17.0,
+          "median_days_at_stage": 17.0,
+          "pct_over_30d": 0.0
+        },
+        {
+          "stage": "Approved",
+          "rank": 4,
+          "loan_count": 3,
+          "total_value": 441050.0,
+          "avg_days_at_stage": 39.3,
+          "median_days_at_stage": 17.0,
+          "pct_over_30d": 33.3
+        }
+      ],
+      "2ND": [
+        {
+          "stage": "Submitted",
+          "rank": 2,
+          "loan_count": 11,
+          "total_value": 0.0,
+          "avg_days_at_stage": 4.5,
+          "median_days_at_stage": 5.0,
+          "pct_over_30d": 0.0
+        },
+        {
+          "stage": "Underwriting",
+          "rank": 3,
+          "loan_count": 6,
+          "total_value": 0.0,
+          "avg_days_at_stage": 10.3,
+          "median_days_at_stage": 10.0,
+          "pct_over_30d": 0.0
+        },
+        {
+          "stage": "Approved",
+          "rank": 4,
+          "loan_count": 53,
+          "total_value": 5760102.0,
+          "avg_days_at_stage": 32.7,
+          "median_days_at_stage": 20.0,
+          "pct_over_30d": 43.4
+        },
+        {
+          "stage": "Final UW",
+          "rank": 6,
+          "loan_count": 4,
+          "total_value": 1150000.0,
+          "avg_days_at_stage": 0.0,
+          "median_days_at_stage": 0.0,
+          "pct_over_30d": 0.0
+        },
+        {
+          "stage": "Docs",
+          "rank": 8,
+          "loan_count": 4,
+          "total_value": 0.0,
+          "avg_days_at_stage": 3.2,
+          "median_days_at_stage": 1.5,
+          "pct_over_30d": 0.0
+        }
+      ]
+    }
   },
   "velocity_momentum": {
     "overall_median_velocity": 0.075,
@@ -15335,12 +16253,198 @@
         "avg_probability": 0.1267
       }
     ],
+    "distribution_by_product": {
+      "2ND": [
+        {
+          "band": "Fast Track",
+          "loan_count": 0,
+          "total_value": 0.0,
+          "avg_probability": 0
+        },
+        {
+          "band": "On Pace",
+          "loan_count": 4,
+          "total_value": 1625000.0,
+          "avg_probability": 0.9582
+        },
+        {
+          "band": "Slow",
+          "loan_count": 20,
+          "total_value": 4041870.0,
+          "avg_probability": 0.1157
+        },
+        {
+          "band": "Stalled",
+          "loan_count": 8,
+          "total_value": 2018232.0,
+          "avg_probability": 0.2419
+        }
+      ],
+      "CONFORMING": [
+        {
+          "band": "Fast Track",
+          "loan_count": 0,
+          "total_value": 0.0,
+          "avg_probability": 0
+        },
+        {
+          "band": "On Pace",
+          "loan_count": 2,
+          "total_value": 915000.0,
+          "avg_probability": 0.9865
+        },
+        {
+          "band": "Slow",
+          "loan_count": 12,
+          "total_value": 6026250.0,
+          "avg_probability": 0.2618
+        },
+        {
+          "band": "Stalled",
+          "loan_count": 3,
+          "total_value": 1535375.0,
+          "avg_probability": 0.0979
+        }
+      ],
+      "FHA": [
+        {
+          "band": "Fast Track",
+          "loan_count": 1,
+          "total_value": 381175.0,
+          "avg_probability": 0.9841
+        },
+        {
+          "band": "On Pace",
+          "loan_count": 0,
+          "total_value": 0.0,
+          "avg_probability": 0
+        },
+        {
+          "band": "Slow",
+          "loan_count": 16,
+          "total_value": 6631357.0,
+          "avg_probability": 0.2858
+        },
+        {
+          "band": "Stalled",
+          "loan_count": 6,
+          "total_value": 4072677.0,
+          "avg_probability": 0.1402
+        }
+      ],
+      "FHA BOND": [
+        {
+          "band": "Fast Track",
+          "loan_count": 0,
+          "total_value": 0.0,
+          "avg_probability": 0
+        },
+        {
+          "band": "On Pace",
+          "loan_count": 0,
+          "total_value": 0.0,
+          "avg_probability": 0
+        },
+        {
+          "band": "Slow",
+          "loan_count": 2,
+          "total_value": 506625.0,
+          "avg_probability": 0.0059
+        },
+        {
+          "band": "Stalled",
+          "loan_count": 2,
+          "total_value": 564522.0,
+          "avg_probability": 0.3092
+        }
+      ],
+      "NONCONFORMING": [
+        {
+          "band": "Fast Track",
+          "loan_count": 0,
+          "total_value": 0.0,
+          "avg_probability": 0
+        },
+        {
+          "band": "On Pace",
+          "loan_count": 18,
+          "total_value": 9252275.0,
+          "avg_probability": 0.9133
+        },
+        {
+          "band": "Slow",
+          "loan_count": 101,
+          "total_value": 73057101.0,
+          "avg_probability": 0.1871
+        },
+        {
+          "band": "Stalled",
+          "loan_count": 50,
+          "total_value": 33755138.0,
+          "avg_probability": 0.1034
+        }
+      ],
+      "VA": [
+        {
+          "band": "Fast Track",
+          "loan_count": 0,
+          "total_value": 0.0,
+          "avg_probability": 0
+        },
+        {
+          "band": "On Pace",
+          "loan_count": 0,
+          "total_value": 0.0,
+          "avg_probability": 0
+        },
+        {
+          "band": "Slow",
+          "loan_count": 2,
+          "total_value": 995000.0,
+          "avg_probability": 0.3958
+        },
+        {
+          "band": "Stalled",
+          "loan_count": 1,
+          "total_value": 441050.0,
+          "avg_probability": 0.0068
+        }
+      ],
+      "ZERO INTEREST PROGRAM": [
+        {
+          "band": "Fast Track",
+          "loan_count": 0,
+          "total_value": 0.0,
+          "avg_probability": 0
+        },
+        {
+          "band": "On Pace",
+          "loan_count": 0,
+          "total_value": 0.0,
+          "avg_probability": 0
+        },
+        {
+          "band": "Slow",
+          "loan_count": 3,
+          "total_value": 242425.0,
+          "avg_probability": 0.2832
+        },
+        {
+          "band": "Stalled",
+          "loan_count": 0,
+          "total_value": 0.0,
+          "avg_probability": 0
+        }
+      ]
+    },
     "stage_velocity": [
       {
         "stage": "Approved",
         "loan_count": 206,
         "avg_velocity": 0.0723,
         "median_velocity": 0.0678,
+        "p25_velocity": 0.046,
+        "p75_velocity": 0.0976,
         "avg_days_at_stage": 63.0,
         "avg_probability": 0.1125,
         "pct_stalled": 31.1
@@ -15350,6 +16454,8 @@
         "loan_count": 9,
         "avg_velocity": 0.0909,
         "median_velocity": 0.082,
+        "p25_velocity": 0.0495,
+        "p75_velocity": 0.1429,
         "avg_days_at_stage": 1.9,
         "avg_probability": 0.8763,
         "pct_stalled": 33.3
@@ -15359,6 +16465,8 @@
         "loan_count": 7,
         "avg_velocity": 0.137,
         "median_velocity": 0.1579,
+        "p25_velocity": 0.1111,
+        "p75_velocity": 0.1647,
         "avg_days_at_stage": 0.0,
         "avg_probability": 0.9044,
         "pct_stalled": 0.0
@@ -15368,6 +16476,8 @@
         "loan_count": 13,
         "avg_velocity": 0.1419,
         "median_velocity": 0.1522,
+        "p25_velocity": 0.1186,
+        "p75_velocity": 0.175,
         "avg_days_at_stage": 5.2,
         "avg_probability": 0.8701,
         "pct_stalled": 7.7
@@ -15377,6 +16487,8 @@
         "loan_count": 8,
         "avg_velocity": 0.17,
         "median_velocity": 0.1544,
+        "p25_velocity": 0.1399,
+        "p75_velocity": 0.2339,
         "avg_days_at_stage": 1.8,
         "avg_probability": 0.988,
         "pct_stalled": 12.5
@@ -15386,6 +16498,8 @@
         "loan_count": 6,
         "avg_velocity": 0.2438,
         "median_velocity": 0.2403,
+        "p25_velocity": 0.2074,
+        "p75_velocity": 0.2864,
         "avg_days_at_stage": 0.8,
         "avg_probability": 0.9833,
         "pct_stalled": 0.0
@@ -15518,7 +16632,10 @@
   "what_if_scenarios": {
     "current_projected": 32444340.0,
     "total_potential_delta": 38884123.0,
+    "adjusted_potential_delta": 18664379.0,
+    "overlap_discount": 0.48,
     "total_upside_pct": 119.8,
+    "adjusted_upside_pct": 57.5,
     "live_loans_count": 708,
     "live_pipeline_value": 146986672.0,
     "scenarios": [
@@ -15534,7 +16651,13 @@
         "pct_improvement": 76.8,
         "affected_loans": 259,
         "affected_value": 121959841.0,
-        "methodology": "Historical funding-rate differential between <15d and \u226418d A\u2192CTC cohorts, applied to loans currently >15d stalled at Approved stage"
+        "methodology": "Historical funding-rate differential between <15d and \u226418d A\u2192CTC cohorts, applied to loans currently >15d stalled at Approved stage",
+        "confidence": "medium",
+        "confidence_note": "Historical correlation is strong but assumes operational changes can replicate the speed of naturally fast-progressing loans.",
+        "caveats": [
+          "Loans that naturally clear conditions in <15d may have simpler profiles \u2014 not all loans can be accelerated equally",
+          "Assumes ops capacity exists to run weekly condition review cadence across all stalled loans"
+        ]
       },
       {
         "id": "improve_lock_rate",
@@ -15548,7 +16671,14 @@
         "pct_improvement": 54.5,
         "affected_loans": 292,
         "affected_value": 103708999.0,
-        "methodology": "Probability gap between locked and unlocked loans at Approved stage (from ML model), applied conservatively to 40% of currently unlocked Approved loans"
+        "methodology": "Probability gap between locked and unlocked loans at Approved stage (from ML model), applied conservatively to 40% of currently unlocked Approved loans",
+        "confidence": "low",
+        "confidence_note": "Lock status is strongly correlated with funding but the relationship is likely not fully causal \u2014 loans get locked because they're progressing well, not the other way around.",
+        "caveats": [
+          "The probability gap (unlocked vs locked) likely reflects loan health rather than lock status causing funding",
+          "Telling ops to lock a struggling loan may not change its underlying viability",
+          "40% conversion rate may be optimistic for loans unlocked due to borrower uncertainty or rate shopping"
+        ]
       },
       {
         "id": "reactivate_stale",
@@ -15562,7 +16692,14 @@
         "pct_improvement": 5.5,
         "affected_loans": 178,
         "affected_value": 104760171.0,
-        "methodology": "Probability gap between stalled loans and overall pipeline average, applied to 30% of stalled loan value (historical re-engagement success rate)"
+        "methodology": "Probability gap between stalled loans and overall pipeline average, applied to 30% of stalled loan value (historical re-engagement success rate)",
+        "confidence": "low",
+        "confidence_note": "Stale loans are often stale for cause \u2014 appraisal issues, borrower walkaway, income verification failures.",
+        "caveats": [
+          "Industry re-engagement response rates are typically 5-15%, lower than the 30% assumed here",
+          "Many 30+ day stalled loans may be effectively dead \u2014 the conditions that caused the stall may not be resolvable",
+          "A more realistic estimate would discount this figure by 50-70%"
+        ]
       },
       {
         "id": "retail_channel_optimization",
@@ -15578,9 +16715,21 @@
         "affected_value": 5809336.0,
         "hist_retail_rate": 10.7,
         "hist_wholesale_rate": 44.6,
-        "methodology": "50% of the current probability gap between Retail and Wholesale channels applied to current Retail live pipeline"
+        "methodology": "50% of the current probability gap between Retail and Wholesale channels applied to current Retail live pipeline",
+        "confidence": "low-medium",
+        "confidence_note": "The Retail vs Wholesale gap is partly structural (different borrower profiles, self-selection) rather than purely operational.",
+        "caveats": [
+          "Retail borrowers may self-select differently than Wholesale \u2014 lower credit quality, more rate-sensitive",
+          "The gap may be irrecoverable through coaching alone if driven by borrower demographics",
+          "Historical retail pull-through (10.7%) vs current pipeline (5%) suggests some of the gap is cyclical"
+        ]
       }
-    ]
+    ],
+    "red_team_notes": {
+      "overlap_explanation": "Scenarios target overlapping loan populations (measured 52% overlap). A loan that is stalled, unlocked, and at Approved is counted in scenarios 1, 2, and 3. The adjusted total (57.5% upside) corrects for this double-counting.",
+      "correlation_vs_causation": "The model's top feature is lock_expiry_vs_month_end (0.678 importance). Rate lock status is a strong predictor but likely reflects loan health rather than causing funding. Counterfactual estimates for locking should be treated as upper bounds.",
+      "confidence_summary": "Only the Approved\u2192CTC acceleration scenario has medium confidence. The rate lock and stale reactivation scenarios have low confidence due to correlation-vs-causation concerns and optimistic response rate assumptions."
+    }
   },
   "performance_scorecards": {
     "products": [
@@ -15599,8 +16748,19 @@
         "current_projected_value": 2507933.0,
         "avg_pipeline_probability": 0.3179,
         "efficiency_score": 51213.0,
+        "composite_score": 68.3,
+        "composite_sub_scores": {
+          "pull_through": 55.2,
+          "cycle_time": 44.0,
+          "revenue_efficiency": 100.0,
+          "trend": 100,
+          "pipeline_probability": 53.0
+        },
         "name": "2ND",
-        "dimension": "product"
+        "dimension": "product",
+        "industry_benchmark_pt": 0.75,
+        "industry_benchmark_cycle": 42,
+        "benchmark_note": "Industry 'closing rate' is measured from formal application on a 90-day cycle (Ellie Mae/ICE, ~80% of US mortgage apps). FlexPoint's 37% pull-through is from pipeline entry \u2014 much earlier. These are NOT directly comparable."
       },
       {
         "pull_through_rate": 0.2415,
@@ -15617,8 +16777,19 @@
         "current_projected_value": 2402878.0,
         "avg_pipeline_probability": 0.299,
         "efficiency_score": 115635.0,
+        "composite_score": 70.6,
+        "composite_sub_scores": {
+          "pull_through": 48.3,
+          "cycle_time": 68.0,
+          "revenue_efficiency": 100.0,
+          "trend": 100,
+          "pipeline_probability": 49.8
+        },
         "name": "CONFORMING",
-        "dimension": "product"
+        "dimension": "product",
+        "industry_benchmark_pt": 0.75,
+        "industry_benchmark_cycle": 42,
+        "benchmark_note": "Industry 'closing rate' is measured from formal application on a 90-day cycle (Ellie Mae/ICE, ~80% of US mortgage apps). FlexPoint's 37% pull-through is from pipeline entry \u2014 much earlier. These are NOT directly comparable."
       },
       {
         "pull_through_rate": 0.0299,
@@ -15635,8 +16806,19 @@
         "current_projected_value": 0.0,
         "avg_pipeline_probability": 0.0172,
         "efficiency_score": 9164.0,
+        "composite_score": 45.9,
+        "composite_sub_scores": {
+          "pull_through": 6.0,
+          "cycle_time": 58.0,
+          "revenue_efficiency": 100.0,
+          "trend": 80.3,
+          "pipeline_probability": 2.9
+        },
         "name": "CONVENTIONAL BOND",
-        "dimension": "product"
+        "dimension": "product",
+        "industry_benchmark_pt": 0.75,
+        "industry_benchmark_cycle": 43,
+        "benchmark_note": "Industry 'closing rate' is measured from formal application on a 90-day cycle (Ellie Mae/ICE, ~80% of US mortgage apps). FlexPoint's 37% pull-through is from pipeline entry \u2014 much earlier. These are NOT directly comparable."
       },
       {
         "pull_through_rate": 0.0747,
@@ -15653,8 +16835,19 @@
         "current_projected_value": 643846.0,
         "avg_pipeline_probability": 0.5878,
         "efficiency_score": 37166.0,
+        "composite_score": 67.0,
+        "composite_sub_scores": {
+          "pull_through": 14.9,
+          "cycle_time": 64.0,
+          "revenue_efficiency": 100.0,
+          "trend": 100,
+          "pipeline_probability": 98.0
+        },
         "name": "CONVENTIONAL BOND STD MI",
-        "dimension": "product"
+        "dimension": "product",
+        "industry_benchmark_pt": 0.75,
+        "industry_benchmark_cycle": 43,
+        "benchmark_note": "Industry 'closing rate' is measured from formal application on a 90-day cycle (Ellie Mae/ICE, ~80% of US mortgage apps). FlexPoint's 37% pull-through is from pipeline entry \u2014 much earlier. These are NOT directly comparable."
       },
       {
         "pull_through_rate": 0.2498,
@@ -15671,8 +16864,19 @@
         "current_projected_value": 3004382.0,
         "avg_pipeline_probability": 0.3165,
         "efficiency_score": 114718.0,
+        "composite_score": 71.9,
+        "composite_sub_scores": {
+          "pull_through": 50.0,
+          "cycle_time": 70.0,
+          "revenue_efficiency": 100.0,
+          "trend": 100,
+          "pipeline_probability": 52.8
+        },
         "name": "FHA",
-        "dimension": "product"
+        "dimension": "product",
+        "industry_benchmark_pt": 0.75,
+        "industry_benchmark_cycle": 45,
+        "benchmark_note": "Industry 'closing rate' is measured from formal application on a 90-day cycle (Ellie Mae/ICE, ~80% of US mortgage apps). FlexPoint's 37% pull-through is from pipeline entry \u2014 much earlier. These are NOT directly comparable."
       },
       {
         "pull_through_rate": 0.1985,
@@ -15689,8 +16893,19 @@
         "current_projected_value": 170277.0,
         "avg_pipeline_probability": 0.2909,
         "efficiency_score": 80910.0,
+        "composite_score": 65.4,
+        "composite_sub_scores": {
+          "pull_through": 39.7,
+          "cycle_time": 56.0,
+          "revenue_efficiency": 100.0,
+          "trend": 100,
+          "pipeline_probability": 48.5
+        },
         "name": "FHA BOND",
-        "dimension": "product"
+        "dimension": "product",
+        "industry_benchmark_pt": 0.75,
+        "industry_benchmark_cycle": 43,
+        "benchmark_note": "Industry 'closing rate' is measured from formal application on a 90-day cycle (Ellie Mae/ICE, ~80% of US mortgage apps). FlexPoint's 37% pull-through is from pipeline entry \u2014 much earlier. These are NOT directly comparable."
       },
       {
         "pull_through_rate": 0.399,
@@ -15707,8 +16922,19 @@
         "current_projected_value": 23070178.0,
         "avg_pipeline_probability": 0.3044,
         "efficiency_score": 228540.0,
+        "composite_score": 80.1,
+        "composite_sub_scores": {
+          "pull_through": 79.8,
+          "cycle_time": 68.0,
+          "revenue_efficiency": 100.0,
+          "trend": 100,
+          "pipeline_probability": 50.7
+        },
         "name": "NONCONFORMING",
-        "dimension": "product"
+        "dimension": "product",
+        "industry_benchmark_pt": 0.75,
+        "industry_benchmark_cycle": 49,
+        "benchmark_note": "Industry 'closing rate' is measured from formal application on a 90-day cycle (Ellie Mae/ICE, ~80% of US mortgage apps). FlexPoint's 37% pull-through is from pipeline entry \u2014 much earlier. These are NOT directly comparable."
       },
       {
         "pull_through_rate": 0.16,
@@ -15725,8 +16951,19 @@
         "current_projected_value": 552297.0,
         "avg_pipeline_probability": 0.2337,
         "efficiency_score": 81780.0,
+        "composite_score": 63.2,
+        "composite_sub_scores": {
+          "pull_through": 32.0,
+          "cycle_time": 64.0,
+          "revenue_efficiency": 100.0,
+          "trend": 100,
+          "pipeline_probability": 39.0
+        },
         "name": "VA",
-        "dimension": "product"
+        "dimension": "product",
+        "industry_benchmark_pt": 0.75,
+        "industry_benchmark_cycle": 49,
+        "benchmark_note": "Industry 'closing rate' is measured from formal application on a 90-day cycle (Ellie Mae/ICE, ~80% of US mortgage apps). FlexPoint's 37% pull-through is from pipeline entry \u2014 much earlier. These are NOT directly comparable."
       },
       {
         "pull_through_rate": 0.0925,
@@ -15743,8 +16980,19 @@
         "current_projected_value": 92548.0,
         "avg_pipeline_probability": 0.3912,
         "efficiency_score": 4759.0,
+        "composite_score": 63.1,
+        "composite_sub_scores": {
+          "pull_through": 18.5,
+          "cycle_time": 64.0,
+          "revenue_efficiency": 100.0,
+          "trend": 100,
+          "pipeline_probability": 65.2
+        },
         "name": "ZERO INTEREST PROGRAM",
-        "dimension": "product"
+        "dimension": "product",
+        "industry_benchmark_pt": 0.75,
+        "industry_benchmark_cycle": 43,
+        "benchmark_note": "Industry 'closing rate' is measured from formal application on a 90-day cycle (Ellie Mae/ICE, ~80% of US mortgage apps). FlexPoint's 37% pull-through is from pipeline entry \u2014 much earlier. These are NOT directly comparable."
       }
     ],
     "channels": [
@@ -15763,6 +17011,14 @@
         "current_projected_value": 670551.0,
         "avg_pipeline_probability": 0.0534,
         "efficiency_score": 26515.0,
+        "composite_score": 30.2,
+        "composite_sub_scores": {
+          "pull_through": 12.3,
+          "cycle_time": 60.0,
+          "revenue_efficiency": 35.0,
+          "trend": 41.2,
+          "pipeline_probability": 8.9
+        },
         "name": "Retail",
         "dimension": "channel"
       },
@@ -15781,6 +17037,14 @@
         "current_projected_value": 0.0,
         "avg_pipeline_probability": 0.0,
         "efficiency_score": 0.0,
+        "composite_score": 17.5,
+        "composite_sub_scores": {
+          "pull_through": 0.0,
+          "cycle_time": 50,
+          "revenue_efficiency": 0.0,
+          "trend": 50.0,
+          "pipeline_probability": 0.0
+        },
         "name": "Unknown",
         "dimension": "channel"
       },
@@ -15799,6 +17063,14 @@
         "current_projected_value": 31773788.0,
         "avg_pipeline_probability": 0.2971,
         "efficiency_score": 119703.0,
+        "composite_score": 70.4,
+        "composite_sub_scores": {
+          "pull_through": 50.4,
+          "cycle_time": 64.0,
+          "revenue_efficiency": 100.0,
+          "trend": 100,
+          "pipeline_probability": 49.5
+        },
         "name": "Wholesale",
         "dimension": "channel"
       }
@@ -15808,6 +17080,7 @@
         "rank": 1,
         "name": "NONCONFORMING",
         "efficiency_score": 228540.0,
+        "composite_score": 80.1,
         "pull_through_rate": 0.399,
         "avg_loan_amount": 572790.0,
         "funded_volume_6m": 559264667.0,
@@ -15816,48 +17089,31 @@
       },
       {
         "rank": 2,
-        "name": "CONFORMING",
-        "efficiency_score": 115635.0,
-        "pull_through_rate": 0.2415,
-        "avg_loan_amount": 478809.0,
-        "funded_volume_6m": 77006486.0,
+        "name": "FHA",
+        "efficiency_score": 114718.0,
+        "composite_score": 71.9,
+        "pull_through_rate": 0.2498,
+        "avg_loan_amount": 459277.0,
+        "funded_volume_6m": 77965527.0,
         "pt_trend": "up",
         "tier": "top"
       },
       {
         "rank": 3,
-        "name": "FHA",
-        "efficiency_score": 114718.0,
-        "pull_through_rate": 0.2498,
-        "avg_loan_amount": 459277.0,
-        "funded_volume_6m": 77965527.0,
+        "name": "CONFORMING",
+        "efficiency_score": 115635.0,
+        "composite_score": 70.6,
+        "pull_through_rate": 0.2415,
+        "avg_loan_amount": 478809.0,
+        "funded_volume_6m": 77006486.0,
         "pt_trend": "up",
         "tier": "mid"
       },
       {
         "rank": 4,
-        "name": "VA",
-        "efficiency_score": 81780.0,
-        "pull_through_rate": 0.16,
-        "avg_loan_amount": 511128.0,
-        "funded_volume_6m": 7791740.0,
-        "pt_trend": "up",
-        "tier": "mid"
-      },
-      {
-        "rank": 5,
-        "name": "FHA BOND",
-        "efficiency_score": 80910.0,
-        "pull_through_rate": 0.1985,
-        "avg_loan_amount": 407640.0,
-        "funded_volume_6m": 23278815.0,
-        "pt_trend": "up",
-        "tier": "mid"
-      },
-      {
-        "rank": 6,
         "name": "2ND",
         "efficiency_score": 51213.0,
+        "composite_score": 68.3,
         "pull_through_rate": 0.276,
         "avg_loan_amount": 185527.0,
         "funded_volume_6m": 42299807.0,
@@ -15865,9 +17121,10 @@
         "tier": "mid"
       },
       {
-        "rank": 7,
+        "rank": 5,
         "name": "CONVENTIONAL BOND STD MI",
         "efficiency_score": 37166.0,
+        "composite_score": 67.0,
         "pull_through_rate": 0.0747,
         "avg_loan_amount": 497557.0,
         "funded_volume_6m": 13001147.0,
@@ -15875,22 +17132,46 @@
         "tier": "mid"
       },
       {
+        "rank": 6,
+        "name": "FHA BOND",
+        "efficiency_score": 80910.0,
+        "composite_score": 65.4,
+        "pull_through_rate": 0.1985,
+        "avg_loan_amount": 407640.0,
+        "funded_volume_6m": 23278815.0,
+        "pt_trend": "up",
+        "tier": "mid"
+      },
+      {
+        "rank": 7,
+        "name": "VA",
+        "efficiency_score": 81780.0,
+        "composite_score": 63.2,
+        "pull_through_rate": 0.16,
+        "avg_loan_amount": 511128.0,
+        "funded_volume_6m": 7791740.0,
+        "pt_trend": "up",
+        "tier": "mid"
+      },
+      {
         "rank": 8,
-        "name": "CONVENTIONAL BOND",
-        "efficiency_score": 9164.0,
-        "pull_through_rate": 0.0299,
-        "avg_loan_amount": 306981.0,
-        "funded_volume_6m": 355960.0,
+        "name": "ZERO INTEREST PROGRAM",
+        "efficiency_score": 4759.0,
+        "composite_score": 63.1,
+        "pull_through_rate": 0.0925,
+        "avg_loan_amount": 51476.0,
+        "funded_volume_6m": 2472953.0,
         "pt_trend": "up",
         "tier": "bottom"
       },
       {
         "rank": 9,
-        "name": "ZERO INTEREST PROGRAM",
-        "efficiency_score": 4759.0,
-        "pull_through_rate": 0.0925,
-        "avg_loan_amount": 51476.0,
-        "funded_volume_6m": 2472953.0,
+        "name": "CONVENTIONAL BOND",
+        "efficiency_score": 9164.0,
+        "composite_score": 45.9,
+        "pull_through_rate": 0.0299,
+        "avg_loan_amount": 306981.0,
+        "funded_volume_6m": 355960.0,
         "pt_trend": "up",
         "tier": "bottom"
       }
@@ -15907,7 +17188,8 @@
         "effort": "low",
         "loan_count": 3,
         "category": "lock_management",
-        "urgency": "immediate"
+        "urgency": "immediate",
+        "confidence_caveat": "Lock status correlates with funding but the relationship may not be fully causal. Prioritize loans where lock is the only missing piece, not loans with underlying issues."
       },
       {
         "priority": 2,
@@ -15937,7 +17219,8 @@
         "effort": "medium",
         "loan_count": 17,
         "category": "borrower_engagement",
-        "urgency": "this_week"
+        "urgency": "this_week",
+        "confidence_caveat": "Re-engagement works best on loans stalled due to process issues, not borrower disengagement. Industry response rates for stale pipeline are typically 10-15%."
       },
       {
         "priority": 6,
@@ -15960,5 +17243,3832 @@
         "urgency": "this_month"
       }
     ]
+  },
+  "moneyball_matrix": {
+    "loans": [
+      {
+        "loan_guid": "82508237",
+        "probability": 0.0054,
+        "difficulty": 57.0,
+        "loan_amount": 177100.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 97,
+        "expected_value": 962.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82508255",
+        "probability": 0.613,
+        "difficulty": 42.0,
+        "loan_amount": 270197.0,
+        "product_type": "FHA BOND",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 118,
+        "expected_value": 165638.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82508259",
+        "probability": 0.5656,
+        "difficulty": 42.0,
+        "loan_amount": 9800.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 118,
+        "expected_value": 5543.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510522",
+        "probability": 0.0087,
+        "difficulty": 52.0,
+        "loan_amount": 750000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 48,
+        "expected_value": 6493.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82510523",
+        "probability": 0.0067,
+        "difficulty": 52.4,
+        "loan_amount": 303975.0,
+        "product_type": "FHA BOND",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 49,
+        "expected_value": 2049.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510529",
+        "probability": 0.0084,
+        "difficulty": 52.4,
+        "loan_amount": 370000.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 49,
+        "expected_value": 3092.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510539",
+        "probability": 0.8978,
+        "difficulty": 3.6,
+        "loan_amount": 432000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Final UW",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 387843.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510542",
+        "probability": 0.0048,
+        "difficulty": 52.0,
+        "loan_amount": 803500.0,
+        "product_type": "CONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 48,
+        "expected_value": 3876.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510561",
+        "probability": 0.2512,
+        "difficulty": 50.7,
+        "loan_amount": 500000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 45,
+        "expected_value": 125607.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510569",
+        "probability": 0.9483,
+        "difficulty": 0.0,
+        "loan_amount": 450000.0,
+        "product_type": "FHA",
+        "current_stage": "CTC",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 426716.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509450",
+        "probability": 0.0079,
+        "difficulty": 57.0,
+        "loan_amount": 720000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 88,
+        "expected_value": 5654.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82509455",
+        "probability": 0.8992,
+        "difficulty": 14.6,
+        "loan_amount": 136000.0,
+        "product_type": "FHA",
+        "current_stage": "Cond Review",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 3,
+        "expected_value": 122287.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509535",
+        "probability": 0.0053,
+        "difficulty": 57.0,
+        "loan_amount": 325000.0,
+        "product_type": "FHA",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 83,
+        "expected_value": 1709.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509543",
+        "probability": 0.0053,
+        "difficulty": 57.0,
+        "loan_amount": 294325.0,
+        "product_type": "FHA BOND",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 79,
+        "expected_value": 1554.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509545",
+        "probability": 0.0049,
+        "difficulty": 57.0,
+        "loan_amount": 15250.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 79,
+        "expected_value": 75.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509607",
+        "probability": 0.0071,
+        "difficulty": 57.0,
+        "loan_amount": 500000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 68,
+        "expected_value": 3558.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509628",
+        "probability": 0.0041,
+        "difficulty": 57.0,
+        "loan_amount": 521027.0,
+        "product_type": "FHA",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 78,
+        "expected_value": 2140.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509643",
+        "probability": 0.0109,
+        "difficulty": 57.0,
+        "loan_amount": 516000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 80,
+        "expected_value": 5645.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509653",
+        "probability": 0.0103,
+        "difficulty": 57.0,
+        "loan_amount": 383500.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 77,
+        "expected_value": 3962.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510572",
+        "probability": 0.0099,
+        "difficulty": 52.0,
+        "loan_amount": 307192.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 48,
+        "expected_value": 3052.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510574",
+        "probability": 0.0098,
+        "difficulty": 49.5,
+        "loan_amount": 300000.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 42,
+        "expected_value": 2945.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510591",
+        "probability": 0.0049,
+        "difficulty": 52.4,
+        "loan_amount": 11025.0,
+        "product_type": "ZERO INTEREST PROGRAM",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 49,
+        "expected_value": 54.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510593",
+        "probability": 0.0062,
+        "difficulty": 45.3,
+        "loan_amount": 2000000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 32,
+        "expected_value": 12485.0,
+        "is_movable": true,
+        "cf_quadrant": "easy_win",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82510580",
+        "probability": 0.271,
+        "difficulty": 33.2,
+        "loan_amount": 505750.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": true,
+        "days_at_stage": 39,
+        "expected_value": 137058.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510608",
+        "probability": 0.0099,
+        "difficulty": 51.1,
+        "loan_amount": 925000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 46,
+        "expected_value": 9157.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82510609",
+        "probability": 0.0061,
+        "difficulty": 48.6,
+        "loan_amount": 110296.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 40,
+        "expected_value": 676.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510624",
+        "probability": 0.1645,
+        "difficulty": 51.1,
+        "loan_amount": 4000000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 46,
+        "expected_value": 657896.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82510625",
+        "probability": 0.9886,
+        "difficulty": 2.1,
+        "loan_amount": 357000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Fund Cond",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 5,
+        "expected_value": 352928.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "62510632",
+        "probability": 0.9845,
+        "difficulty": 1.2,
+        "loan_amount": 251900.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Docs",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 3,
+        "expected_value": 247994.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510648",
+        "probability": 0.0089,
+        "difficulty": 50.3,
+        "loan_amount": 359998.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 44,
+        "expected_value": 3217.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510651",
+        "probability": 0.0135,
+        "difficulty": 50.7,
+        "loan_amount": 1080000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 45,
+        "expected_value": 14530.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82510671",
+        "probability": 0.0056,
+        "difficulty": 49.5,
+        "loan_amount": 140000.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 42,
+        "expected_value": 787.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509671",
+        "probability": 0.004,
+        "difficulty": 57.0,
+        "loan_amount": 598414.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 69,
+        "expected_value": 2404.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "62509658",
+        "probability": 0.0059,
+        "difficulty": 56.1,
+        "loan_amount": 390000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 58,
+        "expected_value": 2291.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509697",
+        "probability": 0.0103,
+        "difficulty": 57.0,
+        "loan_amount": 383500.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 77,
+        "expected_value": 3962.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509715",
+        "probability": 0.0049,
+        "difficulty": 57.0,
+        "loan_amount": 1364000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 75,
+        "expected_value": 6662.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509717",
+        "probability": 0.0095,
+        "difficulty": 57.0,
+        "loan_amount": 400000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 75,
+        "expected_value": 3815.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509744",
+        "probability": 0.003,
+        "difficulty": 57.0,
+        "loan_amount": 583000.0,
+        "product_type": "FHA",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 75,
+        "expected_value": 1742.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509742",
+        "probability": 0.0092,
+        "difficulty": 57.0,
+        "loan_amount": 430000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 76,
+        "expected_value": 3940.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "62509752",
+        "probability": 0.006,
+        "difficulty": 57.0,
+        "loan_amount": 79311.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 72,
+        "expected_value": 473.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509760",
+        "probability": 0.0388,
+        "difficulty": 54.0,
+        "loan_amount": 1170000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 53,
+        "expected_value": 45422.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82509783",
+        "probability": 0.886,
+        "difficulty": 3.6,
+        "loan_amount": 150000.0,
+        "product_type": "2ND",
+        "current_stage": "Final UW",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 132904.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "62509787",
+        "probability": 0.9749,
+        "difficulty": 0.0,
+        "loan_amount": 124000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "CTC",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 120886.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509240",
+        "probability": 0.0097,
+        "difficulty": 57.0,
+        "loan_amount": 615000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 93,
+        "expected_value": 5946.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82509257",
+        "probability": 0.1011,
+        "difficulty": 57.0,
+        "loan_amount": 592000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 81,
+        "expected_value": 59835.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509259",
+        "probability": 0.0082,
+        "difficulty": 57.0,
+        "loan_amount": 220500.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 92,
+        "expected_value": 1809.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509260",
+        "probability": 0.4396,
+        "difficulty": 57.0,
+        "loan_amount": 500000.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "stretch",
+        "is_locked": false,
+        "days_at_stage": 90,
+        "expected_value": 219823.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509271",
+        "probability": 0.0093,
+        "difficulty": 57.0,
+        "loan_amount": 866600.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 92,
+        "expected_value": 8022.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82509292",
+        "probability": 0.0095,
+        "difficulty": 57.0,
+        "loan_amount": 240000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 93,
+        "expected_value": 2273.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509443",
+        "probability": 0.0062,
+        "difficulty": 57.0,
+        "loan_amount": 850000.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 73,
+        "expected_value": 5262.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82509448",
+        "probability": 0.0041,
+        "difficulty": 57.0,
+        "loan_amount": 455000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 86,
+        "expected_value": 1878.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510041",
+        "probability": 0.0039,
+        "difficulty": 57.0,
+        "loan_amount": 200000.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 68,
+        "expected_value": 783.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82504463",
+        "probability": 0.0031,
+        "difficulty": 57.0,
+        "loan_amount": 535000.0,
+        "product_type": "FHA",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 229,
+        "expected_value": 1678.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82506427",
+        "probability": 0.0045,
+        "difficulty": 57.0,
+        "loan_amount": 250000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 173,
+        "expected_value": 1134.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82506436",
+        "probability": 0.0051,
+        "difficulty": 57.0,
+        "loan_amount": 1350000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 173,
+        "expected_value": 6846.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82506076",
+        "probability": 0.9924,
+        "difficulty": 1.2,
+        "loan_amount": 750000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Docs",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 3,
+        "expected_value": 744309.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82506079",
+        "probability": 0.9869,
+        "difficulty": 2.1,
+        "loan_amount": 698000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "CTC",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 5,
+        "expected_value": 688888.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82507195",
+        "probability": 0.0069,
+        "difficulty": 57.0,
+        "loan_amount": 646000.0,
+        "product_type": "CONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 155,
+        "expected_value": 4430.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82507258",
+        "probability": 0.821,
+        "difficulty": 42.0,
+        "loan_amount": 974650.0,
+        "product_type": "FHA",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 151,
+        "expected_value": 800140.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510054",
+        "probability": 0.0062,
+        "difficulty": 57.0,
+        "loan_amount": 600000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 71,
+        "expected_value": 3750.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510068",
+        "probability": 0.0706,
+        "difficulty": 55.7,
+        "loan_amount": 1088000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 57,
+        "expected_value": 76759.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82510083",
+        "probability": 0.0104,
+        "difficulty": 57.0,
+        "loan_amount": 400000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 68,
+        "expected_value": 4175.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510084",
+        "probability": 0.01,
+        "difficulty": 57.0,
+        "loan_amount": 400000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 68,
+        "expected_value": 3993.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510085",
+        "probability": 0.01,
+        "difficulty": 57.0,
+        "loan_amount": 400000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 68,
+        "expected_value": 3993.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510086",
+        "probability": 0.01,
+        "difficulty": 57.0,
+        "loan_amount": 400000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 68,
+        "expected_value": 3993.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510089",
+        "probability": 0.0053,
+        "difficulty": 57.0,
+        "loan_amount": 412000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 60,
+        "expected_value": 2181.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510094",
+        "probability": 0.0091,
+        "difficulty": 57.0,
+        "loan_amount": 626250.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 60,
+        "expected_value": 5701.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82510158",
+        "probability": 0.0056,
+        "difficulty": 57.0,
+        "loan_amount": 248593.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 65,
+        "expected_value": 1384.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510159",
+        "probability": 0.0158,
+        "difficulty": 57.0,
+        "loan_amount": 424800.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 60,
+        "expected_value": 6727.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509099",
+        "probability": 0.0058,
+        "difficulty": 57.0,
+        "loan_amount": 200000.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 96,
+        "expected_value": 1153.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509113",
+        "probability": 0.9156,
+        "difficulty": 7.1,
+        "loan_amount": 2088856.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Cond Review",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 1912528.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509140",
+        "probability": 0.0116,
+        "difficulty": 57.0,
+        "loan_amount": 212000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 97,
+        "expected_value": 2457.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509173",
+        "probability": 0.0089,
+        "difficulty": 57.0,
+        "loan_amount": 261000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 95,
+        "expected_value": 2321.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509186",
+        "probability": 0.369,
+        "difficulty": 57.0,
+        "loan_amount": 315000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 94,
+        "expected_value": 116230.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509196",
+        "probability": 0.0114,
+        "difficulty": 57.0,
+        "loan_amount": 488000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 95,
+        "expected_value": 5553.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510195",
+        "probability": 0.0058,
+        "difficulty": 57.0,
+        "loan_amount": 1600000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 64,
+        "expected_value": 9322.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82510214",
+        "probability": 0.0105,
+        "difficulty": 57.0,
+        "loan_amount": 1280000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 62,
+        "expected_value": 13431.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82510236",
+        "probability": 0.0048,
+        "difficulty": 52.8,
+        "loan_amount": 165000.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 50,
+        "expected_value": 784.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510263",
+        "probability": 0.0116,
+        "difficulty": 56.5,
+        "loan_amount": 335300.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 59,
+        "expected_value": 3886.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510265",
+        "probability": 0.0093,
+        "difficulty": 57.0,
+        "loan_amount": 460000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 62,
+        "expected_value": 4295.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510256",
+        "probability": 0.0056,
+        "difficulty": 57.0,
+        "loan_amount": 315000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 61,
+        "expected_value": 1772.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510261",
+        "probability": 0.0071,
+        "difficulty": 50.7,
+        "loan_amount": 472000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 45,
+        "expected_value": 3375.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510262",
+        "probability": 0.0064,
+        "difficulty": 56.5,
+        "loan_amount": 1400000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 59,
+        "expected_value": 8914.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82505389",
+        "probability": 0.0061,
+        "difficulty": 57.0,
+        "loan_amount": 605000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 197,
+        "expected_value": 3701.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82507567",
+        "probability": 0.0088,
+        "difficulty": 57.0,
+        "loan_amount": 650000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 139,
+        "expected_value": 5698.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82507568",
+        "probability": 0.0088,
+        "difficulty": 57.0,
+        "loan_amount": 550000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 139,
+        "expected_value": 4815.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82507569",
+        "probability": 0.0088,
+        "difficulty": 57.0,
+        "loan_amount": 937000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 138,
+        "expected_value": 8229.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82507572",
+        "probability": 0.7732,
+        "difficulty": 28.4,
+        "loan_amount": 375000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Cond Review",
+        "quadrant": "easy_win",
+        "is_locked": false,
+        "days_at_stage": 0,
+        "expected_value": 289941.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82507580",
+        "probability": 0.0076,
+        "difficulty": 57.0,
+        "loan_amount": 412000.0,
+        "product_type": "CONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 118,
+        "expected_value": 3138.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82508073",
+        "probability": 0.0068,
+        "difficulty": 57.0,
+        "loan_amount": 134625.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 129,
+        "expected_value": 910.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82508523",
+        "probability": 0.0054,
+        "difficulty": 57.0,
+        "loan_amount": 175000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 110,
+        "expected_value": 939.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "62508536",
+        "probability": 0.0031,
+        "difficulty": 31.8,
+        "loan_amount": 2770125.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Underwriting",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 6,
+        "expected_value": 8639.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82508542",
+        "probability": 0.0065,
+        "difficulty": 57.0,
+        "loan_amount": 143182.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 89,
+        "expected_value": 933.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82508566",
+        "probability": 0.0064,
+        "difficulty": 57.0,
+        "loan_amount": 975000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 108,
+        "expected_value": 6213.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82508578",
+        "probability": 0.0076,
+        "difficulty": 57.0,
+        "loan_amount": 750000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 108,
+        "expected_value": 5691.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82508575",
+        "probability": 0.0045,
+        "difficulty": 57.0,
+        "loan_amount": 150000.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 102,
+        "expected_value": 673.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82508614",
+        "probability": 0.0066,
+        "difficulty": 57.0,
+        "loan_amount": 596000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 103,
+        "expected_value": 3928.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82508624",
+        "probability": 0.0048,
+        "difficulty": 57.0,
+        "loan_amount": 1770000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 104,
+        "expected_value": 8528.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82508639",
+        "probability": 0.9159,
+        "difficulty": 0.0,
+        "loan_amount": 142500.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "CTC",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 130512.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82508650",
+        "probability": 0.0083,
+        "difficulty": 57.0,
+        "loan_amount": 525419.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 96,
+        "expected_value": 4335.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509010",
+        "probability": 0.2133,
+        "difficulty": 42.0,
+        "loan_amount": 2240000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": true,
+        "days_at_stage": 101,
+        "expected_value": 477759.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82509028",
+        "probability": 0.9024,
+        "difficulty": 13.4,
+        "loan_amount": 150000.0,
+        "product_type": "2ND",
+        "current_stage": "Cond Review",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 135363.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510269",
+        "probability": 0.0104,
+        "difficulty": 56.5,
+        "loan_amount": 500000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 59,
+        "expected_value": 5217.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510272",
+        "probability": 0.007,
+        "difficulty": 57.0,
+        "loan_amount": 584000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 62,
+        "expected_value": 4100.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510277",
+        "probability": 0.0089,
+        "difficulty": 55.3,
+        "loan_amount": 319500.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 56,
+        "expected_value": 2838.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510279",
+        "probability": 0.0073,
+        "difficulty": 54.9,
+        "loan_amount": 3000000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 55,
+        "expected_value": 21815.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82510290",
+        "probability": 0.0051,
+        "difficulty": 55.7,
+        "loan_amount": 202650.0,
+        "product_type": "FHA BOND",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 57,
+        "expected_value": 1036.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510297",
+        "probability": 0.0093,
+        "difficulty": 56.1,
+        "loan_amount": 276000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 58,
+        "expected_value": 2580.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510304",
+        "probability": 0.0068,
+        "difficulty": 49.5,
+        "loan_amount": 150000.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 42,
+        "expected_value": 1020.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510317",
+        "probability": 0.0068,
+        "difficulty": 56.1,
+        "loan_amount": 252806.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 58,
+        "expected_value": 1718.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510330",
+        "probability": 0.0062,
+        "difficulty": 55.7,
+        "loan_amount": 453584.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 57,
+        "expected_value": 2825.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510332",
+        "probability": 0.9648,
+        "difficulty": 0.0,
+        "loan_amount": 500000.0,
+        "product_type": "2ND",
+        "current_stage": "Fund Cond",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 482378.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510337",
+        "probability": 0.9455,
+        "difficulty": 7.1,
+        "loan_amount": 283447.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Cond Review",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 267986.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510338",
+        "probability": 0.7894,
+        "difficulty": 19.2,
+        "loan_amount": 695000.0,
+        "product_type": "VA",
+        "current_stage": "Cond Review",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 14,
+        "expected_value": 548634.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510348",
+        "probability": 0.0054,
+        "difficulty": 56.1,
+        "loan_amount": 182000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 58,
+        "expected_value": 989.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510351",
+        "probability": 0.0057,
+        "difficulty": 54.9,
+        "loan_amount": 580000.0,
+        "product_type": "CONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 55,
+        "expected_value": 3324.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510357",
+        "probability": 0.0043,
+        "difficulty": 54.9,
+        "loan_amount": 510000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 55,
+        "expected_value": 2184.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510346",
+        "probability": 0.9874,
+        "difficulty": 0.0,
+        "loan_amount": 360000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Docs",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 355468.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510367",
+        "probability": 0.007,
+        "difficulty": 55.3,
+        "loan_amount": 409500.0,
+        "product_type": "FHA",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 56,
+        "expected_value": 2876.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510371",
+        "probability": 0.0058,
+        "difficulty": 55.7,
+        "loan_amount": 14000.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 57,
+        "expected_value": 81.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510379",
+        "probability": 0.0161,
+        "difficulty": 54.5,
+        "loan_amount": 3950000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 54,
+        "expected_value": 63742.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82510405",
+        "probability": 0.0092,
+        "difficulty": 52.0,
+        "loan_amount": 311500.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 48,
+        "expected_value": 2859.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510416",
+        "probability": 0.4238,
+        "difficulty": 54.0,
+        "loan_amount": 297500.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "stretch",
+        "is_locked": false,
+        "days_at_stage": 53,
+        "expected_value": 126078.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510420",
+        "probability": 0.0053,
+        "difficulty": 54.9,
+        "loan_amount": 450000.0,
+        "product_type": "CONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 55,
+        "expected_value": 2382.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510421",
+        "probability": 0.9298,
+        "difficulty": 1.2,
+        "loan_amount": 589033.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "CTC",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 3,
+        "expected_value": 547672.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510427",
+        "probability": 0.0092,
+        "difficulty": 54.5,
+        "loan_amount": 750000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 54,
+        "expected_value": 6918.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82510433",
+        "probability": 0.022,
+        "difficulty": 39.5,
+        "loan_amount": 460000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": true,
+        "days_at_stage": 54,
+        "expected_value": 10098.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510438",
+        "probability": 0.9926,
+        "difficulty": 0.0,
+        "loan_amount": 340000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Docs",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 337498.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510441",
+        "probability": 0.028,
+        "difficulty": 49.9,
+        "loan_amount": 4000000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 43,
+        "expected_value": 111979.0,
+        "is_movable": true,
+        "cf_quadrant": "easy_win",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82510446",
+        "probability": 0.0094,
+        "difficulty": 53.6,
+        "loan_amount": 468000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 52,
+        "expected_value": 4418.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510451",
+        "probability": 0.2072,
+        "difficulty": 53.6,
+        "loan_amount": 265000.0,
+        "product_type": "FHA",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 52,
+        "expected_value": 54907.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510459",
+        "probability": 0.0047,
+        "difficulty": 51.1,
+        "loan_amount": 125000.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 46,
+        "expected_value": 586.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510468",
+        "probability": 0.0104,
+        "difficulty": 54.0,
+        "loan_amount": 575000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 53,
+        "expected_value": 6006.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510470",
+        "probability": 0.3728,
+        "difficulty": 31.2,
+        "loan_amount": 445000.0,
+        "product_type": "CONFORMING",
+        "current_stage": "CTC",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 24,
+        "expected_value": 165902.0,
+        "is_movable": true,
+        "cf_quadrant": "easy_win",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82507035",
+        "probability": 0.2936,
+        "difficulty": 57.0,
+        "loan_amount": 515000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 155,
+        "expected_value": 151202.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82507055",
+        "probability": 0.0071,
+        "difficulty": 57.0,
+        "loan_amount": 245000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 160,
+        "expected_value": 1740.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82507110",
+        "probability": 0.0553,
+        "difficulty": 57.0,
+        "loan_amount": 122500.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 157,
+        "expected_value": 6776.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82508377",
+        "probability": 0.0067,
+        "difficulty": 57.0,
+        "loan_amount": 225000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 117,
+        "expected_value": 1504.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82508460",
+        "probability": 0.0158,
+        "difficulty": 57.0,
+        "loan_amount": 204000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 113,
+        "expected_value": 3219.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82508472",
+        "probability": 0.0093,
+        "difficulty": 57.0,
+        "loan_amount": 483999.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 115,
+        "expected_value": 4483.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82508497",
+        "probability": 0.0068,
+        "difficulty": 57.0,
+        "loan_amount": 441050.0,
+        "product_type": "VA",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 97,
+        "expected_value": 3010.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82505502",
+        "probability": 0.2793,
+        "difficulty": 57.0,
+        "loan_amount": 477375.0,
+        "product_type": "CONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 200,
+        "expected_value": 133331.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82507451",
+        "probability": 0.0074,
+        "difficulty": 57.0,
+        "loan_amount": 336000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 143,
+        "expected_value": 2486.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82507459",
+        "probability": 0.007,
+        "difficulty": 57.0,
+        "loan_amount": 406000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 115,
+        "expected_value": 2833.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82507521",
+        "probability": 0.1647,
+        "difficulty": 42.0,
+        "loan_amount": 500000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": true,
+        "days_at_stage": 140,
+        "expected_value": 82354.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510700",
+        "probability": 0.0067,
+        "difficulty": 50.3,
+        "loan_amount": 480250.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 44,
+        "expected_value": 3223.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510704",
+        "probability": 0.0088,
+        "difficulty": 50.3,
+        "loan_amount": 172000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 44,
+        "expected_value": 1511.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510705",
+        "probability": 0.6659,
+        "difficulty": 34.0,
+        "loan_amount": 500000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 41,
+        "expected_value": 332933.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510716",
+        "probability": 0.0153,
+        "difficulty": 31.5,
+        "loan_amount": 17670.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 14,
+        "expected_value": 271.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510724",
+        "probability": 0.009,
+        "difficulty": 49.5,
+        "loan_amount": 1724250.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 42,
+        "expected_value": 15491.0,
+        "is_movable": true,
+        "cf_quadrant": "easy_win",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82510726",
+        "probability": 0.0534,
+        "difficulty": 41.5,
+        "loan_amount": 150000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": true,
+        "days_at_stage": 44,
+        "expected_value": 8012.0,
+        "is_movable": true,
+        "cf_quadrant": "easy_win",
+        "cf_action": "Extend rate lock 30 days"
+      },
+      {
+        "loan_guid": "82510731",
+        "probability": 0.9677,
+        "difficulty": 2.9,
+        "loan_amount": 616000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "CTC",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 7,
+        "expected_value": 596129.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510734",
+        "probability": 0.9906,
+        "difficulty": 0.0,
+        "loan_amount": 595000.0,
+        "product_type": "CONFORMING",
+        "current_stage": "Fund Cond",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 589408.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510737",
+        "probability": 0.3415,
+        "difficulty": 50.3,
+        "loan_amount": 352128.0,
+        "product_type": "FHA",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 44,
+        "expected_value": 120256.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510740",
+        "probability": 0.5255,
+        "difficulty": 31.5,
+        "loan_amount": 800250.0,
+        "product_type": "CONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 35,
+        "expected_value": 420554.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510741",
+        "probability": 0.0089,
+        "difficulty": 46.1,
+        "loan_amount": 336785.0,
+        "product_type": "FHA",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 34,
+        "expected_value": 2986.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510757",
+        "probability": 0.054,
+        "difficulty": 47.4,
+        "loan_amount": 1010000.0,
+        "product_type": "CONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 37,
+        "expected_value": 54573.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "62510759",
+        "probability": 0.0132,
+        "difficulty": 30.3,
+        "loan_amount": 360000.0,
+        "product_type": "FHA",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 11,
+        "expected_value": 4761.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510763",
+        "probability": 0.0108,
+        "difficulty": 48.2,
+        "loan_amount": 446000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 39,
+        "expected_value": 4834.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511000",
+        "probability": 0.6451,
+        "difficulty": 17.4,
+        "loan_amount": 250000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 16,
+        "expected_value": 161264.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511003",
+        "probability": 0.961,
+        "difficulty": 2.1,
+        "loan_amount": 295400.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "CTC",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 5,
+        "expected_value": 283892.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511031",
+        "probability": 0.9897,
+        "difficulty": 0.0,
+        "loan_amount": 125000.0,
+        "product_type": "2ND",
+        "current_stage": "Docs Back",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 123718.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511032",
+        "probability": 0.0037,
+        "difficulty": 36.1,
+        "loan_amount": 700000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 25,
+        "expected_value": 2570.0,
+        "is_movable": true,
+        "cf_quadrant": "easy_win",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82511034",
+        "probability": 0.0109,
+        "difficulty": 47.4,
+        "loan_amount": 336000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 37,
+        "expected_value": 3666.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511013",
+        "probability": 0.0115,
+        "difficulty": 48.2,
+        "loan_amount": 317600.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 39,
+        "expected_value": 3646.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511016",
+        "probability": 0.0083,
+        "difficulty": 47.8,
+        "loan_amount": 195000.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 38,
+        "expected_value": 1623.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511019",
+        "probability": 0.5902,
+        "difficulty": 31.5,
+        "loan_amount": 337600.0,
+        "product_type": "CONVENTIONAL BOND STD MI",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 35,
+        "expected_value": 199264.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511021",
+        "probability": 0.0086,
+        "difficulty": 47.4,
+        "loan_amount": 180000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 37,
+        "expected_value": 1550.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511023",
+        "probability": 0.5059,
+        "difficulty": 31.5,
+        "loan_amount": 84400.0,
+        "product_type": "ZERO INTEREST PROGRAM",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 35,
+        "expected_value": 42702.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511026",
+        "probability": 0.0103,
+        "difficulty": 47.0,
+        "loan_amount": 499600.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 36,
+        "expected_value": 5163.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511030",
+        "probability": 0.5123,
+        "difficulty": 2.5,
+        "loan_amount": 180000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Sched Fund",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 6,
+        "expected_value": 92214.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511035",
+        "probability": 0.0841,
+        "difficulty": 27.4,
+        "loan_amount": 945000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": true,
+        "days_at_stage": 25,
+        "expected_value": 79489.0,
+        "is_movable": true,
+        "cf_quadrant": "easy_win",
+        "cf_action": "Extend rate lock 30 days"
+      },
+      {
+        "loan_guid": "82511047",
+        "probability": 0.3256,
+        "difficulty": 33.2,
+        "loan_amount": 200000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": true,
+        "days_at_stage": 39,
+        "expected_value": 65118.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511057",
+        "probability": 0.0063,
+        "difficulty": 37.0,
+        "loan_amount": 211400.0,
+        "product_type": "FHA",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 27,
+        "expected_value": 1337.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511059",
+        "probability": 0.0132,
+        "difficulty": 48.6,
+        "loan_amount": 270000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 40,
+        "expected_value": 3571.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511062",
+        "probability": 0.4876,
+        "difficulty": 31.1,
+        "loan_amount": 410125.0,
+        "product_type": "FHA",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 34,
+        "expected_value": 199982.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511068",
+        "probability": 0.0087,
+        "difficulty": 47.8,
+        "loan_amount": 641725.0,
+        "product_type": "FHA",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 38,
+        "expected_value": 5602.0,
+        "is_movable": true,
+        "cf_quadrant": "easy_win",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82511073",
+        "probability": 0.9825,
+        "difficulty": 0.0,
+        "loan_amount": 320000.0,
+        "product_type": "CONFORMING",
+        "current_stage": "CTC",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 314397.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511074",
+        "probability": 0.0926,
+        "difficulty": 31.5,
+        "loan_amount": 198750.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": true,
+        "days_at_stage": 35,
+        "expected_value": 18412.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511078",
+        "probability": 0.5823,
+        "difficulty": 32.8,
+        "loan_amount": 1137750.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 38,
+        "expected_value": 662514.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511079",
+        "probability": 0.0049,
+        "difficulty": 46.1,
+        "loan_amount": 170000.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 34,
+        "expected_value": 839.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511084",
+        "probability": 0.0022,
+        "difficulty": 37.6,
+        "loan_amount": 300000.0,
+        "product_type": "VA",
+        "current_stage": "Underwriting",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 20,
+        "expected_value": 653.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511099",
+        "probability": 0.5916,
+        "difficulty": 32.4,
+        "loan_amount": 231750.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 37,
+        "expected_value": 137101.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511103",
+        "probability": 0.0087,
+        "difficulty": 47.4,
+        "loan_amount": 348750.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 37,
+        "expected_value": 3029.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511086",
+        "probability": 0.8668,
+        "difficulty": 7.9,
+        "loan_amount": 1860000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "CTC",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 19,
+        "expected_value": 1612231.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511091",
+        "probability": 0.0107,
+        "difficulty": 47.4,
+        "loan_amount": 239000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 37,
+        "expected_value": 2556.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511093",
+        "probability": 0.0107,
+        "difficulty": 47.4,
+        "loan_amount": 252000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 37,
+        "expected_value": 2695.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511094",
+        "probability": 0.5186,
+        "difficulty": 32.4,
+        "loan_amount": 396000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 37,
+        "expected_value": 205372.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511096",
+        "probability": 0.0091,
+        "difficulty": 47.4,
+        "loan_amount": 180000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 37,
+        "expected_value": 1630.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511108",
+        "probability": 0.0103,
+        "difficulty": 46.5,
+        "loan_amount": 781650.0,
+        "product_type": "FHA",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 35,
+        "expected_value": 8044.0,
+        "is_movable": true,
+        "cf_quadrant": "easy_win",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82511115",
+        "probability": 0.0055,
+        "difficulty": 38.2,
+        "loan_amount": 400000.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 30,
+        "expected_value": 2187.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511124",
+        "probability": 0.6889,
+        "difficulty": 30.7,
+        "loan_amount": 700000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 33,
+        "expected_value": 482248.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511128",
+        "probability": 0.4729,
+        "difficulty": 37.4,
+        "loan_amount": 475000.0,
+        "product_type": "CONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 34,
+        "expected_value": 224631.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511142",
+        "probability": 0.9531,
+        "difficulty": 3.6,
+        "loan_amount": 604000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Final UW",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 575692.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511143",
+        "probability": 0.0061,
+        "difficulty": 46.5,
+        "loan_amount": 3000000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 35,
+        "expected_value": 18267.0,
+        "is_movable": true,
+        "cf_quadrant": "easy_win",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82511164",
+        "probability": 0.9506,
+        "difficulty": 9.8,
+        "loan_amount": 583000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Final UW",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 554209.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511153",
+        "probability": 0.0148,
+        "difficulty": 46.5,
+        "loan_amount": 515000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 35,
+        "expected_value": 7598.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511158",
+        "probability": 0.0076,
+        "difficulty": 36.5,
+        "loan_amount": 2040000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 26,
+        "expected_value": 15484.0,
+        "is_movable": true,
+        "cf_quadrant": "easy_win",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82511163",
+        "probability": 0.9902,
+        "difficulty": 0.0,
+        "loan_amount": 875000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Fund Cond",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 866461.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511171",
+        "probability": 0.861,
+        "difficulty": 29.9,
+        "loan_amount": 371920.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 31,
+        "expected_value": 320218.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511177",
+        "probability": 0.3325,
+        "difficulty": 45.7,
+        "loan_amount": 120000.0,
+        "product_type": "CONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 33,
+        "expected_value": 39906.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511178",
+        "probability": 0.7561,
+        "difficulty": 7.1,
+        "loan_amount": 588000.0,
+        "product_type": "CONVENTIONAL BOND STD MI",
+        "current_stage": "Cond Review",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 444582.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511181",
+        "probability": 0.0097,
+        "difficulty": 45.3,
+        "loan_amount": 200000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 32,
+        "expected_value": 1946.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511182",
+        "probability": 0.0107,
+        "difficulty": 45.3,
+        "loan_amount": 211250.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 32,
+        "expected_value": 2267.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511184",
+        "probability": 0.992,
+        "difficulty": 0.0,
+        "loan_amount": 1074500.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Docs",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 1065952.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511189",
+        "probability": 0.9341,
+        "difficulty": 3.6,
+        "loan_amount": 500000.0,
+        "product_type": "2ND",
+        "current_stage": "Final UW",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 467071.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511192",
+        "probability": 0.983,
+        "difficulty": 1.7,
+        "loan_amount": 328975.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "CTC",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 4,
+        "expected_value": 323388.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511196",
+        "probability": 0.6698,
+        "difficulty": 22.8,
+        "loan_amount": 781650.0,
+        "product_type": "FHA",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 29,
+        "expected_value": 523558.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511197",
+        "probability": 0.0057,
+        "difficulty": 36.5,
+        "loan_amount": 272800.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 26,
+        "expected_value": 1542.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511198",
+        "probability": 0.0136,
+        "difficulty": 38.2,
+        "loan_amount": 812500.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 30,
+        "expected_value": 11048.0,
+        "is_movable": true,
+        "cf_quadrant": "easy_win",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82511199",
+        "probability": 0.9443,
+        "difficulty": 3.6,
+        "loan_amount": 500000.0,
+        "product_type": "2ND",
+        "current_stage": "Final UW",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 472133.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511200",
+        "probability": 0.3387,
+        "difficulty": 30.7,
+        "loan_amount": 147000.0,
+        "product_type": "ZERO INTEREST PROGRAM",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": true,
+        "days_at_stage": 33,
+        "expected_value": 49792.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511201",
+        "probability": 0.4124,
+        "difficulty": 30.3,
+        "loan_amount": 463200.0,
+        "product_type": "FHA",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 32,
+        "expected_value": 191046.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511202",
+        "probability": 0.4631,
+        "difficulty": 0.0,
+        "loan_amount": 229500.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "CTC",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 106272.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511209",
+        "probability": 0.0512,
+        "difficulty": 37.8,
+        "loan_amount": 240000.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 29,
+        "expected_value": 12292.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511210",
+        "probability": 0.011,
+        "difficulty": 44.9,
+        "loan_amount": 389400.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 31,
+        "expected_value": 4284.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511228",
+        "probability": 0.9814,
+        "difficulty": 0.0,
+        "loan_amount": 279000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Fund Cond",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 273809.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511233",
+        "probability": 0.008,
+        "difficulty": 34.9,
+        "loan_amount": 334250.0,
+        "product_type": "CONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 22,
+        "expected_value": 2666.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511212",
+        "probability": 0.6193,
+        "difficulty": 21.1,
+        "loan_amount": 1461225.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 25,
+        "expected_value": 904872.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511215",
+        "probability": 0.6275,
+        "difficulty": 23.2,
+        "loan_amount": 245000.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 30,
+        "expected_value": 153745.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511217",
+        "probability": 0.8447,
+        "difficulty": 22.0,
+        "loan_amount": 840000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 27,
+        "expected_value": 709568.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511239",
+        "probability": 0.3762,
+        "difficulty": 29.9,
+        "loan_amount": 451250.0,
+        "product_type": "CONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": true,
+        "days_at_stage": 31,
+        "expected_value": 169750.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511249",
+        "probability": 0.0135,
+        "difficulty": 44.9,
+        "loan_amount": 375000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 31,
+        "expected_value": 5058.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511251",
+        "probability": 0.0127,
+        "difficulty": 44.9,
+        "loan_amount": 256000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 31,
+        "expected_value": 3245.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511254",
+        "probability": 0.5186,
+        "difficulty": 23.2,
+        "loan_amount": 268245.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 30,
+        "expected_value": 139125.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511270",
+        "probability": 0.9581,
+        "difficulty": 0.0,
+        "loan_amount": 404000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "CTC",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 387078.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "62511282",
+        "probability": 0.6403,
+        "difficulty": 20.3,
+        "loan_amount": 430000.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 23,
+        "expected_value": 275313.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511296",
+        "probability": 0.0111,
+        "difficulty": 33.6,
+        "loan_amount": 282000.0,
+        "product_type": "CONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 19,
+        "expected_value": 3127.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511306",
+        "probability": 0.0131,
+        "difficulty": 37.4,
+        "loan_amount": 828000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 28,
+        "expected_value": 10853.0,
+        "is_movable": true,
+        "cf_quadrant": "easy_win",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82511289",
+        "probability": 0.9931,
+        "difficulty": 0.0,
+        "loan_amount": 372000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Docs",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 369415.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511311",
+        "probability": 0.0036,
+        "difficulty": 34.5,
+        "loan_amount": 397319.0,
+        "product_type": "FHA",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 21,
+        "expected_value": 1438.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511313",
+        "probability": 0.2904,
+        "difficulty": 35.7,
+        "loan_amount": 345000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 24,
+        "expected_value": 100185.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511314",
+        "probability": 0.0053,
+        "difficulty": 37.0,
+        "loan_amount": 1760000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 27,
+        "expected_value": 9409.0,
+        "is_movable": true,
+        "cf_quadrant": "easy_win",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82511316",
+        "probability": 0.2695,
+        "difficulty": 37.8,
+        "loan_amount": 1950000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 29,
+        "expected_value": 525603.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511323",
+        "probability": 0.9521,
+        "difficulty": 7.1,
+        "loan_amount": 376000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Cond Review",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 358007.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511325",
+        "probability": 0.9841,
+        "difficulty": 0.0,
+        "loan_amount": 381175.0,
+        "product_type": "FHA",
+        "current_stage": "Fund Cond",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 375133.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511329",
+        "probability": 0.9889,
+        "difficulty": 2.1,
+        "loan_amount": 412000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Docs",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 5,
+        "expected_value": 407428.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511334",
+        "probability": 0.9535,
+        "difficulty": 7.1,
+        "loan_amount": 154000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Cond Review",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 0,
+        "expected_value": 146838.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511336",
+        "probability": 0.4614,
+        "difficulty": 17.8,
+        "loan_amount": 255000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 17,
+        "expected_value": 117653.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510494",
+        "probability": 0.9727,
+        "difficulty": 1.2,
+        "loan_amount": 275000.0,
+        "product_type": "CONFORMING",
+        "current_stage": "Docs",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 3,
+        "expected_value": 267483.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510495",
+        "probability": 0.008,
+        "difficulty": 52.8,
+        "loan_amount": 700000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 50,
+        "expected_value": 5580.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "62510488",
+        "probability": 0.0073,
+        "difficulty": 47.0,
+        "loan_amount": 1404000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 36,
+        "expected_value": 10194.0,
+        "is_movable": true,
+        "cf_quadrant": "easy_win",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82510508",
+        "probability": 0.0069,
+        "difficulty": 51.5,
+        "loan_amount": 292000.0,
+        "product_type": "2ND",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 47,
+        "expected_value": 2023.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82510511",
+        "probability": 0.7647,
+        "difficulty": 24.8,
+        "loan_amount": 333750.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Final UW",
+        "quadrant": "easy_win",
+        "is_locked": false,
+        "days_at_stage": 0,
+        "expected_value": 255222.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82508131",
+        "probability": 0.0049,
+        "difficulty": 57.0,
+        "loan_amount": 2400000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 125,
+        "expected_value": 11840.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82508195",
+        "probability": 0.0048,
+        "difficulty": 57.0,
+        "loan_amount": 1134000.0,
+        "product_type": "FHA",
+        "current_stage": "Approved",
+        "quadrant": "long_shot",
+        "is_locked": false,
+        "days_at_stage": 123,
+        "expected_value": 5474.0,
+        "is_movable": true,
+        "cf_quadrant": "stretch",
+        "cf_action": "Secure rate lock (30-day)"
+      },
+      {
+        "loan_guid": "82511338",
+        "probability": 0.5419,
+        "difficulty": 20.7,
+        "loan_amount": 273000.0,
+        "product_type": "FHA",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 24,
+        "expected_value": 147931.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511340",
+        "probability": 0.0102,
+        "difficulty": 37.0,
+        "loan_amount": 350000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 27,
+        "expected_value": 3579.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511341",
+        "probability": 0.6647,
+        "difficulty": 21.1,
+        "loan_amount": 360000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 25,
+        "expected_value": 239302.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511342",
+        "probability": 0.0073,
+        "difficulty": 35.7,
+        "loan_amount": 361875.0,
+        "product_type": "FHA",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 24,
+        "expected_value": 2639.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511343",
+        "probability": 0.6893,
+        "difficulty": 21.5,
+        "loan_amount": 504000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "easy_win",
+        "is_locked": true,
+        "days_at_stage": 26,
+        "expected_value": 347426.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511349",
+        "probability": 0.0159,
+        "difficulty": 32.8,
+        "loan_amount": 550151.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 17,
+        "expected_value": 8727.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      },
+      {
+        "loan_guid": "82511350",
+        "probability": 0.1432,
+        "difficulty": 36.1,
+        "loan_amount": 477000.0,
+        "product_type": "NONCONFORMING",
+        "current_stage": "Approved",
+        "quadrant": "quick_fix",
+        "is_locked": false,
+        "days_at_stage": 25,
+        "expected_value": 68328.0,
+        "is_movable": false,
+        "cf_quadrant": null,
+        "cf_action": null
+      }
+    ],
+    "quadrant_summary": {
+      "easy_win": {
+        "count": 70,
+        "total_value": 33964798.0,
+        "total_ev": 27670540.0,
+        "avg_prob": 0.8041
+      },
+      "stretch": {
+        "count": 2,
+        "total_value": 797500.0,
+        "total_ev": 345901.0,
+        "avg_prob": 0.4317
+      },
+      "quick_fix": {
+        "count": 65,
+        "total_value": 43102146.0,
+        "total_ev": 2405237.0,
+        "avg_prob": 0.0601
+      },
+      "long_shot": {
+        "count": 116,
+        "total_value": 69122228.0,
+        "total_ev": 2022661.0,
+        "avg_prob": 0.0256
+      }
+    },
+    "total_loans": 253,
+    "movable_count": 43
   }
 }

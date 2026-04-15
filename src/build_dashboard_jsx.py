@@ -73,6 +73,7 @@ embedded = {
     "whatIfScenarios":  raw.get("what_if_scenarios", {}),
     "performanceScorecards": raw.get("performance_scorecards", {}),
     "optimizationRecommendations": raw.get("optimization_recommendations", {}),
+    "moneyballMatrix":  raw.get("moneyball_matrix", {}),
 }
 
 data_js = json.dumps(embedded, indent=2)

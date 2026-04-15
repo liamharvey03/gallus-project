@@ -67,6 +67,115 @@ def _safe(val):
     return val
 
 
+# ── Counterfactual scoring helper ──────────────────────────────────────────
+
+# Scenarios: each maps to raw-column overrides + a human-readable action.
+_CF_SCENARIOS = [
+    {
+        "id": "lock_it",
+        "action": "Secure rate lock (30-day)",
+        "applicable": lambda feats_row: feats_row.get("is_locked", 0) == 0,
+        "overrides": lambda as_of: {
+            "HasRateLock": 1,
+            "Rate Lock D": as_of,
+            "Rate Lock Expiration D": as_of + pd.Timedelta(days=30),
+        },
+    },
+    {
+        "id": "extend_lock",
+        "action": "Extend rate lock 30 days",
+        "applicable": lambda feats_row: (
+            feats_row.get("is_locked", 0) == 1
+            and 0 < feats_row.get("days_until_lock_expiry", 999) <= 14
+        ),
+        "overrides": lambda as_of: {
+            "Rate Lock Expiration D": as_of + pd.Timedelta(days=30),
+        },
+    },
+    {
+        "id": "reduce_stall",
+        "action": "Clear conditions (reduce stage dwell to 5d)",
+        "applicable": lambda feats_row: feats_row.get("days_at_stage", 0) > 15,
+        "overrides": lambda as_of: {
+            # The stage-date override is handled specially in _counterfactual_score
+            "__reduce_stage_days_to": 5,
+        },
+    },
+]
+
+
+def _counterfactual_score(loan_idx, active_df, as_of, month_end, tables,
+                          model, feature_cols, encoders, medians,
+                          column_overrides):
+    """
+    Re-score a single loan with modified raw columns.
+
+    column_overrides: dict of {column_name: new_value} to apply before
+    re-running build_feature_row → encode → predict.
+
+    Returns float (new probability).
+    """
+    row_df = active_df.loc[[loan_idx]].copy()
+
+    # Special handling: reduce days_at_stage by resetting the current stage date
+    target_days = column_overrides.pop("__reduce_stage_days_to", None)
+    if target_days is not None:
+        stage_col = None
+        for col, label, rank in config.STAGE_MAP:
+            if label == row_df.iloc[0].get("current_stage"):
+                stage_col = col
+                break
+        if stage_col and stage_col in row_df.columns:
+            row_df[stage_col] = as_of - pd.Timedelta(days=target_days)
+
+    # Apply explicit column overrides
+    for col, val in column_overrides.items():
+        if col in row_df.columns:
+            row_df[col] = val
+
+    # Re-derive features from the modified raw row
+    feats_cf = build_feature_row(row_df, as_of, month_end, tables)
+    feats_cf, _ = encode_categoricals(feats_cf, encoders=encoders, fit=False)
+    feats_cf, _ = fill_missing_numeric(feats_cf, medians=medians, fit=False)
+
+    # Ensure all expected feature columns exist (one-hot cols may be missing)
+    for c in feature_cols:
+        if c not in feats_cf.columns:
+            feats_cf[c] = 0
+
+    prob = _predict_proba(model, feats_cf[feature_cols])
+    return float(prob[0])
+
+
+def _best_counterfactual(loan_idx, active_df, feats_row, current_prob,
+                         as_of, month_end, tables, model, feature_cols,
+                         encoders, medians):
+    """
+    Try all applicable counterfactual scenarios for a loan.
+    Return (action, new_prob, delta) for the best one, or (None, None, 0).
+    """
+    best_action, best_prob, best_delta = None, None, 0.0
+
+    for scenario in _CF_SCENARIOS:
+        if not scenario["applicable"](feats_row):
+            continue
+        overrides = scenario["overrides"](as_of).copy()
+        try:
+            new_prob = _counterfactual_score(
+                loan_idx, active_df, as_of, month_end, tables,
+                model, feature_cols, encoders, medians, overrides,
+            )
+        except Exception:
+            continue
+        delta = new_prob - current_prob
+        if delta > best_delta:
+            best_action = scenario["action"]
+            best_prob = new_prob
+            best_delta = delta
+
+    return best_action, best_prob, best_delta
+
+
 # ═════════════════════════════════════════════════════════════════════════════
 # SECTION BUILDERS
 # ═════════════════════════════════════════════════════════════════════════════
@@ -211,6 +320,7 @@ def build_cycle_times(df):
             "p75":           _safe(v.quantile(0.75)),
             "p90":           _safe(v.quantile(0.90)),
             "mean":          round(float(v.mean()), 1),
+            "std":           round(float(v.std()), 1) if len(v) > 1 else 0.0,
             "count":         int(len(v)),
             "above_sla":     int((v > SLA_THRESHOLD).sum()),
             "above_sla_pct": round(float((v > SLA_THRESHOLD).mean() * 100), 1),
@@ -361,7 +471,8 @@ def build_product_breakdown(active):
     return results
 
 
-def build_at_risk_loans(active, feats):
+def build_at_risk_loans(active, feats, as_of=None, month_end=None, tables=None,
+                        model=None, feature_cols=None, encoders=None, medians=None):
     """Section 9: live loans with warning signs needing ops attention."""
     live_mask = (active["status"] == "live") & active["LoanAmount"].notna()
     live = active[live_mask].copy()
@@ -417,23 +528,41 @@ def build_at_risk_loans(active, feats):
         r = at_risk.loc[idx]
         amt = r["LoanAmount"]
         ev = r["expected_value"]
-        rows.append({
+        current_prob = float(r["ml_probability"])
+
+        # Counterfactual scoring
+        cf_action, cf_prob, cf_delta = None, None, 0.0
+        if model is not None and as_of is not None:
+            feats_row_dict = feats_live.loc[idx].to_dict()
+            cf_action, cf_prob, cf_delta = _best_counterfactual(
+                idx, active, feats_row_dict, current_prob,
+                as_of, month_end, tables, model, feature_cols,
+                encoders, medians,
+            )
+
+        row_dict = {
             "loan_guid": _safe(r["LoanGuid"]),
             "loan_amount": round(float(amt), 0) if pd.notna(amt) else 0,
             "product_type": _safe(r.get("Product Type")),
             "current_stage": _safe(r["current_stage"]),
             "days_at_stage": _safe(r["days_at_stage"]),
             "is_locked": bool(r["is_locked_flag"]),
-            "ml_probability": round(float(r["ml_probability"]), 4),
+            "ml_probability": round(current_prob, 4),
             "expected_value": round(float(ev), 0) if pd.notna(ev) else 0,
             "risk_reasons": reasons,
-        })
+            "recommended_action": cf_action,
+            "counterfactual_probability": round(cf_prob, 4) if cf_prob is not None else None,
+            "probability_delta": round(cf_delta, 4),
+            "expected_value_uplift": round(cf_delta * float(amt), 0) if pd.notna(amt) else 0,
+        }
+        rows.append(row_dict)
     rows.sort(key=lambda x: x["expected_value"], reverse=True)
     print(f"  At-risk loans: {len(rows)}")
     return rows
 
 
-def build_revenue_at_risk(active, feats):
+def build_revenue_at_risk(active, feats, as_of=None, month_end=None, tables=None,
+                          model=None, feature_cols=None, encoders=None, medians=None):
     """Section 10: Revenue at risk analytics — categorized risk buckets with
     dollar amounts and actionable recovery opportunities."""
     live_mask = (active["status"] == "live") & active["LoanAmount"].notna()
@@ -564,16 +693,32 @@ def build_revenue_at_risk(active, feats):
         if not reasons:
             reasons.append("Below-average probability")
 
+        current_prob = float(r["ml_probability"])
+
+        # Counterfactual scoring
+        cf_action, cf_prob, cf_delta = None, None, 0.0
+        if model is not None and as_of is not None:
+            feats_row_dict = fl.loc[idx].to_dict()
+            cf_action, cf_prob, cf_delta = _best_counterfactual(
+                idx, active, feats_row_dict, current_prob,
+                as_of, month_end, tables, model, feature_cols,
+                encoders, medians,
+            )
+
         recovery_rows.append({
             "loan_guid": _safe(r["LoanGuid"]),
             "loan_amount": round(float(r["LoanAmount"]), 0),
             "product_type": _safe(r.get("Product Type")),
             "current_stage": _safe(r["current_stage"]),
             "days_at_stage": int(r["days_at_stage"]) if pd.notna(r["days_at_stage"]) else 0,
-            "ml_probability": round(float(r["ml_probability"]), 4),
+            "ml_probability": round(current_prob, 4),
             "expected_value": round(float(r["expected_value"]), 0),
             "recovery_gap": round(float(r["recovery_gap"]), 0),
             "risk_factors": reasons,
+            "recommended_action": cf_action,
+            "counterfactual_probability": round(cf_prob, 4) if cf_prob is not None else None,
+            "probability_delta": round(cf_delta, 4),
+            "expected_value_uplift": round(cf_delta * float(r["LoanAmount"]), 0),
         })
 
     # ── Summary totals ───────────────────────────────────────────────────
@@ -588,6 +733,132 @@ def build_revenue_at_risk(active, feats):
         "top_recovery": recovery_rows,
     }
     print(f"  Revenue at risk: ${total_at_risk:,.0f} across {len(buckets)} categories, {len(recovery_rows)} recovery opportunities")
+    return result
+
+
+def build_moneyball_matrix(active, feats, at_risk_loans=None):
+    """Section 16: Moneyball Matrix — difficulty vs probability for prioritisation.
+
+    Each live loan is scored on two axes:
+      Y: Funding probability (from ML model)
+      X: Difficulty to execute (0-100, higher = harder)
+    Bubble size: Loan amount.
+    Quadrant assignment: easy_win / stretch / quick_fix / long_shot.
+    Movable flag: loans whose counterfactual would shift them to a better quadrant.
+    """
+    live_mask = (active["status"] == "live") & active["LoanAmount"].notna()
+    live = active[live_mask].copy()
+    fl = feats.loc[live.index]
+
+    # ── Difficulty score (0-100) ─────────────────────────────────────────
+    # Component 1: Stages remaining to CTC (rank 7) — max 25 pts
+    stages_remaining = (np.maximum(0, 7 - fl["stage_rank"].values) / 7 * 25)
+
+    # Component 2: Stall penalty — max 25 pts
+    stall_penalty = np.minimum(fl["days_at_stage"].values / 60, 1.0) * 25
+
+    # Component 3: Lock penalty — max 25 pts
+    lock_penalty = np.where(fl["is_locked"].values == 1, 0, 15).astype(float)
+    lock_penalty += np.where(fl["lock_already_expired"].values == 1, 10, 0)
+
+    # Component 4: Risk flag count — max 25 pts (4 flags × 6.25)
+    flag_cols = [
+        "lock_expiring_not_progressed",
+        "unlocked_at_late_stage",
+        "lock_expired_not_progressed",
+        "stale_at_approved",
+    ]
+    risk_flag_count = sum(
+        (fl[c].values == 1).astype(float) for c in flag_cols if c in fl.columns
+    )
+    risk_flag_score = risk_flag_count * 6.25
+
+    difficulty = np.clip(
+        stages_remaining + stall_penalty + lock_penalty + risk_flag_score,
+        0, 100,
+    )
+
+    # ── Quadrant assignment ──────────────────────────────────────────────
+    prob = live["ml_probability"].values
+
+    def _quadrant(p, d):
+        if p >= 0.4 and d <= 50:
+            return "easy_win"
+        if p >= 0.4 and d > 50:
+            return "stretch"
+        if p < 0.4 and d <= 50:
+            return "quick_fix"
+        return "long_shot"
+
+    # Build counterfactual lookup from at_risk_loans (if provided)
+    cf_lookup = {}
+    if at_risk_loans:
+        for arl in at_risk_loans:
+            if arl.get("counterfactual_probability") and arl["probability_delta"] > 0:
+                cf_lookup[str(arl["loan_guid"])] = {
+                    "cf_prob": arl["counterfactual_probability"],
+                    "action":  arl["recommended_action"],
+                    "uplift":  arl["expected_value_uplift"],
+                }
+
+    loans = []
+    for i, idx in enumerate(live.index):
+        r = live.loc[idx]
+        cur_q = _quadrant(prob[i], difficulty[i])
+        guid = _safe(r["LoanGuid"])
+
+        # Check if this loan has a counterfactual that shifts its quadrant
+        is_movable = False
+        cf_quadrant = None
+        cf_action = None
+        cf_info = cf_lookup.get(str(guid))
+        if cf_info:
+            cf_q = _quadrant(cf_info["cf_prob"], difficulty[i])
+            if cf_q != cur_q:
+                is_movable = True
+                cf_quadrant = cf_q
+                cf_action = cf_info["action"]
+
+        loans.append({
+            "loan_guid":     guid,
+            "probability":   round(float(prob[i]), 4),
+            "difficulty":    round(float(difficulty[i]), 1),
+            "loan_amount":   round(float(r["LoanAmount"]), 0),
+            "product_type":  _safe(r.get("Product Type")),
+            "current_stage": _safe(r["current_stage"]),
+            "quadrant":      cur_q,
+            "is_locked":     bool(fl.loc[idx, "is_locked"]),
+            "days_at_stage": int(r["days_at_stage"]) if pd.notna(r["days_at_stage"]) else 0,
+            "expected_value": round(float(r["expected_value"]), 0) if pd.notna(r.get("expected_value")) else 0,
+            "is_movable":    is_movable,
+            "cf_quadrant":   cf_quadrant,
+            "cf_action":     cf_action,
+        })
+
+    # ── Quadrant summaries ───────────────────────────────────────────────
+    quadrant_summary = {}
+    for q in ["easy_win", "stretch", "quick_fix", "long_shot"]:
+        q_loans = [l for l in loans if l["quadrant"] == q]
+        quadrant_summary[q] = {
+            "count":       len(q_loans),
+            "total_value": round(sum(l["loan_amount"] for l in q_loans), 0),
+            "total_ev":    round(sum(l["expected_value"] for l in q_loans), 0),
+            "avg_prob":    round(np.mean([l["probability"] for l in q_loans]), 4) if q_loans else 0,
+        }
+
+    movable_count = sum(1 for l in loans if l["is_movable"])
+    result = {
+        "loans": loans,
+        "quadrant_summary": quadrant_summary,
+        "total_loans": len(loans),
+        "movable_count": movable_count,
+    }
+    print(f"  Moneyball matrix: {len(loans)} loans — "
+          f"easy_win: {quadrant_summary['easy_win']['count']}, "
+          f"quick_fix: {quadrant_summary['quick_fix']['count']}, "
+          f"stretch: {quadrant_summary['stretch']['count']}, "
+          f"long_shot: {quadrant_summary['long_shot']['count']}, "
+          f"movable: {movable_count}")
     return result
 
 
@@ -619,17 +890,44 @@ def build_bottleneck_detection(df, active, feats):
         # Overall
         if len(valid) > 0:
             row_entry["overall_median"] = round(float(valid["_delta"].median()), 1)
+            row_entry["overall_p25"] = round(float(valid["_delta"].quantile(0.25)), 1)
             row_entry["overall_p75"] = round(float(valid["_delta"].quantile(0.75)), 1)
+            row_entry["overall_std"] = round(float(valid["_delta"].std()), 1) if len(valid) > 1 else 0.0
         else:
             row_entry["overall_median"] = 0
+            row_entry["overall_p25"] = 0
             row_entry["overall_p75"] = 0
+            row_entry["overall_std"] = 0
+
+        # Industry benchmark for this transition
+        bench = config.INDUSTRY_BENCHMARKS["transition_days"].get(label, {})
+        bench_overall = bench.get("overall", {})
+        row_entry["benchmark_overall"] = bench_overall.get("median")
+        row_entry["benchmark_fast"] = bench_overall.get("fast")
+        row_entry["benchmark_slow"] = bench_overall.get("slow")
 
         for product in products:
             prod_valid = valid[valid["Product Type"] == product]
             if len(prod_valid) >= 10:
-                row_entry[product] = round(float(prod_valid["_delta"].median()), 1)
+                med = round(float(prod_valid["_delta"].median()), 1)
+                row_entry[product] = med
+                row_entry[product + "_p25"] = round(float(prod_valid["_delta"].quantile(0.25)), 1)
+                row_entry[product + "_p75"] = round(float(prod_valid["_delta"].quantile(0.75)), 1)
             else:
+                med = None
                 row_entry[product] = None
+                row_entry[product + "_p25"] = None
+                row_entry[product + "_p75"] = None
+
+            # Per-product benchmark + delta
+            prod_bench = bench.get(product, bench_overall)
+            bm = prod_bench.get("median")
+            row_entry[product + "_benchmark"] = bm
+            if med is not None and bm is not None:
+                row_entry[product + "_vs_benchmark"] = round(med - bm, 1)
+            else:
+                row_entry[product + "_vs_benchmark"] = None
+
         heatmap.append(row_entry)
 
     # ── Stage conversion rates (from historical data) ────────────────────
@@ -655,6 +953,23 @@ def build_bottleneck_detection(df, active, feats):
             "conversion_rate": round(rate, 4),
         })
 
+    # ── Conversion rates by product ────────────────────────────────────
+    conversion_by_product = {}
+    for product in products:
+        prod_completed = completed[completed["Product Type"] == product]
+        prod_rates = []
+        for col, label in conversion_stages:
+            reached = prod_completed[prod_completed[col].notna()]
+            funded_of_reached = reached[reached["Outcome"] == "Funded"]
+            rate = len(funded_of_reached) / max(len(reached), 1)
+            prod_rates.append({
+                "stage": label,
+                "reached_count": int(len(reached)),
+                "funded_count": int(len(funded_of_reached)),
+                "conversion_rate": round(rate, 4),
+            })
+        conversion_by_product[product] = prod_rates
+
     # ── Current pipeline bottleneck (where loans are piling up) ──────────
     live = active[active["status"] == "live"]
     fl = feats.loc[live.index]
@@ -673,16 +988,45 @@ def build_bottleneck_detection(df, active, feats):
             "total_value": round(float(total_value), 0),
             "avg_days_at_stage": round(float(avg_days), 1),
             "median_days_at_stage": round(float(median_days), 1),
+            "p25_days_at_stage": round(float(grp["days_at_stage"].quantile(0.25)), 1),
+            "p75_days_at_stage": round(float(grp["days_at_stage"].quantile(0.75)), 1),
             "avg_probability": round(float(avg_prob), 4),
             "pct_over_30d": round(float((grp["days_at_stage"] >= 30).mean() * 100), 1),
         })
     current_bottlenecks.sort(key=lambda x: x["rank"])
 
+    # ── Current bottlenecks by product ──────────────────────────────────
+    bottlenecks_by_product = {}
+    for product in products:
+        prod_live = live[live["Product Type"] == product]
+        prod_bn = []
+        for stage, grp in prod_live.groupby("current_stage"):
+            if len(grp) < 2:
+                continue
+            prod_bn.append({
+                "stage": _safe(stage),
+                "rank": STAGE_ORDER.get(stage, -1),
+                "loan_count": int(len(grp)),
+                "total_value": round(float(grp["LoanAmount"].sum()), 0),
+                "avg_days_at_stage": round(float(grp["days_at_stage"].mean()), 1),
+                "median_days_at_stage": round(float(grp["days_at_stage"].median()), 1),
+                "pct_over_30d": round(float((grp["days_at_stage"] >= 30).mean() * 100), 1),
+            })
+        prod_bn.sort(key=lambda x: x["rank"])
+        bottlenecks_by_product[product] = prod_bn
+
     result = {
         "heatmap": heatmap,
         "products": products,
+        "benchmarks": {
+            "source": config.INDUSTRY_BENCHMARKS["source_display"],
+            "total_cycle_days": config.INDUSTRY_BENCHMARKS["total_cycle_days"],
+            "closing_rates": config.INDUSTRY_BENCHMARKS["closing_rates"],
+        },
         "conversion_rates": conversion_rates,
+        "conversion_by_product": conversion_by_product,
         "current_bottlenecks": current_bottlenecks,
+        "current_bottlenecks_by_product": bottlenecks_by_product,
     }
     print(f"  Bottleneck detection: {len(heatmap)} transitions × {len(products)} products, {len(current_bottlenecks)} active stages")
     return result
@@ -740,6 +1084,8 @@ def build_velocity_momentum(active, feats):
             "loan_count": int(len(grp)),
             "avg_velocity": round(float(grp["velocity"].mean()), 4),
             "median_velocity": round(float(grp["velocity"].median()), 4),
+            "p25_velocity": round(float(grp["velocity"].quantile(0.25)), 4),
+            "p75_velocity": round(float(grp["velocity"].quantile(0.75)), 4),
             "avg_days_at_stage": round(float(grp["days_at_stage"].mean()), 1),
             "avg_probability": round(float(grp["ml_probability"].mean()), 4),
             "pct_stalled": round(
@@ -773,9 +1119,26 @@ def build_velocity_momentum(active, feats):
             "expected_value": round(float(r["expected_value"]), 0),
         })
 
+    # ── Distribution by product ────────────────────────────────────────
+    distribution_by_product = {}
+    for product, prod_grp in live.groupby("Product Type"):
+        if len(prod_grp) < 3:
+            continue
+        prod_dist = []
+        for band_name in band_order:
+            band_grp = prod_grp[prod_grp["velocity_band"] == band_name]
+            prod_dist.append({
+                "band": band_name,
+                "loan_count": int(len(band_grp)),
+                "total_value": round(float(band_grp["LoanAmount"].sum()), 0),
+                "avg_probability": round(float(band_grp["ml_probability"].mean()), 4) if len(band_grp) > 0 else 0,
+            })
+        distribution_by_product[_safe(product)] = prod_dist
+
     result = {
         "overall_median_velocity": round(float(overall_median_vel), 4) if pd.notna(overall_median_vel) else 0,
         "distribution": distribution,
+        "distribution_by_product": distribution_by_product,
         "stage_velocity": stage_velocity,
         "momentum_alerts": momentum_alerts,
     }
@@ -863,6 +1226,12 @@ def build_what_if_scenarios(df, active, feats):
             "affected_loans": int(len(stalled_approved)),
             "affected_value": round(stalled_value, 0),
             "methodology": "Historical funding-rate differential between <15d and ≤18d A→CTC cohorts, applied to loans currently >15d stalled at Approved stage",
+            "confidence": "medium",
+            "confidence_note": "Historical correlation is strong but assumes operational changes can replicate the speed of naturally fast-progressing loans.",
+            "caveats": [
+                "Loans that naturally clear conditions in <15d may have simpler profiles — not all loans can be accelerated equally",
+                "Assumes ops capacity exists to run weekly condition review cadence across all stalled loans",
+            ],
         })
     except Exception as e:
         print(f"  WARNING: Scenario 1 failed: {e}")
@@ -913,6 +1282,13 @@ def build_what_if_scenarios(df, active, feats):
             "affected_loans": n_unlocked,
             "affected_value": round(unlocked_value, 0),
             "methodology": "Probability gap between locked and unlocked loans at Approved stage (from ML model), applied conservatively to 40% of currently unlocked Approved loans",
+            "confidence": "low",
+            "confidence_note": "Lock status is strongly correlated with funding but the relationship is likely not fully causal — loans get locked because they're progressing well, not the other way around.",
+            "caveats": [
+                "The probability gap (unlocked vs locked) likely reflects loan health rather than lock status causing funding",
+                "Telling ops to lock a struggling loan may not change its underlying viability",
+                "40% conversion rate may be optimistic for loans unlocked due to borrower uncertainty or rate shopping",
+            ],
         })
     except Exception as e:
         print(f"  WARNING: Scenario 2 failed: {e}")
@@ -960,6 +1336,13 @@ def build_what_if_scenarios(df, active, feats):
             "affected_loans": n_stale,
             "affected_value": round(stale_value, 0),
             "methodology": "Probability gap between stalled loans and overall pipeline average, applied to 30% of stalled loan value (historical re-engagement success rate)",
+            "confidence": "low",
+            "confidence_note": "Stale loans are often stale for cause — appraisal issues, borrower walkaway, income verification failures.",
+            "caveats": [
+                "Industry re-engagement response rates are typically 5-15%, lower than the 30% assumed here",
+                "Many 30+ day stalled loans may be effectively dead — the conditions that caused the stall may not be resolvable",
+                "A more realistic estimate would discount this figure by 50-70%",
+            ],
         })
     except Exception as e:
         print(f"  WARNING: Scenario 3 failed: {e}")
@@ -1007,6 +1390,13 @@ def build_what_if_scenarios(df, active, feats):
                 "hist_retail_rate": round(hist_retail_rate * 100, 1),
                 "hist_wholesale_rate": round(hist_wholesale_rate * 100, 1),
                 "methodology": "50% of the current probability gap between Retail and Wholesale channels applied to current Retail live pipeline",
+                "confidence": "low-medium",
+                "confidence_note": "The Retail vs Wholesale gap is partly structural (different borrower profiles, self-selection) rather than purely operational.",
+                "caveats": [
+                    "Retail borrowers may self-select differently than Wholesale — lower credit quality, more rate-sensitive",
+                    "The gap may be irrecoverable through coaching alone if driven by borrower demographics",
+                    f"Historical retail pull-through ({round(hist_retail_rate * 100, 1)}%) vs current pipeline ({round(retail_avg_prob * 100, 0):.0f}%) suggests some of the gap is cyclical",
+                ],
             })
         else:
             scenarios.append({
@@ -1022,21 +1412,62 @@ def build_what_if_scenarios(df, active, feats):
         print(f"  WARNING: Scenario 4 failed: {e}")
 
     # ─────────────────────────────────────────────────────────────────────────
-    # SUMMARY
+    # SUMMARY (with red-team overlap analysis)
     # ─────────────────────────────────────────────────────────────────────────
     total_delta = sum(s.get("delta", 0) for s in scenarios)
     current_projected = float(live["expected_value"].sum())
     total_upside_pct = round(total_delta / max(current_projected, 1) * 100, 1)
 
+    # Overlap discount: scenarios 1-3 all target Approved-stage loans.
+    # A loan can be stalled AND unlocked AND at Approved, counted in all three.
+    # Estimate overlap empirically from the loan populations.
+    overlap_discount = 0.50  # conservative default
+    try:
+        s1_mask = (live["days_at_stage"] > 15) & (live["current_stage"] == "Approved")
+        s2_mask = (fl["is_locked"] == 0) & (live["current_stage"] == "Approved")
+        s3_mask = (live["days_at_stage"] >= 30) & fl["stage_rank"].between(3, 7)
+        all_affected = s1_mask | s2_mask.values | s3_mask.values
+        unique_count = int(all_affected.sum())
+        total_counted = int(s1_mask.sum()) + int(s2_mask.sum()) + int(s3_mask.sum())
+        if total_counted > 0:
+            measured_overlap = 1.0 - (unique_count / total_counted)
+            overlap_discount = round(1.0 - measured_overlap, 2)
+    except Exception:
+        pass
+
+    adjusted_delta = round(total_delta * overlap_discount, 0)
+    adjusted_upside_pct = round(adjusted_delta / max(current_projected, 1) * 100, 1)
+
     result = {
         "current_projected": round(current_projected, 0),
         "total_potential_delta": round(total_delta, 0),
+        "adjusted_potential_delta": adjusted_delta,
+        "overlap_discount": overlap_discount,
         "total_upside_pct": total_upside_pct,
+        "adjusted_upside_pct": adjusted_upside_pct,
         "live_loans_count": int(len(live)),
         "live_pipeline_value": round(live_value, 0),
         "scenarios": scenarios,
+        "red_team_notes": {
+            "overlap_explanation": (
+                f"Scenarios target overlapping loan populations (measured {round((1 - overlap_discount) * 100)}% overlap). "
+                "A loan that is stalled, unlocked, and at Approved is counted in scenarios 1, 2, and 3. "
+                f"The adjusted total ({adjusted_upside_pct}% upside) corrects for this double-counting."
+            ),
+            "correlation_vs_causation": (
+                "The model's top feature is lock_expiry_vs_month_end (0.678 importance). "
+                "Rate lock status is a strong predictor but likely reflects loan health rather than "
+                "causing funding. Counterfactual estimates for locking should be treated as upper bounds."
+            ),
+            "confidence_summary": (
+                "Only the Approved→CTC acceleration scenario has medium confidence. "
+                "The rate lock and stale reactivation scenarios have low confidence due to "
+                "correlation-vs-causation concerns and optimistic response rate assumptions."
+            ),
+        },
     }
-    print(f"  What-if scenarios: {len(scenarios)} levers · ${total_delta:,.0f} total potential delta · {total_upside_pct}% upside")
+    print(f"  What-if scenarios: {len(scenarios)} levers · ${total_delta:,.0f} raw delta · "
+          f"${adjusted_delta:,.0f} adjusted ({adjusted_upside_pct}% upside, {round((1 - overlap_discount) * 100)}% overlap)")
     return result
 
 
@@ -1117,6 +1548,32 @@ def build_performance_scorecards(df, active, feats):
             return "down"
         return "flat"
 
+    def _composite_score(pt_rate, median_cycle, rev_efficiency, pt_delta, avg_prob):
+        """Compute 0-100 weighted composite score across 5 dimensions."""
+        # Pull-through rate (30%): 0% → 0, 50% → 100
+        pt_norm = min(pt_rate / 0.50, 1.0) * 100
+        # Cycle time vs target (20%): 45d → 0, 20d → 100
+        if median_cycle is not None and median_cycle > 0:
+            cycle_norm = max(0, min(100, (45 - median_cycle) / 25 * 100))
+        else:
+            cycle_norm = 50  # neutral if no data
+        # Revenue efficiency (20%): 0% → 0, 50% → 100
+        rev_norm = min(rev_efficiency / 0.50, 1.0) * 100
+        # Trend direction (15%): -5pp → 0, +5pp → 100, 0 → 50
+        trend_norm = max(0, min(100, (pt_delta + 0.05) / 0.10 * 100))
+        # Pipeline probability (15%): 0% → 0, 60% → 100
+        prob_norm = min(avg_prob / 0.60, 1.0) * 100
+
+        composite = (pt_norm * 0.30 + cycle_norm * 0.20 + rev_norm * 0.20
+                     + trend_norm * 0.15 + prob_norm * 0.15)
+        return round(composite, 1), {
+            "pull_through": round(pt_norm, 1),
+            "cycle_time": round(cycle_norm, 1),
+            "revenue_efficiency": round(rev_norm, 1),
+            "trend": round(trend_norm, 1),
+            "pipeline_probability": round(prob_norm, 1),
+        }
+
     def _scorecard(seg_completed, seg_funded, seg_active):
         pt_overall = _pull_through_for_months(sorted_months, seg_completed)
         pt_recent3 = _pull_through_for_months(recent_3, seg_completed)
@@ -1147,6 +1604,9 @@ def build_performance_scorecards(df, active, feats):
         avg_prob = round(float(live_seg["ml_probability"].mean()), 4) \
             if "ml_probability" in live_seg.columns and len(live_seg) > 0 else 0.0
         efficiency_score = round(pt_overall * avg_loan_amt, 0)
+        composite, sub_scores = _composite_score(
+            pt_overall, median_cycle, rev_efficiency, pt_delta, avg_prob
+        )
 
         return {
             "pull_through_rate":        round(pt_overall, 4),
@@ -1163,6 +1623,8 @@ def build_performance_scorecards(df, active, feats):
             "current_projected_value":  current_projected_value,
             "avg_pipeline_probability": avg_prob,
             "efficiency_score":         efficiency_score,
+            "composite_score":          composite,
+            "composite_sub_scores":     sub_scores,
         }
 
     # ── Per-product ───────────────────────────────────────────────────────
@@ -1176,6 +1638,13 @@ def build_performance_scorecards(df, active, feats):
         card = _scorecard(grp, seg_funded, seg_active)
         card["name"] = _safe(product)
         card["dimension"] = "product"
+        # Industry benchmark references
+        cr_bench = config.INDUSTRY_BENCHMARKS["closing_rates"]
+        card["industry_benchmark_pt"] = cr_bench.get("industry_pull_through_benchmark", 0.75)
+        card["industry_benchmark_cycle"] = config.INDUSTRY_BENCHMARKS["total_cycle_days"].get(
+            product, config.INDUSTRY_BENCHMARKS["total_cycle_days"]["overall"]
+        )
+        card["benchmark_note"] = cr_bench.get("note", "")
         products_out.append(card)
 
     # ── Per-channel ───────────────────────────────────────────────────────
@@ -1202,8 +1671,8 @@ def build_performance_scorecards(df, active, feats):
             card["dimension"] = "channel"
             channels_out.append(card)
 
-    # ── Rankings ──────────────────────────────────────────────────────────
-    products_ranked = sorted(products_out, key=lambda x: x["efficiency_score"], reverse=True)
+    # ── Rankings (sorted by composite score) ────────────────────────────
+    products_ranked = sorted(products_out, key=lambda x: x.get("composite_score", 0), reverse=True)
     n = len(products_ranked)
     rankings = []
     for rank, p in enumerate(products_ranked, 1):
@@ -1217,6 +1686,7 @@ def build_performance_scorecards(df, active, feats):
             "rank":              rank,
             "name":              p["name"],
             "efficiency_score":  p["efficiency_score"],
+            "composite_score":   p.get("composite_score", 0),
             "pull_through_rate": p["pull_through_rate"],
             "avg_loan_amount":   p["avg_loan_amount"],
             "funded_volume_6m":  p["funded_volume_6m"],
@@ -1269,6 +1739,10 @@ def build_optimization_recommendations(active, feats, df):
             "loan_count": int(len(grp_ul)),
             "category": "lock_management",
             "urgency": "immediate",
+            "confidence_caveat": (
+                "Lock status correlates with funding but the relationship may not be fully causal. "
+                "Prioritize loans where lock is the only missing piece, not loans with underlying issues."
+            ),
         })
 
     # ── 2. Expedite CTC for lock-expiring loans (within 14 days) ─────────────
@@ -1353,6 +1827,10 @@ def build_optimization_recommendations(active, feats, df):
             "loan_count": int(len(grp_stall)),
             "category": "borrower_engagement",
             "urgency": "this_week",
+            "confidence_caveat": (
+                "Re-engagement works best on loans stalled due to process issues, not borrower disengagement. "
+                "Industry response rates for stale pipeline are typically 10-15%."
+            ),
         })
 
     # ── 5. Re-lock or close out loans with expired locks stuck pre-CTC ────────
@@ -1513,6 +1991,11 @@ def main():
     print("DASHBOARD DATA GENERATOR")
     print("=" * 60)
 
+    # ── Snapshot dates (shared across all section builders) ────────────
+    as_of = pd.Timestamp(SNAPSHOT_DATE)
+    month_start = as_of.replace(day=1)
+    month_end = month_start + pd.offsets.MonthEnd(0)
+
     # ── Load & train ─────────────────────────────────────────────────────
     df = load_and_clean()
 
@@ -1562,11 +2045,17 @@ def main():
     print("\n--- Section 8: Product breakdown ---")
     product_breakdown = build_product_breakdown(active)
 
-    print("\n--- Section 9: At-risk loans ---")
-    at_risk_loans = build_at_risk_loans(active, feats)
+    print("\n--- Section 9: At-risk loans (with counterfactual scoring) ---")
+    at_risk_loans = build_at_risk_loans(
+        active, feats, as_of, month_end, tables,
+        model, feature_cols, encoders, medians,
+    )
 
-    print("\n--- Section 10: Revenue at risk ---")
-    revenue_at_risk = build_revenue_at_risk(active, feats)
+    print("\n--- Section 10: Revenue at risk (with counterfactual scoring) ---")
+    revenue_at_risk = build_revenue_at_risk(
+        active, feats, as_of, month_end, tables,
+        model, feature_cols, encoders, medians,
+    )
 
     print("\n--- Section 11: Bottleneck detection ---")
     bottleneck_detection = build_bottleneck_detection(df, active, feats)
@@ -1582,6 +2071,9 @@ def main():
 
     print("\n--- Section 15: Optimization recommendations ---")
     optimization_recommendations = build_optimization_recommendations(active, feats, df)
+
+    print("\n--- Section 16: Moneyball matrix ---")
+    moneyball_matrix = build_moneyball_matrix(active, feats, at_risk_loans=at_risk_loans)
 
     # ── Assemble & write ─────────────────────────────────────────────────
     output = {
@@ -1601,6 +2093,7 @@ def main():
         "what_if_scenarios":           what_if_scenarios,
         "performance_scorecards":      performance_scorecards,
         "optimization_recommendations": optimization_recommendations,
+        "moneyball_matrix":            moneyball_matrix,
     }
 
     out_path = config.OUTPUTS_PATH / "dashboard_demo_data.json"
