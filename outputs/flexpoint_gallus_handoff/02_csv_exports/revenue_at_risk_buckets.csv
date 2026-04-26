@@ -1,0 +1,6 @@
+id,label,description,action,loan_count,total_value,expected_value,value_at_risk,avg_probability,snapshot_date,_total_at_risk,_total_recovery_potential,_live_pipeline_value
+stalled_high_value,Stalled High-Value Loans,Above-median loans sitting at the same stage for 30+ days,Priority escalation — clear conditions or re-engage borrower,97,85612468.0,6328014.0,79284454.0,0.0826,2025-12-15,145297723.0,10405393.0,146986672.0
+low_prob_high_val,"Low Probability, High Value",Top-quartile loan amounts with <25% funding probability,Assess viability — re-engage or reallocate resources,47,66012600.0,1903389.0,64109211.0,0.0205,2025-12-15,145297723.0,10405393.0,146986672.0
+lock_expiring,Rate Lock Expiring,Loans with rate locks expiring within 7 days that haven't reached CTC,Expedite underwriting or extend lock,7,3134000.0,1672626.0,1461374.0,0.5931,2025-12-15,145297723.0,10405393.0,146986672.0
+no_lock_late,No Lock at Late Stage,Loans past Approved without a rate lock — high drop-off risk,Contact borrower to secure rate lock,3,1153750.0,711066.0,442684.0,0.6369,2025-12-15,145297723.0,10405393.0,146986672.0
+lock_expired,"Lock Expired, Pre-CTC",Rate lock already expired and loan hasn't reached CTC,Re-lock or renegotiate — loan is at high risk of cancellation,0,0.0,0.0,0.0,0.0,2025-12-15,145297723.0,10405393.0,146986672.0

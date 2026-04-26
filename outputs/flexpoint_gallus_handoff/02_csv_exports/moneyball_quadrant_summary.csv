@@ -1,0 +1,5 @@
+quadrant,loan_count,total_value,total_expected_value,avg_probability,snapshot_date,movable_count,total_loans_all_quadrants
+easy_win,70,33964798.0,27670540.0,0.8041,2025-12-15,43,253
+stretch,2,797500.0,345901.0,0.4317,2025-12-15,43,253
+quick_fix,65,43102146.0,2405237.0,0.0601,2025-12-15,43,253
+long_shot,116,69122228.0,2022661.0,0.0256,2025-12-15,43,253

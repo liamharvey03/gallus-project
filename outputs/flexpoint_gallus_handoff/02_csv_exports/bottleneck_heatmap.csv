@@ -1,0 +1,25 @@
+transition,Product Type,median_days,p25_days,p75_days,std_days,benchmark_median,benchmark_fast,benchmark_slow,vs_benchmark
+Open → Submitted,Overall,0.0,0.0,0.0,2.4,1,0.0,3.0,
+Open → Submitted,NONCONFORMING,0.0,0.0,0.0,,1,,,-1.0
+Open → Submitted,CONFORMING,0.0,0.0,0.0,,1,,,-1.0
+Open → Submitted,FHA,0.0,0.0,0.0,,1,,,-1.0
+Open → Submitted,VA,0.0,0.0,1.0,,1,,,-1.0
+Open → Submitted,2ND,0.0,0.0,1.0,,1,,,-1.0
+Submitted → Approved,Overall,5.0,3.0,7.0,13.9,5,3.0,7.0,
+Submitted → Approved,NONCONFORMING,4.0,3.0,6.0,,6,,,-2.0
+Submitted → Approved,CONFORMING,5.0,3.0,8.0,,4,,,1.0
+Submitted → Approved,FHA,5.0,3.0,7.0,,5,,,0.0
+Submitted → Approved,VA,5.0,3.0,8.0,,6,,,-1.0
+Submitted → Approved,2ND,5.0,3.0,7.0,,5,,,0.0
+Approved → CTC,Overall,18.0,13.0,26.0,16.8,20,12.0,28.0,
+Approved → CTC,NONCONFORMING,18.0,12.0,26.0,,24,,,-6.0
+Approved → CTC,CONFORMING,16.0,12.0,25.0,,18,,,-2.0
+Approved → CTC,FHA,16.0,11.0,25.0,,22,,,-6.0
+Approved → CTC,VA,20.0,13.0,26.8,,26,,,-6.0
+Approved → CTC,2ND,21.0,15.0,31.0,,20,,,1.0
+CTC → Funded,Overall,5.0,3.0,7.0,15.2,5,3.0,7.0,
+CTC → Funded,NONCONFORMING,5.0,3.0,7.0,,5,,,0.0
+CTC → Funded,CONFORMING,5.0,3.0,7.0,,4,,,1.0
+CTC → Funded,FHA,5.0,3.0,7.0,,5,,,0.0
+CTC → Funded,VA,5.0,2.0,8.0,,6,,,-1.0
+CTC → Funded,2ND,7.0,4.0,8.0,,5,,,2.0
