@@ -386,6 +386,66 @@ Full research at `THOUGHTSPOT_INTEGRATION.md`. Key findings:
 - Integration strategy: 4 phases (explore → push data → build liveboards → Spotter agent)
 - Prerequisites: Gallus email + ThoughtSpot access from Augie/Ramito, CORS whitelist update
 
+### Phase 6.5: Gallus Handoff Bundle — COMPLETE (Apr 26, 2026)
+
+Self-contained handoff for the Gallus team to rebuild the dashboard inside ThoughtSpot.
+Lives at `outputs/flexpoint_gallus_handoff/` (also zipped at
+`outputs/flexpoint_gallus_handoff.zip`, ~5MB).
+
+**Bundle structure:**
+```
+flexpoint_gallus_handoff/
+├── 00_README.md                    # entry-point + naming conventions
+├── 01_dashboard_reference.html     # the visual target (self-contained)
+├── 02_csv_exports/                 # 22 standardized CSVs + 13-page PDF
+├── 03_model_code/                  # full pipeline + RUNBOOK.md, runs in-place
+└── 04_source_dataset/sectG.csv     # original input
+```
+
+**Key facts to remember next session:**
+
+1. **Three new scripts** (`src/`):
+   - `export_for_thoughtspot.py` — generates the 22 CSVs. Has a `_GLOBAL_RENAMES` /
+     `_FILE_RENAMES` map applied in `_write()` to enforce naming consistency.
+   - `build_handoff_pdf.py` — generates `data_dictionary.pdf` (13 pages,
+     CSV → dashboard visual → ThoughtSpot recipe format). FILES dict at top must
+     stay in sync with actual CSV headers.
+   - `build_data_dictionary_pdf.py` — older 29-page version, superseded by
+     `build_handoff_pdf.py`. Kept for reference.
+
+2. **Standardized column naming across all 22 CSVs:**
+   - `Branch Channel`, `Product Type`, `LoanAmount`, `LoanGuid` — raw sectG spelling
+     preserved (spaces, casing) so aggregates join cleanly back to `loans.csv`.
+   - `loan_count` (never `count` or `total_loans`)
+   - `avg_probability` (never `avg_prob`)
+   - `total_expected_value` (never `total_ev`)
+   - Time-series CSVs include `snapshot_date` column.
+   - Renaming is centralized in `export_for_thoughtspot.py:_write()` — don't edit
+     `generate_dashboard_data.py` builders directly.
+
+3. **`loans.csv` is the master fact table** (1,109 rows × 213 cols). All other
+   CSVs aggregate it or join to it on `LoanGuid`. Includes `recovery_rank`,
+   `momentum_rank`, `is_at_risk` flags so ranked-subset views are filters,
+   not separate CSVs.
+
+4. **`03_model_code/` runs in-place:**
+   - `data/sectG.csv` is mirrored inside so `config.DATA_PATH` resolves correctly.
+   - `outputs/results/{backtest_results_v3,feature_importance_v3}.csv` are
+     pre-bundled because `export_for_thoughtspot.py` reads them.
+   - Run from inside `03_model_code/`: `python src/export_for_thoughtspot.py`.
+   - Snapshot date lives in `src/generate_dashboard_data.py` (NOT
+     `export_for_thoughtspot.py` — that file imports it).
+
+5. **Sanity-check numbers** (Dec 2025 snapshot): 1,109 active loans (708 live +
+   401 dead), $68M already funded + $32.4M projected ≈ $100M monthly total,
+   59 at-risk, 253 in Moneyball, $145M revenue at risk.
+
+6. **PDF build gotchas** — fpdf2 is Latin-1 only. `_clean()` helper sanitizes
+   unicode (em-dash, minus, →, etc.) to ASCII. Don't bypass it.
+
+User preference confirmed this session: when changing CSV exports, always
+re-verify PDF column references against actual headers — they drift apart fast.
+
 ### Potential Phase 7 features (not yet built):
 - Early Warning Predictive Alerts (re-score loans at T+7/T+14, flag probability drops)
 - Cohort Funnel Analysis (track loan cohorts through pipeline)
