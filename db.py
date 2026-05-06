@@ -46,3 +46,37 @@ def get_engine() -> Engine:
 def query(sql: str, params: dict | None = None) -> pd.DataFrame:
     with get_engine().connect() as conn:
         return pd.read_sql(text(sql), conn, params=params)
+
+
+def read_table(
+    name: str,
+    where: str | None = None,
+    limit: int | None = None,
+) -> pd.DataFrame:
+    """Read a `dbo.<name>` table into a typed DataFrame.
+
+    Numeric and date columns registered in `forecasting.dtypes` are coerced
+    via `pd.to_numeric` / `pd.to_datetime` (errors='coerce' — bad values
+    become NaN/NaT rather than raising).
+    """
+    from forecasting.dtypes import DATE_COLUMNS, NUMERIC_COLUMNS
+
+    parts = ["SELECT"]
+    if limit is not None:
+        parts.append(f"TOP {int(limit)}")
+    parts.append("*")
+    parts.append(f"FROM [dbo].[{name}]")
+    if where:
+        parts.append(f"WHERE {where}")
+    sql = " ".join(parts)
+
+    with get_engine().connect() as conn:
+        df = pd.read_sql(text(sql), conn)
+
+    for col in NUMERIC_COLUMNS.get(name, []):
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors="coerce")
+    for col in DATE_COLUMNS.get(name, []):
+        if col in df.columns:
+            df[col] = pd.to_datetime(df[col], errors="coerce")
+    return df
