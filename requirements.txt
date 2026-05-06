@@ -7,3 +7,6 @@ lifelines
 matplotlib
 seaborn
 scipy
+pyodbc
+sqlalchemy
+python-dotenv
